@@ -4,12 +4,12 @@ class IdentificationsController < ApplicationController
   end
 
   def create
-    identifier = params[:identifier].to_s.strip
-    channel    = identifier.include?("@") ? "email" : "sms"
+    channel    = params[:channel].presence_in(%w[email sms]) || "email"
+    identifier = (channel == "email" ? params[:email] : params[:phone]).to_s.strip
 
     user = find_or_create_user(identifier, channel)
     if user.nil?
-      flash.now[:alert] = "Invalid email or phone number."
+      flash.now[:alert] = channel == "email" ? "请输入有效的邮箱地址" : "请输入有效的手机号"
       return render :new, status: :unprocessable_entity
     end
 
@@ -22,7 +22,9 @@ class IdentificationsController < ApplicationController
     end
 
     session[:pending_user_id] = user.id
-    redirect_to new_verification_path, notice: "We sent a verification code to #{identifier}."
+    session[:otp_identifier]  = identifier
+    session[:otp_channel]     = channel
+    redirect_to new_verification_path
   end
 
   private
@@ -34,8 +36,7 @@ class IdentificationsController < ApplicationController
     else
       parsed = Phonelib.parse(identifier)
       return nil unless parsed.valid?
-      e164 = parsed.e164
-      User.find_or_create_by!(phone: e164) { |u| u.role = "member" }
+      User.find_or_create_by!(phone: parsed.e164) { |u| u.role = "member" }
     end
   rescue ActiveRecord::RecordInvalid
     nil

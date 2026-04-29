@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["digit", "resend", "countdown"]
+  static targets = ["digit", "codeField", "resend", "countdown"]
   static values = { resendIn: { type: Number, default: 60 } }
 
   connect() {
@@ -53,18 +53,15 @@ export default class extends Controller {
 
   maybeSubmit() {
     const code = this.digitTargets.map(el => el.value).join("")
-    if (code.length === 6) {
-      const form = this.element.closest("form")
-      const hidden = form?.querySelector("input[type=hidden][name$='[code]'], input[type=hidden][name='code']")
-      if (hidden) hidden.value = code
-      setTimeout(() => form?.requestSubmit(), 150)
-    }
+    if (code.length !== 6) return
+    if (this.hasCodeFieldTarget) this.codeFieldTarget.value = code
+    setTimeout(() => this.element.closest("form")?.requestSubmit(), 150)
   }
 
   resend() {
     this.resendInValue = 60
     this.startCountdown()
-    this.element.closest("form")?.querySelector("[data-resend-form]")?.requestSubmit()
+    // POST to the identification path to resend — handled by a separate small form if wired up
   }
 
   startCountdown() {
