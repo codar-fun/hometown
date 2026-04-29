@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_074354) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_29_080012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,37 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_074354) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "event_attendees", id: :string, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "event_id", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.index ["event_id", "user_id"], name: "index_event_attendees_on_event_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_event_attendees_on_user_id"
+  end
+
+  create_table "events", id: :string, force: :cascade do |t|
+    t.integer "capacity"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.date "date"
+    t.text "description"
+    t.boolean "featured", default: false, null: false
+    t.integer "going_count", default: 0
+    t.string "host_id"
+    t.string "kind", null: false
+    t.string "location"
+    t.string "status", default: "upcoming", null: false
+    t.jsonb "tags", default: []
+    t.string "time_label"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_events_on_date"
+    t.index ["featured"], name: "index_events_on_featured"
+    t.index ["host_id"], name: "index_events_on_host_id"
+    t.index ["status"], name: "index_events_on_status"
+  end
+
   create_table "form_answers", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "form_field_id", null: false
@@ -68,6 +99,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_074354) do
     t.text "admin_note"
     t.datetime "created_at", null: false
     t.string "form_id", null: false
+    t.boolean "starred", default: false, null: false
     t.string "status", default: "pending", null: false
     t.datetime "submitted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", null: false
@@ -89,6 +121,108 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_074354) do
     t.index ["slug"], name: "index_forms_on_slug", unique: true
   end
 
+  create_table "hackathon_sponsors", id: :string, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "hackathon_id", null: false
+    t.string "logo_url"
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["hackathon_id", "position"], name: "index_hackathon_sponsors_on_hackathon_id_and_position"
+  end
+
+  create_table "hackathon_tracks", id: :string, force: :cascade do |t|
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.string "hackathon_id", null: false
+    t.string "label", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["hackathon_id", "position"], name: "index_hackathon_tracks_on_hackathon_id_and_position"
+  end
+
+  create_table "hackathons", id: :string, force: :cascade do |t|
+    t.integer "approved_count", default: 0
+    t.integer "capacity", default: 0
+    t.string "cover_color"
+    t.string "cover_pattern"
+    t.datetime "created_at", null: false
+    t.string "created_by_id"
+    t.string "currency", default: "CNY"
+    t.text "description"
+    t.date "end_date"
+    t.string "form_id"
+    t.string "location"
+    t.string "location_type", default: "onsite"
+    t.string "name", null: false
+    t.decimal "prize_pool", precision: 12, scale: 2, default: "0.0"
+    t.datetime "reg_deadline"
+    t.integer "registered_count", default: 0
+    t.string "review_mode", default: "manual"
+    t.string "slug", null: false
+    t.date "start_date"
+    t.string "status", default: "draft", null: false
+    t.datetime "submit_deadline"
+    t.string "tagline"
+    t.string "theme"
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_hackathons_on_created_by_id"
+    t.index ["form_id"], name: "index_hackathons_on_form_id"
+    t.index ["slug"], name: "index_hackathons_on_slug", unique: true
+    t.index ["status"], name: "index_hackathons_on_status"
+  end
+
+  create_table "project_comments", id: :string, force: :cascade do |t|
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.string "project_id", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.index ["project_id", "created_at"], name: "index_project_comments_on_project_id_and_created_at"
+    t.index ["user_id"], name: "index_project_comments_on_user_id"
+  end
+
+  create_table "project_likes", id: :string, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "project_id", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.index ["project_id", "user_id"], name: "index_project_likes_on_project_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_project_likes_on_user_id"
+  end
+
+  create_table "project_team_members", id: :string, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "project_id", null: false
+    t.string "role_label"
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.index ["project_id", "user_id"], name: "index_project_team_members_on_project_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_project_team_members_on_user_id"
+  end
+
+  create_table "projects", id: :string, force: :cascade do |t|
+    t.string "cover_color"
+    t.string "cover_pattern"
+    t.datetime "created_at", null: false
+    t.string "demo_url"
+    t.text "description"
+    t.string "github_url"
+    t.string "hackathon_id"
+    t.integer "likes_count", default: 0
+    t.string "name", null: false
+    t.jsonb "seeking", default: []
+    t.datetime "submitted_at"
+    t.string "tagline"
+    t.jsonb "tech", default: []
+    t.string "track"
+    t.datetime "updated_at", null: false
+    t.string "video_url"
+    t.string "winner"
+    t.index ["hackathon_id"], name: "index_projects_on_hackathon_id"
+    t.index ["track"], name: "index_projects_on_track"
+  end
+
   create_table "sessions", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -101,15 +235,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_074354) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "user_follows", id: :string, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "follower_id", null: false
+    t.string "following_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follower_id", "following_id"], name: "index_user_follows_on_follower_id_and_following_id", unique: true
+    t.index ["following_id"], name: "index_user_follows_on_following_id"
+  end
+
   create_table "users", id: :string, force: :cascade do |t|
+    t.string "avatar_color"
     t.text "bio"
+    t.string "city"
     t.datetime "created_at", null: false
     t.string "email"
+    t.string "github"
+    t.string "handle"
     t.string "name"
     t.string "phone"
     t.string "role", default: "member", null: false
+    t.string "school"
+    t.jsonb "skills", default: []
+    t.string "tagline"
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
   end
 
@@ -127,12 +278,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_074354) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "event_attendees", "events"
+  add_foreign_key "event_attendees", "users"
+  add_foreign_key "events", "users", column: "host_id"
   add_foreign_key "form_answers", "form_fields"
   add_foreign_key "form_answers", "form_submissions"
   add_foreign_key "form_fields", "forms"
   add_foreign_key "form_submissions", "forms"
   add_foreign_key "form_submissions", "users"
   add_foreign_key "forms", "users", column: "created_by_id"
+  add_foreign_key "hackathon_sponsors", "hackathons"
+  add_foreign_key "hackathon_tracks", "hackathons"
+  add_foreign_key "hackathons", "forms"
+  add_foreign_key "hackathons", "users", column: "created_by_id"
+  add_foreign_key "project_comments", "projects"
+  add_foreign_key "project_comments", "users"
+  add_foreign_key "project_likes", "projects"
+  add_foreign_key "project_likes", "users"
+  add_foreign_key "project_team_members", "projects"
+  add_foreign_key "project_team_members", "users"
+  add_foreign_key "projects", "hackathons"
   add_foreign_key "sessions", "users"
+  add_foreign_key "user_follows", "users", column: "follower_id"
+  add_foreign_key "user_follows", "users", column: "following_id"
   add_foreign_key "verification_codes", "users"
 end

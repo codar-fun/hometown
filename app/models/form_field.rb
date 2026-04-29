@@ -1,5 +1,5 @@
 class FormField < ApplicationRecord
-  FIELD_TYPES = %w[text textarea radio checkbox dropdown file].freeze
+  FIELD_TYPES = %w[short_text long_text email phone url number radio checkbox select date file].freeze
 
   belongs_to :form
   has_many :form_answers, dependent: :destroy
@@ -13,7 +13,7 @@ class FormField < ApplicationRecord
   private
 
   def options_present_for_choice_fields
-    if %w[radio checkbox dropdown].include?(field_type) && options.blank?
+    if %w[radio checkbox select].include?(field_type) && options.blank?
       errors.add(:options, "must be provided for #{field_type} fields")
     end
   end

@@ -5,6 +5,18 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :form_submissions, dependent: :destroy
   has_many :created_forms, class_name: "Form", foreign_key: :created_by_id, dependent: :nullify
+  has_many :hosted_events, class_name: "Event", foreign_key: :host_id, dependent: :nullify
+  has_many :event_attendees, dependent: :destroy
+  has_many :attended_events, through: :event_attendees, source: :event
+  has_many :project_team_members, dependent: :destroy
+  has_many :projects, through: :project_team_members
+  has_many :project_likes, dependent: :destroy
+  has_many :liked_projects, through: :project_likes, source: :project
+  has_many :project_comments, dependent: :destroy
+  has_many :follows_as_follower, class_name: "UserFollow", foreign_key: :follower_id, dependent: :destroy
+  has_many :follows_as_following, class_name: "UserFollow", foreign_key: :following_id, dependent: :destroy
+  has_many :following, through: :follows_as_follower, source: :following
+  has_many :followers, through: :follows_as_following, source: :follower
   has_one_attached :avatar
 
   validates :email,
