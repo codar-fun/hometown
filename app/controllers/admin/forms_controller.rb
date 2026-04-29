@@ -70,7 +70,7 @@ class Admin::FormsController < Admin::BaseController
   private
 
   def set_form
-    @form = Form.find(params[:id])
+    @form = Form.find_by!(slug: params[:id])
   end
 
   def form_params

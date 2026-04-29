@@ -10,6 +10,10 @@ class Form < ApplicationRecord
 
   scope :published, -> { where(published: true) }
 
+  def to_param
+    slug
+  end
+
   def publish!
     update!(published: true)
   end

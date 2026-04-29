@@ -1,44 +1,70 @@
 <% field_name = field.id.to_s %>
-<% case field.field_type %>
-<% when "text" %>
-  <%= text_field_tag field_name, nil,
-        class: "form-input",
-        required: field.required?,
-        placeholder: field.label %>
-<% when "textarea" %>
-  <%= text_area_tag field_name, nil,
-        class: "form-input",
-        rows: 4,
-        required: field.required?,
-        placeholder: field.label %>
-<% when "radio" %>
-  <% (field.options || []).each do |opt| %>
-    <label class="radio-label">
-      <%= radio_button_tag field_name, opt["value"] || opt, false,
-            required: field.required? %>
-      <%= opt["label"] || opt %>
-    </label>
-  <% end %>
-<% when "checkbox" %>
-  <% (field.options || []).each do |opt| %>
-    <label class="checkbox-label">
-      <%= check_box_tag "#{field_name}[]", opt["value"] || opt, false %>
-      <%= opt["label"] || opt %>
-    </label>
-  <% end %>
-<% when "dropdown" %>
+<% opts = Array(field.options) %>
+<% ft = field.field_type %>
+
+<% if ft == "short_text" %>
+  <%= text_field_tag field_name, nil, class: "input", required: field.required?, placeholder: field.label %>
+
+<% elsif ft == "long_text" %>
+  <%= text_area_tag field_name, nil, class: "input textarea", style: "min-height:120px;", required: field.required?, placeholder: "请输入..." %>
+
+<% elsif ft == "email" %>
+  <%= email_field_tag field_name, nil, class: "input", required: field.required?, placeholder: "you@example.com" %>
+
+<% elsif ft == "phone" %>
+  <%= telephone_field_tag field_name, nil, class: "input", required: field.required?, placeholder: "+86 138 0000 0000" %>
+
+<% elsif ft == "url" %>
+  <%= text_field_tag field_name, nil, class: "input", required: field.required?, placeholder: "https://" %>
+
+<% elsif ft == "number" %>
+  <%= number_field_tag field_name, nil, class: "input", required: field.required? %>
+
+<% elsif ft == "date" %>
+  <%= date_field_tag field_name, nil, class: "input", required: field.required? %>
+
+<% elsif ft == "radio" %>
+  <div class="stack" style="gap:8px;">
+    <% opts.each do |opt| %>
+      <% val = opt.is_a?(Hash) ? opt["value"] : opt %>
+      <% lbl = opt.is_a?(Hash) ? opt["label"] : opt %>
+      <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;"
+             onclick="this.closest('.stack').querySelectorAll('label').forEach(function(l){l.style.background='';l.style.borderColor='var(--border)'});this.style.background='var(--bg-elev)';this.style.borderColor='var(--accent)'">
+        <%= radio_button_tag field_name, val, false,
+              required: field.required?,
+              style: "width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;" %>
+        <span style="font-size:14px;"><%= lbl %></span>
+      </label>
+    <% end %>
+  </div>
+
+<% elsif ft == "checkbox" %>
+  <div class="stack" style="gap:8px;">
+    <% opts.each do |opt| %>
+      <% val = opt.is_a?(Hash) ? opt["value"] : opt %>
+      <% lbl = opt.is_a?(Hash) ? opt["label"] : opt %>
+      <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;">
+        <%= check_box_tag "#{field_name}[]", val, false,
+              style: "width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;" %>
+        <span style="font-size:14px;"><%= lbl %></span>
+      </label>
+    <% end %>
+  </div>
+
+<% elsif ft == "select" %>
   <%= select_tag field_name,
-        options_for_select((field.options || []).map { |o| [o["label"] || o, o["value"] || o] }),
-        include_blank: "— Select —",
-        class: "form-input",
-        required: field.required? %>
-<% when "file" %>
+        options_for_select(opts.map { |o| o.is_a?(Hash) ? [o["label"], o["value"]] : [o, o] }),
+        include_blank: "请选择…", class: "select", required: field.required? %>
+
+<% elsif ft == "file" %>
   <div data-controller="file-preview">
-    <%= file_field_tag "file_#{field_name}",
-          class: "form-input",
-          accept: "*/*",
+    <%= file_field_tag "file_#{field_name}", class: "input", style: "font-size:13px;", accept: "*/*",
           required: field.required?,
           data: { file_preview_target: "input", action: "change->file-preview#show" } %>
-    <span data-file-preview-target="preview" class="file-name"></span>
+    <span data-file-preview-target="preview" style="font-size:12px;color:var(--text-3);margin-top:4px;display:block;"></span>
   </div>
+
+<% else %>
+  <%= text_field_tag field_name, nil, class: "input", required: field.required? %>
+
 <% end %>

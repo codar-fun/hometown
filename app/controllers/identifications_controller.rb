@@ -1,6 +1,7 @@
 class IdentificationsController < ApplicationController
   def new
     redirect_to root_path if logged_in?
+    session[:return_to] = params[:return_to] if params[:return_to].present?
   end
 
   def create

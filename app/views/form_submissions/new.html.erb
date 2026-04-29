@@ -1,19 +1,46 @@
-<% content_for :title, "Apply: #{@form.title}" %>
-<div class="form-container">
-  <h1><%= @form.title %></h1>
-  <% if @form.description.present? %>
-    <p class="form-description"><%= @form.description %></p>
+<% content_for :title, "#{@form.title} — Hometown" %>
+<div style="max-width:640px;margin:0 auto;padding:40px 24px 80px;">
+
+  <%# Header %>
+  <div style="margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+      <div class="brand-mark">H</div>
+      <div style="font-size:13px;color:var(--text-2);">Hometown</div>
+    </div>
+    <div style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">报名表单</div>
+    <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;letter-spacing:-0.02em;"><%= @form.title %></h1>
+    <% if @form.description.present? %>
+      <p style="margin:0;font-size:14px;color:var(--text-2);line-height:1.6;"><%= @form.description %></p>
+    <% end %>
+  </div>
+
+  <% if flash[:alert] %>
+    <div class="flash flash-alert" style="margin-bottom:24px;"><%= flash[:alert] %></div>
   <% end %>
 
-  <%= form_with url: form_form_submissions_path(@form), method: :post, multipart: true do |f| %>
-    <% @form.form_fields.each do |field| %>
-      <div class="form-group">
-        <%= label_tag "answers_#{field.id}", field.label + (field.required? ? " *" : "") %>
+  <%= form_with url: form_form_submissions_path(@form), method: :post,
+        multipart: true, class: "stack", style: "gap:24px;" do |f| %>
+
+    <% @form.form_fields.order(:position).each do |field| %>
+      <div>
+        <label style="display:block;font-size:14px;font-weight:500;margin-bottom:<%= field.field_type.in?(%w[radio checkbox]) ? '10px' : '6px' %>;">
+          <%= field.label %>
+          <% if field.required? %>
+            <span style="color:var(--danger);margin-left:2px;">*</span>
+          <% end %>
+        </label>
         <%= render "form_field_input", field: field %>
       </div>
     <% end %>
 
-    <%= f.submit "Submit Application", class: "btn btn-primary" %>
-    <%= link_to "Cancel", root_path, class: "btn btn-secondary" %>
+    <div style="display:flex;gap:10px;padding-top:8px;border-top:1px solid var(--border);">
+      <button type="submit" class="btn btn-primary btn-lg" style="flex:1;justify-content:center;">
+        提交报名
+      </button>
+    </div>
+
+    <p style="margin:0;font-size:11px;color:var(--text-3);text-align:center;">
+      提交后我们会发送邮件确认，审核结果也会通过邮件通知。
+    </p>
   <% end %>
 </div>
