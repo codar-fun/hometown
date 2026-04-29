@@ -1,0 +1,101 @@
+app/javascript/controllers/otp_controller.js
+  b2a4b8d6fb27cb01 1-90
+app/views/admin/form_submissions/show.html.erb
+  b2a4b8d6fb27cb01 1-13,16
+app/controllers/admin/email_previews_controller.rb
+  b2a4b8d6fb27cb01 1-6
+config/routes.rb
+  b2a4b8d6fb27cb01 9-13,26-33,42-48,51-52
+app/views/admin/hackathons/edit.html.erb
+  b2a4b8d6fb27cb01 1-26
+app/views/admin/email_previews/show.html.erb
+  b2a4b8d6fb27cb01 1-100
+app/views/profiles/edit.html.erb
+  b2a4b8d6fb27cb01 1-11,13,15-16,20-50,52-78,80-101,103,105-110
+app/views/projects/index.html.erb
+  b2a4b8d6fb27cb01 1-87
+app/views/projects/show.html.erb
+  b2a4b8d6fb27cb01 1-132
+app/views/admin/forms/index.html.erb
+  b2a4b8d6fb27cb01 1-19,21-34,36-80
+app/views/admin/form_submissions/reject.turbo_stream.erb
+  b2a4b8d6fb27cb01 1
+app/controllers/members_controller.rb
+  b2a4b8d6fb27cb01 1-19
+app/helpers/application_helper.rb
+  b2a4b8d6fb27cb01 3-50,52
+app/controllers/events_controller.rb
+  b2a4b8d6fb27cb01 1-7
+app/javascript/controllers/auth_toggle_controller.js
+  b2a4b8d6fb27cb01 1-48
+app/javascript/controllers/index.js
+  b2a4b8d6fb27cb01 18-26
+app/controllers/admin/forms_controller.rb
+  b2a4b8d6fb27cb01 5-19
+app/views/admin/hackathons/new.html.erb
+  b2a4b8d6fb27cb01 1-9
+app/views/profiles/show.html.erb
+  b2a4b8d6fb27cb01 1-8,10,12-14,16-25,30-59,61-117,119
+app/views/home/index.html.erb
+  b2a4b8d6fb27cb01 1-26,29-72,75-77,79-93
+app/controllers/projects_controller.rb
+  b2a4b8d6fb27cb01 1-45
+app/views/projects/_cover_pattern.html.erb
+  b2a4b8d6fb27cb01 1-73
+app/views/layouts/_sidebar.html.erb
+  b2a4b8d6fb27cb01 1-92
+app/views/members/index.html.erb
+  b2a4b8d6fb27cb01 1-99
+app/views/admin/hackathons/_form.html.erb
+  b2a4b8d6fb27cb01 1-129
+app/views/events/index.html.erb
+  b2a4b8d6fb27cb01 1-121
+app/views/admin/form_submissions/index.html.erb
+  b2a4b8d6fb27cb01 1-46,49-54,56-57
+app/views/admin/hackathons/index.html.erb
+  b2a4b8d6fb27cb01 1-70
+app/views/admin/form_submissions/_detail.html.erb
+  b2a4b8d6fb27cb01 1-103
+app/views/identifications/new.html.erb
+  b2a4b8d6fb27cb01 1-49,51-54,56
+app/views/layouts/admin.html.erb
+  b2a4b8d6fb27cb01 4,6,9-10,14-17,19-21,24-26,29
+app/views/admin/form_submissions/_submission_row.html.erb
+  b2a4b8d6fb27cb01 1-28
+app/controllers/admin/hackathons_controller.rb
+  b2a4b8d6fb27cb01 1-76
+app/views/admin/form_submissions/approve.turbo_stream.erb
+  b2a4b8d6fb27cb01 1
+app/javascript/controllers/review_queue_controller.js
+  b2a4b8d6fb27cb01 1-71
+app/views/layouts/application.html.erb
+  b2a4b8d6fb27cb01 15-21,23-30
+app/views/verifications/new.html.erb
+  b2a4b8d6fb27cb01 1-6,9-48
+app/assets/stylesheets/application.tailwind.css
+  b2a4b8d6fb27cb01 1,3-31,33-37,39-41,43-45,47-50,52-57,59-64,66-71,73-83,85-91,93-95,97-156
+app/views/projects/new.html.erb
+  b2a4b8d6fb27cb01 1-98
+app/controllers/admin/form_submissions_controller.rb
+  b2a4b8d6fb27cb01 2,5-19,23,27,31-32,34-36,39,44,48-49,51-53,56,60-69,72-73,75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "0e38cd4c3a11f8c1bdac3b4194a2966552b73d46",
+  "prompts": {
+    "b2a4b8d6fb27cb01": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus",
+      "messages": [],
+      "total_additions": 2439,
+      "total_deletions": 638,
+      "accepted_lines": 2401,
+      "overriden_lines": 0
+    }
+  }
+}
