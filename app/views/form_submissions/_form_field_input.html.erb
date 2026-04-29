@@ -1,0 +1,44 @@
+<% field_name = field.id.to_s %>
+<% case field.field_type %>
+<% when "text" %>
+  <%= text_field_tag field_name, nil,
+        class: "form-input",
+        required: field.required?,
+        placeholder: field.label %>
+<% when "textarea" %>
+  <%= text_area_tag field_name, nil,
+        class: "form-input",
+        rows: 4,
+        required: field.required?,
+        placeholder: field.label %>
+<% when "radio" %>
+  <% (field.options || []).each do |opt| %>
+    <label class="radio-label">
+      <%= radio_button_tag field_name, opt["value"] || opt, false,
+            required: field.required? %>
+      <%= opt["label"] || opt %>
+    </label>
+  <% end %>
+<% when "checkbox" %>
+  <% (field.options || []).each do |opt| %>
+    <label class="checkbox-label">
+      <%= check_box_tag "#{field_name}[]", opt["value"] || opt, false %>
+      <%= opt["label"] || opt %>
+    </label>
+  <% end %>
+<% when "dropdown" %>
+  <%= select_tag field_name,
+        options_for_select((field.options || []).map { |o| [o["label"] || o, o["value"] || o] }),
+        include_blank: "— Select —",
+        class: "form-input",
+        required: field.required? %>
+<% when "file" %>
+  <div data-controller="file-preview">
+    <%= file_field_tag "file_#{field_name}",
+          class: "form-input",
+          accept: "*/*",
+          required: field.required?,
+          data: { file_preview_target: "input", action: "change->file-preview#show" } %>
+    <span data-file-preview-target="preview" class="file-name"></span>
+  </div>
+<% end %>

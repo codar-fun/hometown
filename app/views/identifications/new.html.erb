@@ -1,0 +1,18 @@
+<% content_for :title, "Sign In" %>
+<div class="auth-container">
+  <h1>Sign in to Hometown</h1>
+  <p class="subtitle">Enter your email or phone number to receive a verification code.</p>
+
+  <%= form_with url: identification_path, method: :post do |f| %>
+    <div class="form-group">
+      <%= f.label :identifier, "Email or Phone Number" %>
+      <%= f.text_field :identifier,
+            placeholder: "you@example.com or +1234567890",
+            autofocus: true,
+            autocomplete: "email",
+            class: "form-input",
+            required: true %>
+    </div>
+    <%= f.submit "Send Code", class: "btn btn-primary" %>
+  <% end %>
+</div>

@@ -1,0 +1,6 @@
+<%= turbo_stream.replace "submission_status_#{@submission.id}" do %>
+  <%= render "status_badge", submission: @submission %>
+<% end %>
+<%= turbo_stream.replace "submission_actions_#{@submission.id}" do %>
+  <%= render "actions", submission: @submission, form: @form %>
+<% end %>

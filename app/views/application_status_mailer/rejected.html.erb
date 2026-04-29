@@ -1,0 +1,9 @@
+<h2>Update on Your Application</h2>
+<p>Hi <%= @user.display_name %>,</p>
+<p>Thank you for applying to <strong><%= @form.title %></strong>.</p>
+<p>Unfortunately, we are unable to approve your application at this time.</p>
+<% if @submission.admin_note.present? %>
+  <p><strong>Note from organizers:</strong> <%= @submission.admin_note %></p>
+<% end %>
+<p>We appreciate your interest and hope to see you at future events.</p>
+<p>The Hometown Team</p>

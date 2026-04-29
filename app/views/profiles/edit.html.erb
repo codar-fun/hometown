@@ -1,0 +1,39 @@
+<% content_for :title, "Edit Profile" %>
+<div class="form-container">
+  <h1>Edit Profile</h1>
+
+  <%= form_with model: @user, url: profile_path(@user), method: :patch, multipart: true do |f| %>
+    <% if @user.errors.any? %>
+      <div class="error-messages">
+        <% @user.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name, "Display Name" %>
+      <%= f.text_field :name, class: "form-input" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :bio, "Bio" %>
+      <%= f.text_area :bio, rows: 4, class: "form-input" %>
+    </div>
+
+    <div class="form-group" data-controller="file-preview">
+      <%= f.label :avatar, "Profile Photo" %>
+      <% if @user.avatar.attached? %>
+        <div class="current-avatar">
+          <%= image_tag @user.avatar.variant(resize_to_fill: [60, 60]), alt: "Current avatar" %>
+        </div>
+      <% end %>
+      <%= f.file_field :avatar, accept: "image/*", class: "form-input",
+            data: { file_preview_target: "input", action: "change->file-preview#show" } %>
+      <span data-file-preview-target="preview" class="file-name"></span>
+    </div>
+
+    <%= f.submit "Save Profile", class: "btn btn-primary" %>
+    <%= link_to "Cancel", profile_path(@user), class: "btn btn-secondary" %>
+  <% end %>
+</div>

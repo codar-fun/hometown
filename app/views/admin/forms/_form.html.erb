@@ -1,0 +1,48 @@
+<%= form_with model: [:admin, form], multipart: false do |f| %>
+  <% if form.errors.any? %>
+    <div class="error-messages">
+      <% form.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-input", required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :slug, "URL Slug" %>
+    <%= f.text_field :slug, class: "form-input", placeholder: "auto-generated if blank" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, rows: 3, class: "form-input" %>
+  </div>
+
+  <div class="form-group">
+    <label class="checkbox-label">
+      <%= f.check_box :published %>
+      Publish immediately
+    </label>
+  </div>
+
+  <div class="form-section">
+    <h3>Form Fields</h3>
+    <div id="form-fields-list">
+      <% form.form_fields.each do |field| %>
+        <turbo-frame id="form_field_<%= field.id || 'new' %>">
+          <%= render "admin/form_fields/field_row", field: field, form_obj: form %>
+        </turbo-frame>
+      <% end %>
+    </div>
+    <div class="add-field-section">
+      <p>Save the form first, then add and manage fields from the form detail page.</p>
+    </div>
+  </div>
+
+  <%= f.submit form.new_record? ? "Create Form" : "Update Form", class: "btn btn-primary" %>
+  <%= link_to "Cancel", admin_forms_path, class: "btn btn-secondary" %>
+<% end %>

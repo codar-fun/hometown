@@ -1,0 +1,19 @@
+<% content_for :title, "Apply: #{@form.title}" %>
+<div class="form-container">
+  <h1><%= @form.title %></h1>
+  <% if @form.description.present? %>
+    <p class="form-description"><%= @form.description %></p>
+  <% end %>
+
+  <%= form_with url: form_form_submissions_path(@form), method: :post, multipart: true do |f| %>
+    <% @form.form_fields.each do |field| %>
+      <div class="form-group">
+        <%= label_tag "answers_#{field.id}", field.label + (field.required? ? " *" : "") %>
+        <%= render "form_field_input", field: field %>
+      </div>
+    <% end %>
+
+    <%= f.submit "Submit Application", class: "btn btn-primary" %>
+    <%= link_to "Cancel", root_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

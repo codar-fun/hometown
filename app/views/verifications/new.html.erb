@@ -1,0 +1,26 @@
+<% content_for :title, "Enter Code" %>
+<div class="auth-container" data-controller="otp-input">
+  <h1>Enter Your Code</h1>
+  <p class="subtitle">We sent a 6-digit code. Enter it below.</p>
+
+  <%= form_with url: verification_path, method: :post do |f| %>
+    <div class="form-group">
+      <%= f.label :code, "Verification Code" %>
+      <%= f.text_field :code,
+            placeholder: "123456",
+            autofocus: true,
+            maxlength: 6,
+            inputmode: "numeric",
+            pattern: "[0-9]{6}",
+            autocomplete: "one-time-code",
+            class: "form-input otp-input",
+            data: { otp_input_target: "field", action: "input->otp-input#autoSubmit" },
+            required: true %>
+    </div>
+    <%= f.submit "Verify", class: "btn btn-primary" %>
+  <% end %>
+
+  <p class="resend-link">
+    <%= link_to "Request a new code", new_identification_path %>
+  </p>
+</div>

@@ -21,8 +21,26 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+# Use Active Model has_secure_password
+gem "bcrypt", "~> 3.1.7"
+
+# OTP generation for verification codes
+gem "rotp"
+
+# Phone number validation and E.164 normalization
+gem "phonelib"
+
+# Pagination for admin lists
+gem "pagy", "~> 9.0"
+
+# SMS delivery via Twilio (wrapped behind a service object)
+gem "twilio-ruby", require: false
+
+# Rate limiting to prevent OTP abuse
+gem "rack-attack"
+
+# Form field ordering
+gem "acts_as_list"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

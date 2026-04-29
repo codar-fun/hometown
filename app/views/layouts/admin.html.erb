@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin — <%= content_for(:title) || "Hometown" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="admin-body">
+    <div class="admin-layout">
+      <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+          <%= link_to "Hometown Admin", admin_root_path %>
+        </div>
+        <nav class="sidebar-nav">
+          <%= link_to "Dashboard", admin_root_path, class: "sidebar-link" %>
+          <%= link_to "Forms", admin_forms_path, class: "sidebar-link" %>
+        </nav>
+        <div class="sidebar-footer">
+          <%= link_to "← Back to Site", root_path, class: "sidebar-link" %>
+          <%= link_to "Sign Out", sign_out_path, data: { turbo_method: :delete }, class: "sidebar-link" %>
+        </div>
+      </aside>
+
+      <div class="admin-main">
+        <% if notice %>
+          <div class="flash flash-notice"><%= notice %></div>
+        <% end %>
+        <% if alert %>
+          <div class="flash flash-alert"><%= alert %></div>
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

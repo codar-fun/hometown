@@ -1,0 +1,14 @@
+Update on Your Application
+
+Hi <%= @user.display_name %>,
+
+Thank you for applying to "<%= @form.title %>".
+
+Unfortunately, we are unable to approve your application at this time.
+<% if @submission.admin_note.present? %>
+Note from organizers: <%= @submission.admin_note %>
+<% end %>
+
+We appreciate your interest and hope to see you at future events.
+
+The Hometown Team

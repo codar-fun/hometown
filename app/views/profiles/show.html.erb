@@ -1,0 +1,36 @@
+<% content_for :title, @user.display_name %>
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar.variant(resize_to_fill: [120, 120]), alt: @user.display_name, class: "avatar-img" %>
+      <% else %>
+        <div class="avatar-placeholder"><%= @user.display_name[0]&.upcase %></div>
+      <% end %>
+    </div>
+    <div class="profile-info">
+      <h1><%= @user.display_name %></h1>
+      <% if @user.bio.present? %>
+        <p class="bio"><%= @user.bio %></p>
+      <% end %>
+    </div>
+    <% if current_user == @user %>
+      <div class="profile-actions">
+        <%= link_to "Edit Profile", edit_profile_path(@user), class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @submissions.any? %>
+    <div class="profile-submissions">
+      <h2>Applications</h2>
+      <% @submissions.each do |submission| %>
+        <div class="submission-card">
+          <span class="submission-form"><%= submission.form.title %></span>
+          <span class="submission-status status-<%= submission.status %>"><%= submission.status.capitalize %></span>
+          <%= link_to "View", form_submission_path(submission), class: "btn btn-sm" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

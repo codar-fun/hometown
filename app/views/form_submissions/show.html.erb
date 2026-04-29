@@ -1,0 +1,33 @@
+<% content_for :title, "Application — #{@submission.form.title}" %>
+<div class="submission-container">
+  <div class="submission-header">
+    <h1><%= @submission.form.title %></h1>
+    <div class="submission-meta">
+      <span class="status-badge status-<%= @submission.status %>"><%= @submission.status.capitalize %></span>
+      <span class="submitted-date">Submitted <%= @submission.submitted_at.strftime("%B %d, %Y") %></span>
+    </div>
+    <% if @submission.admin_note.present? %>
+      <div class="admin-note">
+        <strong>Note:</strong> <%= @submission.admin_note %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="submission-answers">
+    <h2>Your Answers</h2>
+    <% @submission.form_answers.each do |answer| %>
+      <div class="answer-row">
+        <dt><%= answer.form_field.label %></dt>
+        <dd>
+          <% if answer.form_field.field_type == "file" && answer.file_attachment.attached? %>
+            <%= link_to answer.file_attachment.filename, rails_blob_path(answer.file_attachment, disposition: "attachment") %>
+          <% else %>
+            <%= answer.value.presence || "—" %>
+          <% end %>
+        </dd>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to "← Back to Profile", profile_path(current_user), class: "btn btn-secondary" %>
+</div>

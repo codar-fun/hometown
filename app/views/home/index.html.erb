@@ -1,0 +1,36 @@
+<% content_for :title, "Hometown Community" %>
+<div class="home-container">
+  <div class="hero">
+    <h1>Welcome to Hometown</h1>
+    <p>A community platform for connecting and collaborating.</p>
+    <% unless logged_in? %>
+      <%= link_to "Join the Community", new_identification_path, class: "btn btn-primary btn-lg" %>
+    <% end %>
+  </div>
+
+  <% if @forms.any? %>
+    <section class="forms-section">
+      <h2>Open Applications</h2>
+      <div class="form-cards">
+        <% @forms.each do |form| %>
+          <div class="form-card">
+            <h3><%= form.title %></h3>
+            <% if form.description.present? %>
+              <p class="form-description"><%= form.description %></p>
+            <% end %>
+            <% if logged_in? %>
+              <% existing = current_user.form_submissions.find_by(form: form) %>
+              <% if existing %>
+                <%= link_to "View Application (#{existing.status.capitalize})", form_submission_path(existing), class: "btn btn-secondary" %>
+              <% else %>
+                <%= link_to "Apply Now", new_form_form_submission_path(form), class: "btn btn-primary" %>
+              <% end %>
+            <% else %>
+              <%= link_to "Sign in to Apply", new_identification_path, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>

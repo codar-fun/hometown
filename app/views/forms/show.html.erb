@@ -1,0 +1,13 @@
+<% content_for :title, @form.title %>
+<div class="form-container">
+  <h1><%= @form.title %></h1>
+  <% if @form.description.present? %>
+    <p class="form-description"><%= @form.description %></p>
+  <% end %>
+
+  <% if logged_in? %>
+    <%= link_to "Apply Now", new_form_form_submission_path(@form), class: "btn btn-primary" %>
+  <% else %>
+    <p><%= link_to "Sign in", new_identification_path %> to apply.</p>
+  <% end %>
+</div>

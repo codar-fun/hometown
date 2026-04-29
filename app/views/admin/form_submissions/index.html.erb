@@ -1,0 +1,30 @@
+<% content_for :title, "Submissions — #{@form.title}" %>
+<div class="page-header">
+  <h2>Submissions for <%= @form.title %></h2>
+  <div class="status-filters">
+    <%= link_to "All", admin_form_form_submissions_path(@form) %>
+    <%= link_to "Pending", admin_form_form_submissions_path(@form, status: "pending") %>
+    <%= link_to "Approved", admin_form_form_submissions_path(@form, status: "approved") %>
+    <%= link_to "Rejected", admin_form_form_submissions_path(@form, status: "rejected") %>
+  </div>
+</div>
+
+<table class="admin-table">
+  <thead>
+    <tr><th>User</th><th>Email</th><th>Submitted</th><th>Status</th><th>Actions</th></tr>
+  </thead>
+  <tbody>
+    <% @submissions.each do |submission| %>
+      <tr>
+        <td><%= submission.user.display_name %></td>
+        <td><%= submission.user.email %></td>
+        <td><%= submission.submitted_at.strftime("%b %d, %Y") %></td>
+        <td id="submission_status_<%= submission.id %>">
+          <%= render "status_badge", submission: submission %>
+        </td>
+        <td><%= link_to "Review", admin_form_form_submission_path(@form, submission), class: "btn btn-sm" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%== pagy_nav(@pagy) if @pagy.pages > 1 %>

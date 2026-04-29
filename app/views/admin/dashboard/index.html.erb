@@ -1,0 +1,21 @@
+<% content_for :title, "Dashboard" %>
+<h1>Admin Dashboard</h1>
+<div class="stats-grid">
+  <div class="stat-card">
+    <h3>Forms</h3>
+    <p class="stat-number"><%= @forms_count %></p>
+    <%= link_to "Manage Forms", admin_forms_path %>
+  </div>
+  <div class="stat-card">
+    <h3>Total Submissions</h3>
+    <p class="stat-number"><%= @submissions_count %></p>
+  </div>
+  <div class="stat-card">
+    <h3>Pending Review</h3>
+    <p class="stat-number"><%= @pending_count %></p>
+  </div>
+  <div class="stat-card">
+    <h3>Users</h3>
+    <p class="stat-number"><%= @users_count %></p>
+  </div>
+</div>

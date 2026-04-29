@@ -1,0 +1,35 @@
+<% content_for :title, "Application Review" %>
+<div class="page-header">
+  <h1>Application Review</h1>
+  <%= link_to "← All Submissions", admin_form_form_submissions_path(@form), class: "btn btn-secondary" %>
+</div>
+
+<div class="submission-detail">
+  <div class="applicant-info">
+    <h2><%= @submission.user.display_name %></h2>
+    <p>Email: <%= @submission.user.email || "—" %></p>
+    <p>Phone: <%= @submission.user.phone || "—" %></p>
+    <p>Submitted: <%= @submission.submitted_at.strftime("%B %d, %Y at %H:%M") %></p>
+    <p>Status: <span id="submission_status_<%= @submission.id %>"><%= render "status_badge", submission: @submission %></span></p>
+  </div>
+
+  <div class="answers-section">
+    <h3>Answers</h3>
+    <dl class="answers-list">
+      <% @answers.each do |answer| %>
+        <div class="answer-item">
+          <dt><%= answer.form_field.label %></dt>
+          <dd>
+            <% if answer.form_field.field_type == "file" && answer.file_attachment.attached? %>
+              <%= link_to answer.file_attachment.filename, rails_blob_path(answer.file_attachment, disposition: "attachment") %>
+            <% else %>
+              <%= answer.value.presence || "—" %>
+            <% end %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+  </div>
+
+  <%= render "actions", submission: @submission, form: @form %>
+</div>

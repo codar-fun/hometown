@@ -1,0 +1,35 @@
+<%= form_with url: admin_form_form_fields_path(form_obj),
+      data: { controller: "form-field-builder", turbo_frame: "_top" } do |f| %>
+  <div class="field-builder-grid">
+    <div class="form-group">
+      <%= f.label :label, "Field Label" %>
+      <%= f.text_field :label, name: "form_field[label]", class: "form-input", required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :field_type, "Field Type" %>
+      <%= select_tag "form_field[field_type]",
+            options_for_select(FormField::FIELD_TYPES.map { |t| [t.capitalize, t] }),
+            class: "form-input",
+            data: { form_field_builder_target: "fieldType", action: "change->form-field-builder#toggleOptions" } %>
+    </div>
+
+    <div class="form-group">
+      <label class="checkbox-label">
+        <%= check_box_tag "form_field[required]", "1", false %>
+        Required
+      </label>
+    </div>
+
+    <div class="form-group" data-form-field-builder-target="optionsContainer" style="display:none">
+      <%= f.label :options, "Options (one per line, as label:value or just label)" %>
+      <%= text_area_tag "form_field[options][]", nil,
+            class: "form-input",
+            rows: 3,
+            placeholder: "Option One\nOption Two\nOption Three" %>
+      <small>Each line becomes one option.</small>
+    </div>
+  </div>
+
+  <%= f.submit "Add Field", class: "btn btn-primary" %>
+<% end %>

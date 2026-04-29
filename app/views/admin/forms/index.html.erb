@@ -1,0 +1,42 @@
+<% content_for :title, "Forms" %>
+<div class="page-header">
+  <h1>Forms</h1>
+  <%= link_to "New Form", new_admin_form_path, class: "btn btn-primary" %>
+</div>
+
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Slug</th>
+      <th>Status</th>
+      <th>Submissions</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @forms.each do |form| %>
+      <tr>
+        <td><%= link_to form.title, admin_form_path(form) %></td>
+        <td><code><%= form.slug %></code></td>
+        <td>
+          <span class="status-badge status-<%= form.published? ? 'approved' : 'pending' %>">
+            <%= form.published? ? "Published" : "Draft" %>
+          </span>
+        </td>
+        <td><%= form.form_submissions.count %></td>
+        <td class="table-actions">
+          <%= link_to "Edit", edit_admin_form_path(form), class: "btn btn-sm" %>
+          <% if form.published? %>
+            <%= button_to "Unpublish", unpublish_admin_form_path(form), method: :patch, class: "btn btn-sm btn-warning" %>
+          <% else %>
+            <%= button_to "Publish", publish_admin_form_path(form), method: :patch, class: "btn btn-sm btn-success" %>
+          <% end %>
+          <%= button_to "Delete", admin_form_path(form), method: :delete,
+                data: { turbo_confirm: "Delete this form and all its submissions?" },
+                class: "btn btn-sm btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,12 @@
+Congratulations! You've been approved!
+
+Hi <%= @user.display_name %>,
+
+Great news — your application for "<%= @form.title %>" has been approved!
+<% if @submission.admin_note.present? %>
+Note from organizers: <%= @submission.admin_note %>
+<% end %>
+
+We look forward to seeing you there!
+
+The Hometown Team

@@ -1,0 +1,72 @@
+<% content_for :title, @form.title %>
+<div class="page-header">
+  <h1><%= @form.title %></h1>
+  <div class="page-actions">
+    <%= link_to "Edit", edit_admin_form_path(@form), class: "btn btn-secondary" %>
+    <% if @form.published? %>
+      <%= button_to "Unpublish", unpublish_admin_form_path(@form), method: :patch, class: "btn btn-warning" %>
+    <% else %>
+      <%= button_to "Publish", publish_admin_form_path(@form), method: :patch, class: "btn btn-success" %>
+    <% end %>
+    <%= link_to "View Public", form_path(@form.slug), class: "btn btn-secondary", target: "_blank" %>
+  </div>
+</div>
+
+<div class="form-detail">
+  <p><strong>Slug:</strong> <code><%= @form.slug %></code></p>
+  <p><strong>Status:</strong> <%= @form.published? ? "Published" : "Draft" %></p>
+  <% if @form.description.present? %>
+    <p><strong>Description:</strong> <%= @form.description %></p>
+  <% end %>
+</div>
+
+<section class="fields-section">
+  <div class="section-header">
+    <h2>Fields (<%= @form.form_fields.count %>)</h2>
+    <%= link_to "+ Add Field", "#add-field-form", class: "btn btn-sm btn-primary" %>
+  </div>
+
+  <div id="form-fields-list">
+    <% @form.form_fields.each do |field| %>
+      <turbo-frame id="form_field_<%= field.id %>">
+        <%= render "admin/form_fields/field_row", field: field, form_obj: @form %>
+      </turbo-frame>
+    <% end %>
+  </div>
+
+  <div id="add-field-form" class="add-field-panel">
+    <h3>Add New Field</h3>
+    <%= render "admin/form_fields/new_field_form", form_obj: @form %>
+  </div>
+</section>
+
+<section class="submissions-section">
+  <div class="section-header">
+    <h2>Submissions (<%= @form.form_submissions.count %>)</h2>
+    <div class="status-filters">
+      <%= link_to "All", admin_form_form_submissions_path(@form), class: "btn btn-sm #{'active' if params[:status].blank?}" %>
+      <%= link_to "Pending", admin_form_form_submissions_path(@form, status: "pending"), class: "btn btn-sm #{'active' if params[:status] == 'pending'}" %>
+      <%= link_to "Approved", admin_form_form_submissions_path(@form, status: "approved"), class: "btn btn-sm #{'active' if params[:status] == 'approved'}" %>
+      <%= link_to "Rejected", admin_form_form_submissions_path(@form, status: "rejected"), class: "btn btn-sm #{'active' if params[:status] == 'rejected'}" %>
+    </div>
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr><th>User</th><th>Submitted</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody>
+      <% @submissions.each do |submission| %>
+        <tr>
+          <td><%= submission.user.display_name %></td>
+          <td><%= submission.submitted_at.strftime("%b %d, %Y %H:%M") %></td>
+          <td id="submission_status_<%= submission.id %>">
+            <%= render "admin/form_submissions/status_badge", submission: submission %>
+          </td>
+          <td><%= link_to "Review", admin_form_form_submission_path(@form, submission), class: "btn btn-sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+</section>

@@ -1,0 +1,18 @@
+<div class="field-row" data-controller="form-field-builder">
+  <div class="field-info">
+    <strong><%= field.label %></strong>
+    <span class="field-type-badge"><%= field.field_type %></span>
+    <% if field.required? %>
+      <span class="required-badge">Required</span>
+    <% end %>
+    <% if field.options.present? %>
+      <span class="field-options">Options: <%= (field.options || []).map { |o| o.is_a?(Hash) ? o["label"] : o }.join(", ") %></span>
+    <% end %>
+  </div>
+  <div class="field-actions">
+    <%= button_to "Remove", admin_form_form_field_path(form_obj, field),
+          method: :delete,
+          class: "btn btn-sm btn-danger",
+          data: { turbo_method: :delete, turbo_confirm: "Remove this field?" } %>
+  </div>
+</div>

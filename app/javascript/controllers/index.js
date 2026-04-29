@@ -4,5 +4,14 @@
 
 import { application } from "./application"
 
+import FilePreviewController from "./file_preview_controller"
+application.register("file-preview", FilePreviewController)
+
+import FormFieldBuilderController from "./form_field_builder_controller"
+application.register("form-field-builder", FormFieldBuilderController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import OtpInputController from "./otp_input_controller"
+application.register("otp-input", OtpInputController)

@@ -1,0 +1,8 @@
+<h2>Congratulations! You've been approved!</h2>
+<p>Hi <%= @user.display_name %>,</p>
+<p>Great news — your application for <strong><%= @form.title %></strong> has been approved!</p>
+<% if @submission.admin_note.present? %>
+  <p><strong>Note from organizers:</strong> <%= @submission.admin_note %></p>
+<% end %>
+<p>We look forward to seeing you there!</p>
+<p>The Hometown Team</p>
