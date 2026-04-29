@@ -4,48 +4,29 @@
     <title><%= content_for(:title) || "Hometown" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Hometown">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
     <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
-
   <body>
-    <nav class="navbar">
-      <div class="nav-brand">
-        <%= link_to "Hometown", root_path, class: "brand-link" %>
-      </div>
-      <div class="nav-links">
-        <% if logged_in? %>
-          <%= link_to current_user.display_name, profile_path(current_user), class: "nav-link" %>
-          <% if current_user.admin? %>
-            <%= link_to "Admin", admin_root_path, class: "nav-link" %>
-          <% end %>
-          <%= link_to "Sign Out", sign_out_path, data: { turbo_method: :delete }, class: "nav-link" %>
-        <% else %>
-          <%= link_to "Sign In", new_identification_path, class: "nav-link btn-nav" %>
+    <div class="app">
+      <%= render "layouts/sidebar" %>
+      <main class="main">
+        <% if notice %>
+          <div style="padding: 0 32px; padding-top: 16px;">
+            <div class="flash flash-notice"><%= notice %></div>
+          </div>
         <% end %>
-      </div>
-    </nav>
-
-    <main class="main-content">
-      <% if notice %>
-        <div class="flash flash-notice"><%= notice %></div>
-      <% end %>
-      <% if alert %>
-        <div class="flash flash-alert"><%= alert %></div>
-      <% end %>
-
-      <%= yield %>
-    </main>
+        <% if alert %>
+          <div style="padding: 0 32px; padding-top: 16px;">
+            <div class="flash flash-alert"><%= alert %></div>
+          </div>
+        <% end %>
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>

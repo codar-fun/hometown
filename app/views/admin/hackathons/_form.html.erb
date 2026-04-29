@@ -1,0 +1,129 @@
+<%= form_with model: [:admin, hackathon], class: "stack", style: "gap:0;" do |f| %>
+  <% if hackathon.errors.any? %>
+    <div class="flash flash-alert" style="margin-bottom:16px;">
+      <%= hackathon.errors.full_messages.join(", ") %>
+    </div>
+  <% end %>
+
+  <div class="card" style="padding:0;">
+    <%# Basic info %>
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">基础信息</h3>
+      <div class="stack" style="gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label class="label">名称 *</label>
+            <%= f.text_field :name, class: "input", required: true %>
+          </div>
+          <div>
+            <label class="label">Slug</label>
+            <%= f.text_field :slug, class: "input", placeholder: "auto-generated" %>
+          </div>
+        </div>
+        <div>
+          <label class="label">主题</label>
+          <%= f.text_field :theme, class: "input", placeholder: "Tools for Builders" %>
+        </div>
+        <div>
+          <label class="label">一句话介绍</label>
+          <%= f.text_field :tagline, class: "input" %>
+        </div>
+        <div>
+          <label class="label">详细描述</label>
+          <%= f.text_area :description, class: "input textarea", style: "min-height:100px;" %>
+        </div>
+      </div>
+    </div>
+
+    <%# Time %>
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">时间</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="label">开始日期</label>
+          <%= f.date_field :start_date, class: "input" %>
+        </div>
+        <div>
+          <label class="label">结束日期</label>
+          <%= f.date_field :end_date, class: "input" %>
+        </div>
+        <div>
+          <label class="label">提交截止</label>
+          <%= f.datetime_local_field :submit_deadline, class: "input" %>
+        </div>
+        <div>
+          <label class="label">报名截止</label>
+          <%= f.datetime_local_field :reg_deadline, class: "input" %>
+        </div>
+      </div>
+    </div>
+
+    <%# Location & capacity %>
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">地点 · 规模</h3>
+      <div class="stack" style="gap:12px;">
+        <div>
+          <label class="label">地点</label>
+          <%= f.text_field :location, class: "input", placeholder: "上海 · 西岸艺术中心" %>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+          <div>
+            <label class="label">举办形式</label>
+            <%= f.select :location_type, [["线下","onsite"],["线上","online"],["混合","hybrid"]], {}, class: "select" %>
+          </div>
+          <div>
+            <label class="label">名额上限</label>
+            <%= f.number_field :capacity, class: "input", min: 0 %>
+          </div>
+          <div>
+            <label class="label">审核方式</label>
+            <%= f.select :review_mode, [["人工审核","manual"],["自动通过","auto"]], {}, class: "select" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Prize & form %>
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">奖池 · 表单</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+        <div>
+          <label class="label">奖池金额</label>
+          <%= f.number_field :prize_pool, class: "input", min: 0 %>
+        </div>
+        <div>
+          <label class="label">币种</label>
+          <%= f.select :currency, [["CNY — 人民币","CNY"],["USD — 美元","USD"]], {}, class: "select" %>
+        </div>
+        <div>
+          <label class="label">关联报名表单</label>
+          <%= f.select :form_id, @forms.map { |fm| [fm.title, fm.id] }, { include_blank: "不关联" }, class: "select" %>
+        </div>
+      </div>
+    </div>
+
+    <%# Appearance %>
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">外观</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div>
+          <label class="label">封面颜色</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <%= f.color_field :cover_color, style: "width:44px;height:36px;padding:2px;cursor:pointer;border:1px solid var(--border);border-radius:6px;background:var(--bg-elev);" %>
+            <%= f.text_field :cover_color, class: "input", placeholder: "#4D7C0F", style: "flex:1;" %>
+          </div>
+        </div>
+        <div>
+          <label class="label">封面图案</label>
+          <%= f.select :cover_pattern, %w[grid dots lines wave circles leaves hex bars rings].map { |p| [p, p] }, { include_blank: "无" }, class: "select" %>
+        </div>
+      </div>
+    </div>
+
+    <%# Footer %>
+    <div style="padding:16px 24px;background:var(--bg-elev);display:flex;justify-content:flex-end;gap:8px;">
+      <%= link_to admin_hackathons_path, class: "btn" do %>取消<% end %>
+      <%= f.submit "保存", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

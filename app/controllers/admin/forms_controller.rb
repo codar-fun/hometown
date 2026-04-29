@@ -2,7 +2,21 @@ class Admin::FormsController < Admin::BaseController
   before_action :set_form, only: [ :show, :edit, :update, :destroy, :publish, :unpublish ]
 
   def index
-    @forms = Form.includes(:created_by).order(created_at: :desc)
+    scope = Form.includes(:created_by)
+    scope = scope.where("title ILIKE ?", "%#{params[:q]}%") if params[:q].present?
+    scope = case params[:status]
+            when "live"   then scope.where(published: true)
+            when "draft"  then scope.where(published: false)
+            else scope
+            end
+    @forms = scope.order(created_at: :desc)
+    all_forms = Form.all
+    @counts = {
+      all:    all_forms.count,
+      live:   all_forms.where(published: true).count,
+      draft:  all_forms.where(published: false).count,
+      closed: 0,
+    }
   end
 
   def show

@@ -1,30 +1,57 @@
-<% content_for :title, "Submissions — #{@form.title}" %>
-<div class="page-header">
-  <h2>Submissions for <%= @form.title %></h2>
-  <div class="status-filters">
-    <%= link_to "All", admin_form_form_submissions_path(@form) %>
-    <%= link_to "Pending", admin_form_form_submissions_path(@form, status: "pending") %>
-    <%= link_to "Approved", admin_form_form_submissions_path(@form, status: "approved") %>
-    <%= link_to "Rejected", admin_form_form_submissions_path(@form, status: "rejected") %>
+<% content_for :title, "报名审核 — Hometown" %>
+<div class="review-layout" style="height:calc(100vh - 0px);" data-controller="review-queue">
+  <%# Left: list %>
+  <div class="review-list">
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:15px;font-weight:600;">报名审核</div>
+        <span style="font-size:12px;color:var(--text-3);"><%= @pagy.count %> 条</span>
+      </div>
+      <%= form_with url: admin_form_submissions_path, method: :get, style: "margin-bottom:10px;" do |f| %>
+        <div style="position:relative;">
+          <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-3);">
+            <%= inline_svg_icon("search") %>
+          </span>
+          <%= f.text_field :q, value: params[:q], placeholder: "搜索申请者...", class: "input", style: "padding-left:32px;height:32px;font-size:12px;" %>
+          <%= f.hidden_field :status, value: params[:status] %>
+        </div>
+      <% end %>
+      <div style="display:flex;gap:4px;">
+        <% [
+          { id: "pending",  label: "待审核", count: @counts[:pending] },
+          { id: "approved", label: "已通过", count: @counts[:approved] },
+          { id: "rejected", label: "已拒绝", count: @counts[:rejected] },
+          { id: "all",      label: "全部",   count: @counts[:all] },
+        ].each do |t| %>
+          <% active = params[:status] == t[:id] || (t[:id] == "pending" && params[:status].blank?) %>
+          <%= link_to admin_form_submissions_path(status: t[:id], q: params[:q]),
+                style: "padding:4px 10px;border-radius:999px;font-size:11px;font-weight:500;text-decoration:none;border:1px solid #{active ? 'var(--border-strong)' : 'transparent'};background:#{active ? 'var(--bg-elev-2)' : 'transparent'};color:#{active ? 'var(--text)' : 'var(--text-2)'};" do %>
+            <%= t[:label] %> <span style="color:var(--text-3);margin-left:2px;"><%= t[:count] %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="review-list-body">
+      <% @submissions.each do |sub| %>
+        <div id="submission_<%= sub.id %>">
+          <%= render "submission_row", submission: sub %>
+        </div>
+      <% end %>
+      <% if @submissions.empty? %>
+        <div style="padding:40px;text-align:center;color:var(--text-3);font-size:13px;">
+          没有符合条件的申请
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Right: detail panel %>
+  <div class="review-detail" id="detail_panel">
+    <% if @selected %>
+      <%= render "detail", submission: @selected %>
+    <% else %>
+      <div style="display:grid;place-items:center;height:100%;color:var(--text-3);">选择左侧的申请进行审核</div>
+    <% end %>
   </div>
 </div>
-
-<table class="admin-table">
-  <thead>
-    <tr><th>User</th><th>Email</th><th>Submitted</th><th>Status</th><th>Actions</th></tr>
-  </thead>
-  <tbody>
-    <% @submissions.each do |submission| %>
-      <tr>
-        <td><%= submission.user.display_name %></td>
-        <td><%= submission.user.email %></td>
-        <td><%= submission.submitted_at.strftime("%b %d, %Y") %></td>
-        <td id="submission_status_<%= submission.id %>">
-          <%= render "status_badge", submission: submission %>
-        </td>
-        <td><%= link_to "Review", admin_form_form_submission_path(@form, submission), class: "btn btn-sm" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%== pagy_nav(@pagy) if @pagy.pages > 1 %>

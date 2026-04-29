@@ -1,0 +1,9 @@
+<% content_for :title, "新建黑客松 — Hometown" %>
+<div class="page" style="max-width:760px;">
+  <%= link_to admin_hackathons_path, class: "btn btn-ghost btn-sm", style: "margin-bottom:12px;" do %>
+    <%= inline_svg_icon("arrow_left") %> 取消
+  <% end %>
+  <h1 class="page-title" style="margin-bottom:24px;">创建黑客松</h1>
+
+  <%= render "form", hackathon: @hackathon %>
+</div>

@@ -1,0 +1,70 @@
+<% content_for :title, "黑客松管理 — Hometown" %>
+<div class="page" style="max-width:1240px;">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">黑客松</h1>
+      <p class="page-subtitle"><%= @hackathons.count %> 个活动 · <%= number_with_delimiter(@stats[:total_registered]) %> 总报名 · 管理你的所有 hackathon</p>
+    </div>
+    <%= link_to new_admin_hackathon_path, class: "btn btn-primary" do %>
+      <%= inline_svg_icon("plus") %> 创建黑客松
+    <% end %>
+  </div>
+
+  <%# Stats strip %>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+    <% [
+      { label: "进行中",   value: @stats[:live],  accent: "#4D7C0F" },
+      { label: "草稿",     value: @stats[:draft], accent: "#A8A29E" },
+      { label: "已结束",   value: @stats[:ended], accent: "#0C0A09" },
+      { label: "累计报名", value: @stats[:total_registered], accent: "#0EA5E9", mono: true },
+    ].each do |s| %>
+      <div class="card" style="padding:14px;">
+        <div style="font-size:11px;color:var(--text-3);font-weight:500;margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase;"><%= s[:label] %></div>
+        <div style="font-size:24px;font-weight:700;<%= s[:mono] ? "font-family:var(--font-mono);" : "" %>color:var(--text);display:flex;align-items:baseline;gap:8px;">
+          <%= number_with_delimiter(s[:value]) %>
+          <span style="width:6px;height:6px;border-radius:50%;background:<%= s[:accent] %>;"></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%# List %>
+  <div class="stack" style="gap:12px;">
+    <% @hackathons.each do |h| %>
+      <div class="card" style="padding:0;display:flex;overflow:hidden;">
+        <div style="width:8px;background:<%= h.cover_color || '#4D7C0F' %>;flex-shrink:0;"></div>
+        <div style="flex:1;padding:16px 20px;display:flex;align-items:center;gap:20px;min-width:0;">
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+              <%= status_badge(h.status) %>
+              <span style="font-size:15px;font-weight:600;"><%= h.name %></span>
+            </div>
+            <div style="font-size:12px;color:var(--text-3);">
+              <% if h.start_date %><%= h.start_date.strftime("%-m/%-d") %> — <% end %>
+              <% if h.location.present? %><%= h.location %> · <% end %>
+              <%= h.theme %>
+            </div>
+          </div>
+          <div style="text-align:center;flex-shrink:0;">
+            <div style="font-size:18px;font-weight:700;font-family:var(--font-mono);"><%= h.registered_count %><span style="font-size:13px;color:var(--text-3);">/</span><%= h.capacity %></div>
+            <div style="font-size:10px;color:var(--text-3);">报名</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <%= link_to edit_admin_hackathon_path(h), class: "btn btn-sm" do %>编辑<% end %>
+            <% if h.status == "draft" %>
+              <%= button_to publish_admin_hackathon_path(h), method: :patch, class: "btn btn-primary btn-sm" do %>发布<% end %>
+            <% elsif h.status == "live" %>
+              <%= button_to unpublish_admin_hackathon_path(h), method: :patch, class: "btn btn-sm" do %>下线<% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @hackathons.empty? %>
+    <div style="padding:80px;text-align:center;color:var(--text-3);">
+      还没有黑客松 — <%= link_to "创建第一个 →", new_admin_hackathon_path, style: "color:var(--accent);font-weight:500;" %>
+    </div>
+  <% end %>
+</div>

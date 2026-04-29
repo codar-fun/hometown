@@ -1,0 +1,99 @@
+<% content_for :title, "成员广场 — Hometown" %>
+<div class="page" style="max-width:1240px;">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">成员广场</h1>
+      <p class="page-subtitle"><%= @total_count %> 位社区成员 · 来自 <%= @cities.size %> 个城市 · 找人聊聊或一起做点东西</p>
+    </div>
+    <button class="btn"><%= inline_svg_icon("send") %> 邀请新成员</button>
+  </div>
+
+  <%# Filter bar %>
+  <%= form_with url: members_path, method: :get, data: { turbo_frame: "_top" } do |f| %>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+      <div style="position:relative;flex:1 1 240px;min-width:200px;max-width:320px;">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-3);">
+          <%= inline_svg_icon("search") %>
+        </span>
+        <%= f.text_field :q, value: params[:q], placeholder: "搜索姓名 / 标签 / 介绍", class: "input", style: "padding-left:34px;" %>
+      </div>
+      <select name="role" class="select" style="height:36px;width:auto;padding:0 10px;" onchange="this.form.submit()">
+        <option value="all">全部角色</option>
+        <% ["设计师","工程师","PM","创始人"].each do |r| %>
+          <option value="<%= r %>" <%= params[:role] == r ? "selected" : "" %>><%= r %></option>
+        <% end %>
+      </select>
+      <select name="city" class="select" style="height:36px;width:auto;padding:0 10px;" onchange="this.form.submit()">
+        <option value="all">全部城市</option>
+        <% @cities.each do |c| %>
+          <option value="<%= c %>" <%= params[:city] == c ? "selected" : "" %>><%= c %></option>
+        <% end %>
+      </select>
+      <% if params[:q].present? || (params[:role].present? && params[:role] != "all") || (params[:city].present? && params[:city] != "all") %>
+        <%= link_to members_path, class: "btn btn-ghost btn-sm" do %>
+          <%= inline_svg_icon("x") %> 清空筛选
+        <% end %>
+      <% end %>
+      <span style="margin-left:auto;font-size:12px;color:var(--text-3);">
+        匹配 <strong style="color:var(--text);font-family:var(--font-mono);"><%= @members.count %></strong> 位
+      </span>
+    </div>
+  <% end %>
+
+  <%# Member list %>
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <% @members.each_with_index do |m, i| %>
+      <div class="card" style="padding:14px 18px;display:flex;align-items:center;gap:16px;">
+        <div class="avatar" style="width:44px;height:44px;font-size:16px;flex-shrink:0;<%= m.avatar_color.present? ? "background:#{m.avatar_color};color:#0C0A09;" : "background:hsl(#{(i*37)%360},50%,60%);" %>">
+          <%= m.name&.first || m.email&.first&.upcase || "?" %>
+        </div>
+        <div style="min-width:200px;flex:0 0 auto;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="font-size:14px;font-weight:600;"><%= m.name || m.handle %></span>
+            <% if logged_in? && m == current_user %>
+              <span style="font-size:10px;padding:1px 6px;background:var(--accent-soft);color:var(--accent);border-radius:3px;font-weight:600;">你</span>
+            <% end %>
+            <% if m.created_at > 30.days.ago %>
+              <span style="font-size:10px;padding:1px 6px;background:#FEF3C7;color:#A16207;border-radius:3px;font-weight:600;">🌱 NEW</span>
+            <% end %>
+          </div>
+          <div style="font-size:11px;color:var(--text-3);display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <% if m.handle.present? %><span class="mono">@<%= m.handle %></span><span>·</span><% end %>
+            <% if m.role.present? %><span><%= m.role %></span><% end %>
+            <% if m.city.present? %><span>·</span><span>📍 <%= m.city %></span><% end %>
+          </div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <% if m.tagline.present? %>
+            <div style="font-size:13px;color:var(--text-2);margin-bottom:4px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= m.tagline %></div>
+          <% end %>
+          <% skills = Array(m.skills).first(4) %>
+          <% if skills.any? %>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              <% skills.each do |s| %>
+                <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:var(--bg-elev-2);color:var(--text-2);font-family:var(--font-mono);font-weight:500;"><%= s %></span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <div style="flex-shrink:0;">
+          <% if logged_in? && m != current_user %>
+            <% following = current_user.following.include?(m) %>
+            <button class="btn btn-sm<%= following ? '' : ' btn-primary' %>"
+              style="<%= following ? 'background:var(--accent-soft);color:var(--accent);border-color:#D9F99D;' : '' %>">
+              <%= following ? "#{inline_svg_icon('check')} 已关注".html_safe : "+ 关注" %>
+            </button>
+          <% elsif logged_in? && m == current_user %>
+            <span style="font-size:11px;color:var(--text-3);padding:4px 10px;">这是你自己</span>
+          <% else %>
+            <%= link_to new_identification_path, class: "btn btn-primary btn-sm" do %>+ 关注<% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @members.empty? %>
+    <div style="padding:60px;text-align:center;color:var(--text-3);">没有符合条件的成员</div>
+  <% end %>
+</div>

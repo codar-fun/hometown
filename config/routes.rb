@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   resource  :verification,   only: [ :new, :create ]
   delete    "sign_out",      to: "sessions#destroy", as: :sign_out
 
+  # Public community pages
+  resources :events,   only: [ :index ]
+  resources :projects, only: [ :index, :show, :new, :create ]
+  resources :members,  only: [ :index ]
+
   # User profiles
   resources :profiles, only: [ :show, :edit, :update ]
 
@@ -18,6 +23,14 @@ Rails.application.routes.draw do
   # Admin namespace
   namespace :admin do
     root to: "dashboard#index"
+
+    resources :hackathons do
+      member do
+        patch :publish
+        patch :unpublish
+      end
+    end
+
     resources :forms do
       member do
         patch :publish
@@ -26,13 +39,17 @@ Rails.application.routes.draw do
       resources :form_fields, only: [ :create, :update, :destroy ] do
         collection { patch :reorder }
       end
-      resources :form_submissions, only: [ :index, :show ] do
-        member do
-          patch :approve
-          patch :reject
-        end
+    end
+
+    resources :form_submissions, only: [ :index, :show ] do
+      member do
+        patch :approve
+        patch :reject
+        patch :star
       end
     end
+
+    resource :email_preview, only: [ :show ]
   end
 
   root to: "home#index"

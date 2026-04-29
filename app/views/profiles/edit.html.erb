@@ -1,39 +1,112 @@
-<% content_for :title, "Edit Profile" %>
-<div class="form-container">
-  <h1>Edit Profile</h1>
+<% content_for :title, "编辑资料 — Hometown" %>
+<div class="page" style="max-width:680px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+    <%= link_to profile_path(current_user), class: "btn btn-ghost btn-sm" do %>
+      <%= inline_svg_icon("arrow_left") %>
+    <% end %>
+    <div style="flex:1;">
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:2px;">个人主页</div>
+      <h1 style="margin:0;font-size:20px;font-weight:600;">编辑资料</h1>
+    </div>
+  </div>
 
-  <%= form_with model: @user, url: profile_path(@user), method: :patch, multipart: true do |f| %>
+  <%= form_with model: @user, url: profile_path(@user), method: :patch, multipart: true, class: "stack", style: "gap:0;" do |f| %>
     <% if @user.errors.any? %>
-      <div class="error-messages">
-        <% @user.errors.full_messages.each do |msg| %>
-          <p><%= msg %></p>
-        <% end %>
+      <div class="flash flash-alert" style="margin-bottom:16px;">
+        <%= @user.errors.full_messages.join("、") %>
       </div>
     <% end %>
 
-    <div class="form-group">
-      <%= f.label :name, "Display Name" %>
-      <%= f.text_field :name, class: "form-input" %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :bio, "Bio" %>
-      <%= f.text_area :bio, rows: 4, class: "form-input" %>
-    </div>
-
-    <div class="form-group" data-controller="file-preview">
-      <%= f.label :avatar, "Profile Photo" %>
-      <% if @user.avatar.attached? %>
-        <div class="current-avatar">
-          <%= image_tag @user.avatar.variant(resize_to_fill: [60, 60]), alt: "Current avatar" %>
+    <div class="card" style="padding:0;">
+      <%# Avatar section %>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+        <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">头像</h3>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <% if @user.avatar.attached? %>
+            <%= image_tag @user.avatar.variant(resize_to_fill: [72,72]),
+                  alt: @user.display_name,
+                  style: "width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border);" %>
+          <% else %>
+            <div class="avatar" style="width:72px;height:72px;font-size:28px;<%= @user.avatar_color.present? ? "background:#{@user.avatar_color};color:#0C0A09;" : "" %>flex-shrink:0;">
+              <%= @user.name&.first || @user.email&.first&.upcase || "?" %>
+            </div>
+          <% end %>
+          <div class="stack" style="gap:10px;flex:1;">
+            <div data-controller="file-preview">
+              <%= f.file_field :avatar, accept: "image/*", class: "input",
+                    style: "font-size:12px;",
+                    data: { file_preview_target: "input", action: "change->file-preview#show" } %>
+              <span data-file_preview-target="preview" style="font-size:11px;color:var(--text-3);margin-top:4px;display:block;"></span>
+            </div>
+            <div>
+              <label class="label">头像颜色（无图片时显示）</label>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <%= f.color_field :avatar_color, style: "width:36px;height:30px;padding:2px;cursor:pointer;border:1px solid var(--border);border-radius:6px;background:var(--bg-elev);" %>
+                <%= f.text_field :avatar_color, class: "input", placeholder: "#4D7C0F", style: "flex:1;max-width:120px;" %>
+              </div>
+            </div>
+          </div>
         </div>
-      <% end %>
-      <%= f.file_field :avatar, accept: "image/*", class: "form-input",
-            data: { file_preview_target: "input", action: "change->file-preview#show" } %>
-      <span data-file-preview-target="preview" class="file-name"></span>
-    </div>
+      </div>
 
-    <%= f.submit "Save Profile", class: "btn btn-primary" %>
-    <%= link_to "Cancel", profile_path(@user), class: "btn btn-secondary" %>
+      <%# Basic info %>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+        <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">基本信息</h3>
+        <div class="stack" style="gap:12px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label class="label">姓名</label>
+              <%= f.text_field :name, class: "input" %>
+            </div>
+            <div>
+              <label class="label">用户名（handle）</label>
+              <div style="position:relative;">
+                <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:13px;">@</span>
+                <%= f.text_field :handle, class: "input", style: "padding-left:24px;" %>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="label">一句话介绍</label>
+            <%= f.text_field :tagline, class: "input", placeholder: "前端工程师 · 喜欢造工具" %>
+          </div>
+          <div>
+            <label class="label">简介</label>
+            <%= f.text_area :bio, class: "input textarea", style: "min-height:80px;", placeholder: "介绍一下你自己..." %>
+          </div>
+        </div>
+      </div>
+
+      <%# Background %>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+        <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">背景</h3>
+        <div class="stack" style="gap:12px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label class="label">城市</label>
+              <%= f.text_field :city, class: "input", placeholder: "上海" %>
+            </div>
+            <div>
+              <label class="label">学校 / 公司</label>
+              <%= f.text_field :school, class: "input", placeholder: "同济大学" %>
+            </div>
+          </div>
+          <div>
+            <label class="label">主要角色</label>
+            <%= f.select :role, [["开发者","开发者"],["设计师","设计师"],["产品经理","产品经理"],["创业者","创业者"],["学生","学生"],["其他","其他"]], { include_blank: "选择角色..." }, class: "select" %>
+          </div>
+          <div>
+            <label class="label">GitHub</label>
+            <%= f.text_field :github, class: "input", placeholder: "github.com/username" %>
+          </div>
+        </div>
+      </div>
+
+      <%# Footer %>
+      <div style="padding:16px 24px;background:var(--bg-elev);display:flex;justify-content:flex-end;gap:8px;">
+        <%= link_to profile_path(@user), class: "btn" do %>取消<% end %>
+        <%= f.submit "保存", class: "btn btn-primary" %>
+      </div>
+    </div>
   <% end %>
 </div>

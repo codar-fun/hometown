@@ -1,0 +1,121 @@
+<% content_for :title, "活动 — Hometown" %>
+<div class="page" style="max-width:1100px;">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">活动</h1>
+      <p class="page-subtitle">小镇里正在发生的事 — 分享会、读书会、Meetup、Hackathon。</p>
+    </div>
+    <button class="btn">
+      <%= inline_svg_icon("plus") %> 提议活动
+    </button>
+  </div>
+
+  <%# Tabs %>
+  <div class="tabs">
+    <%= link_to events_path(filter: "upcoming"), class: "tab #{params[:filter].blank? || params[:filter] == 'upcoming' ? 'active' : ''}" do %>
+      即将开始 <span class="tab-count"><%= @upcoming.count %></span>
+    <% end %>
+    <%= link_to events_path(filter: "past"), class: "tab #{params[:filter] == 'past' ? 'active' : ''}" do %>
+      已结束 <span class="tab-count"><%= @past.count %></span>
+    <% end %>
+    <%= link_to events_path(filter: "all"), class: "tab #{params[:filter] == 'all' ? 'active' : ''}" do %>
+      全部 <span class="tab-count"><%= @upcoming.count + @past.count %></span>
+    <% end %>
+  </div>
+
+  <% showing_past = params[:filter] == "past" %>
+  <% events_to_show = showing_past ? @past : (params[:filter] == "all" ? (@upcoming.to_a + @past.to_a) : @upcoming) %>
+  <% featured = events_to_show.select { |e| e.featured } %>
+  <% regular  = events_to_show.reject { |e| e.featured } %>
+
+  <%# Featured cards %>
+  <% if featured.any? && !showing_past %>
+    <div style="display:grid;grid-template-columns:<%= featured.size == 1 ? '1fr' : '1fr 1fr' %>;gap:16px;margin-bottom:24px;">
+      <% featured.each do |ev| %>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="height:96px;background:linear-gradient(135deg,<%= ev.color || '#ECFCCB' %> 0%,#FFFFFF 100%);padding:20px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--border);">
+            <div>
+              <div style="font-size:11px;font-weight:600;color:var(--text);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px;opacity:0.6;"><%= ev.kind %></div>
+              <div style="font-size:20px;font-weight:600;letter-spacing:-0.01em;"><%= ev.title %></div>
+            </div>
+            <span class="badge badge-success badge-dot">主舞台</span>
+          </div>
+          <div style="padding:20px;">
+            <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;font-size:13px;color:var(--text-2);">
+              <% if ev.date %>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <%= inline_svg_icon("calendar") %>
+                  <span><%= ev.date.strftime("%-m 月 %-d 日") %></span>
+                  <% if ev.time_label.present? %><span style="color:var(--text-3);">· <%= ev.time_label %></span><% end %>
+                </div>
+              <% end %>
+              <% if ev.location.present? %>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <%= inline_svg_icon("home") %>
+                  <span><%= ev.location %></span>
+                </div>
+              <% end %>
+              <% if ev.host.present? %>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <%= inline_svg_icon("user") %>
+                  <span>主办：<%= ev.host.display_name %></span>
+                </div>
+              <% end %>
+            </div>
+            <p style="margin:0 0 16px;font-size:13px;color:var(--text-2);line-height:1.6;"><%= ev.description %></p>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border);">
+              <span style="font-size:12px;color:var(--text-2);">
+                <strong style="color:var(--text)"><%= ev.going_count %></strong><% if ev.capacity.present? %> / <%= ev.capacity %><% end %> 人已报名
+              </span>
+              <% if logged_in? %>
+                <%= button_to "我要参加", "#", class: "btn btn-primary btn-sm" %>
+              <% else %>
+                <%= link_to "报名", new_identification_path, class: "btn btn-primary btn-sm" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# Regular list %>
+  <div class="stack" style="gap:12px;">
+    <% regular.each do |ev| %>
+      <div class="card" style="padding:16px;display:flex;align-items:center;gap:16px;<%= ev.status == 'past' ? 'opacity:0.75;' : '' %>">
+        <div style="width:64px;flex-shrink:0;background:<%= ev.color || 'var(--bg-elev)' %>;border-radius:8px;padding:10px 8px;text-align:center;border:1px solid var(--border);">
+          <div style="font-size:10px;color:var(--text-3);font-weight:600;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:2px;"><%= ev.date&.strftime("%-m月") || "—" %></div>
+          <div style="font-size:18px;font-weight:700;font-family:var(--font-mono);color:var(--text);"><%= ev.date&.strftime("%-d") || "?" %></div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <span class="badge" style="height:18px;font-size:10px;padding:0 6px;"><%= ev.kind %></span>
+            <span style="font-size:14px;font-weight:500;"><%= ev.title %></span>
+          </div>
+          <div style="font-size:12px;color:var(--text-3);display:flex;gap:12px;margin-bottom:4px;">
+            <% if ev.time_label.present? %><span><%= ev.time_label %></span><% end %>
+            <% if ev.location.present? %><span>· <%= ev.location %></span><% end %>
+            <% if ev.host.present? %><span>· 主办 <%= ev.host.display_name %></span><% end %>
+          </div>
+          <p style="margin:0;font-size:12px;color:var(--text-2);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;"><%= ev.description %></p>
+        </div>
+        <div style="flex-shrink:0;display:flex;align-items:center;gap:12px;">
+          <% if ev.status == "past" %>
+            <span class="badge">已结束 · <%= ev.going_count %> 人</span>
+          <% else %>
+            <span style="font-size:12px;color:var(--text-3);"><strong style="color:var(--text);font-family:var(--font-mono);"><%= ev.going_count %></strong><% if ev.capacity.present? %> / <%= ev.capacity %><% end %></span>
+            <% if logged_in? %>
+              <%= button_to "报名", "#", class: "btn btn-primary btn-sm" %>
+            <% else %>
+              <%= link_to "报名", new_identification_path, class: "btn btn-primary btn-sm" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if events_to_show.empty? %>
+    <div style="padding:60px;text-align:center;color:var(--text-3);">暂无活动</div>
+  <% end %>
+</div>

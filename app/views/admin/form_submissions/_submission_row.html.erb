@@ -1,0 +1,28 @@
+<button class="review-item"
+  data-review-queue-target="item"
+  data-action="click->review-queue#select"
+  data-submission-id="<%= submission.id %>">
+  <div class="avatar" style="width:32px;height:32px;font-size:13px;flex-shrink:0;background:hsl(<%= submission.id.bytes.sum % 360 %>,50%,55%);">
+    <%= submission.user.name&.first || submission.user.email&.first&.upcase || "?" %>
+  </div>
+  <div style="flex:1;min-width:0;">
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+      <span style="font-size:13px;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= submission.user.display_name %></span>
+      <% if submission.starred %>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <% end %>
+      <span style="font-size:11px;color:var(--text-3);flex-shrink:0;"><%= submission.submitted_at.strftime("%-m/%-d") %></span>
+    </div>
+    <div style="font-size:11px;color:var(--text-3);margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+      <% if submission.user.role.present? %>
+        <span class="badge" style="height:16px;font-size:10px;padding:0 6px;"><%= submission.user.role %></span>
+      <% end %>
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= submission.user.school %></span>
+    </div>
+    <% if submission.status != "pending" %>
+      <div style="margin-top:4px;">
+        <%= status_badge(submission.status) %>
+      </div>
+    <% end %>
+  </div>
+</button>

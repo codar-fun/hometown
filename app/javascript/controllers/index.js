@@ -15,3 +15,12 @@ application.register("hello", HelloController)
 
 import OtpInputController from "./otp_input_controller"
 application.register("otp-input", OtpInputController)
+
+import OtpController from "./otp_controller"
+application.register("otp", OtpController)
+
+import AuthToggleController from "./auth_toggle_controller"
+application.register("auth-toggle", AuthToggleController)
+
+import ReviewQueueController from "./review_queue_controller"
+application.register("review-queue", ReviewQueueController)

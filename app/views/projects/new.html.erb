@@ -1,0 +1,98 @@
+<% content_for :title, "提交项目 — Hometown" %>
+<div class="page" style="max-width:760px;">
+  <%= link_to projects_path, class: "btn btn-ghost btn-sm", style: "margin-bottom:12px;" do %>
+    <%= inline_svg_icon("arrow_left") %> 取消
+  <% end %>
+
+  <div class="page-header" style="border-bottom:none;margin-bottom:4px;padding-bottom:0;">
+    <div>
+      <h1 class="page-title">提交项目</h1>
+      <p class="page-subtitle">Hometown Hackathon 2026 · 在截止日期前提交你的作品</p>
+    </div>
+  </div>
+
+  <%= form_with model: @project, url: projects_path do |f| %>
+    <div class="card" style="padding:0;">
+
+      <%# Section 1: Basics %>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span style="width:22px;height:22px;border-radius:50%;background:var(--text);color:#FFF;display:grid;place-items:center;font-size:11px;font-weight:700;font-family:var(--font-mono);">1</span>
+          <h3 style="margin:0;font-size:14px;font-weight:600;">基础信息</h3>
+        </div>
+        <div class="stack" style="gap:14px;">
+          <div>
+            <label class="label">项目名称 <span style="color:var(--danger)">*</span></label>
+            <%= f.text_field :name, class: "input input-lg", placeholder: "给你的作品起一个好记的名字", maxlength: 40, required: true %>
+          </div>
+          <div>
+            <label class="label">一句话简介 <span style="color:var(--danger)">*</span></label>
+            <%= f.text_field :tagline, class: "input", placeholder: "一句话讲清楚你做了什么", maxlength: 80, required: true %>
+          </div>
+          <% if @hackathons.any? %>
+            <div>
+              <label class="label">所属黑客松</label>
+              <%= f.select :hackathon_id, @hackathons.map { |h| [h.name, h.id] }, { include_blank: "不关联" }, class: "select" %>
+            </div>
+          <% end %>
+          <div>
+            <label class="label">所属赛道</label>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+              <% ["Tools for Builders","AI Agents","为创作者","社区与社交","健康与生活","学习工具"].each do |track| %>
+                <label style="padding:12px 14px;text-align:left;border:1px solid var(--border);background:var(--surface);border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+                  <%= f.radio_button :track, track, style: "accent-color:var(--accent);" %>
+                  <span style="font-size:13px;font-weight:500;"><%= track %></span>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# Section 2: Details %>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span style="width:22px;height:22px;border-radius:50%;background:var(--text);color:#FFF;display:grid;place-items:center;font-size:11px;font-weight:700;font-family:var(--font-mono);">2</span>
+          <h3 style="margin:0;font-size:14px;font-weight:600;">项目详情</h3>
+        </div>
+        <div class="stack" style="gap:14px;">
+          <div>
+            <label class="label">详细描述 <span style="color:var(--danger)">*</span></label>
+            <%= f.text_area :description, class: "input textarea", style: "min-height:140px;font-family:var(--font-mono);font-size:13px;", placeholder: "讲讲你的项目 · 解决什么问题 · 用了什么技术…", required: true %>
+          </div>
+        </div>
+      </div>
+
+      <%# Section 3: Links %>
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <span style="width:22px;height:22px;border-radius:50%;background:var(--text);color:#FFF;display:grid;place-items:center;font-size:11px;font-weight:700;font-family:var(--font-mono);">3</span>
+          <h3 style="margin:0;font-size:14px;font-weight:600;">链接 · 演示</h3>
+        </div>
+        <div class="stack" style="gap:14px;">
+          <div>
+            <label class="label">在线 Demo URL</label>
+            <%= f.url_field :demo_url, class: "input", placeholder: "https://your-demo.com" %>
+          </div>
+          <div>
+            <label class="label">GitHub / 代码仓库</label>
+            <%= f.text_field :github_url, class: "input", placeholder: "github.com/yourname/repo" %>
+          </div>
+          <div>
+            <label class="label">演示视频 URL</label>
+            <%= f.url_field :video_url, class: "input", placeholder: "https://youtu.be/..." %>
+          </div>
+        </div>
+      </div>
+
+      <%# Footer %>
+      <div style="padding:16px 24px;border-top:1px solid var(--border);background:var(--bg-elev);display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:12px;color:var(--text-3);">填写带 * 号的必填项后可提交</span>
+        <div style="display:flex;gap:8px;">
+          <%= link_to projects_path, class: "btn" do %>取消<% end %>
+          <%= f.submit "正式提交", class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

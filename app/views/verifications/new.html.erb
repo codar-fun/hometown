@@ -1,26 +1,49 @@
-<% content_for :title, "Enter Code" %>
-<div class="auth-container" data-controller="otp-input">
-  <h1>Enter Your Code</h1>
-  <p class="subtitle">We sent a 6-digit code. Enter it below.</p>
-
-  <%= form_with url: verification_path, method: :post do |f| %>
-    <div class="form-group">
-      <%= f.label :code, "Verification Code" %>
-      <%= f.text_field :code,
-            placeholder: "123456",
-            autofocus: true,
-            maxlength: 6,
-            inputmode: "numeric",
-            pattern: "[0-9]{6}",
-            autocomplete: "one-time-code",
-            class: "form-input otp-input",
-            data: { otp_input_target: "field", action: "input->otp-input#autoSubmit" },
-            required: true %>
+<% content_for :title, "输入验证码 — Hometown" %>
+<div style="display:grid;place-items:center;min-height:80vh;padding:32px;">
+  <div style="width:min(420px,90vw);">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+      <div class="brand-mark">H</div>
+      <div style="font-weight:600;font-size:15px;">登录到 Hometown</div>
     </div>
-    <%= f.submit "Verify", class: "btn btn-primary" %>
-  <% end %>
 
-  <p class="resend-link">
-    <%= link_to "Request a new code", new_identification_path %>
-  </p>
+    <div class="card stack" style="gap:16px;">
+      <div>
+        <div style="font-size:14px;font-weight:500;margin-bottom:4px;">输入 6 位验证码</div>
+        <div style="font-size:12px;color:var(--text-2);">
+          验证码已发送至
+          <span style="color:var(--text);font-family:var(--font-mono);"><%= session[:otp_identifier] %></span>
+          <a href="<%= new_identification_path %>" style="margin-left:8px;color:var(--accent);font-size:12px;text-decoration:none;">改一下</a>
+        </div>
+      </div>
+
+      <%= form_with url: verification_path, method: :post,
+            data: { controller: "otp", otp_resend_in_value: 60 } do |f| %>
+        <div class="otp-box" data-action="paste->otp#paste">
+          <% 6.times do |i| %>
+            <input type="tel" inputmode="numeric" maxlength="1" class="otp-digit"
+              data-otp-target="digit"
+              data-action="input->otp#input keydown->otp#keydown">
+          <% end %>
+        </div>
+
+        <%# Collect all digit values into one hidden field via JS %>
+        <%= f.hidden_field :code, value: "" %>
+
+        <% if flash[:alert] %>
+          <div style="color:var(--danger);font-size:12px;text-align:center;"><%= flash[:alert] %></div>
+        <% end %>
+
+        <div style="font-size:12px;color:var(--text-3);text-align:center;">
+          <span data-otp-target="countdown">60 秒后可重新发送</span>
+          <button type="button" data-otp-target="resend" hidden
+            data-action="click->otp#resend"
+            style="color:var(--accent);background:none;border:none;cursor:pointer;font-size:12px;">
+            重新发送验证码
+          </button>
+        </div>
+
+        <%= f.submit "验证", class: "btn btn-primary btn-lg", style: "width:100%;justify-content:center;" %>
+      <% end %>
+    </div>
+  </div>
 </div>

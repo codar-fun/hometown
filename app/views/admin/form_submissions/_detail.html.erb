@@ -1,0 +1,103 @@
+<div class="review-detail-header">
+  <%= button_to star_admin_form_submission_path(submission), method: :patch, class: "btn btn-ghost btn-sm", title: "标星 (S)", data: { star_btn: "" } do %>
+    <svg width="14" height="14" viewBox="0 0 24 24" <%= submission.starred ? 'fill="#FBBF24" stroke="#FBBF24"' : 'fill="none" stroke="currentColor"' %> stroke-width="2">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+  <% end %>
+  <div style="flex:1;"></div>
+  <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-3);margin-right:8px;flex-shrink:0;">
+    <span class="kbd-key">J</span><span class="kbd-key">K</span>
+  </div>
+  <% if submission.status == "pending" %>
+    <%= button_to reject_admin_form_submission_path(submission), method: :patch, class: "btn btn-danger btn-sm", data: { reject_btn: "" } do %>
+      <%= inline_svg_icon("x") %> 拒绝 <span class="kbd-key" style="margin-left:4px;">X</span>
+    <% end %>
+    <%= button_to approve_admin_form_submission_path(submission), method: :patch, class: "btn btn-primary btn-sm", data: { approve_btn: "" } do %>
+      <%= inline_svg_icon("check") %> 批准 <span class="kbd-key" style="margin-left:4px;background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);color:#FFF;">E</span>
+    <% end %>
+  <% else %>
+    <%= status_badge(submission.status) %>
+  <% end %>
+</div>
+
+<div style="padding:28px 24px;max-width:760px;">
+  <%# Applicant header %>
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+    <div class="avatar" style="width:56px;height:56px;font-size:22px;background:hsl(<%= submission.id.bytes.sum % 360 %>,50%,55%);">
+      <%= submission.user.name&.first || "?" %>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:20px;font-weight:600;letter-spacing:-0.01em;margin-bottom:2px;"><%= submission.user.display_name %></div>
+      <div style="font-size:13px;color:var(--text-2);display:flex;align-items:center;gap:10px;">
+        <% if submission.user.handle.present? %>
+          <span class="mono">@<%= submission.user.handle %></span>
+          <span style="color:var(--text-3);">·</span>
+        <% end %>
+        <span>提交于 <%= submission.submitted_at.strftime("%-m 月 %-d 日 %H:%M") %></span>
+      </div>
+    </div>
+  </div>
+
+  <%# Info rows %>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:16px;">
+    <% if submission.user.email.present? %>
+      <div style="display:grid;grid-template-columns:110px 1fr;padding:12px 16px;border-bottom:1px solid var(--border);align-items:center;min-height:44px;gap:8px;">
+        <div style="font-size:12px;color:var(--text-3);">邮箱</div>
+        <div style="font-size:13px;font-family:var(--font-mono);"><%= submission.user.email %></div>
+      </div>
+    <% end %>
+    <% if submission.user.role.present? %>
+      <div style="display:grid;grid-template-columns:110px 1fr;padding:12px 16px;border-bottom:1px solid var(--border);align-items:center;min-height:44px;gap:8px;">
+        <div style="font-size:12px;color:var(--text-3);">主要角色</div>
+        <div><span class="badge"><%= submission.user.role %></span></div>
+      </div>
+    <% end %>
+    <% skills = Array(submission.user.skills) %>
+    <% if skills.any? %>
+      <div style="display:grid;grid-template-columns:110px 1fr;padding:12px 16px;border-bottom:1px solid var(--border);align-items:center;min-height:44px;gap:8px;">
+        <div style="font-size:12px;color:var(--text-3);">技术栈</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          <% skills.each do |s| %><span class="badge"><%= s %></span><% end %>
+        </div>
+      </div>
+    <% end %>
+    <% if submission.user.github.present? %>
+      <div style="display:grid;grid-template-columns:110px 1fr;padding:12px 16px;align-items:center;min-height:44px;gap:8px;">
+        <div style="font-size:12px;color:var(--text-3);">GitHub</div>
+        <div style="font-size:13px;font-family:var(--font-mono);color:var(--accent);"><%= submission.user.github %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Answers %>
+  <% answers = submission.form_answers.includes(:form_field).to_a %>
+  <% if answers.any? %>
+    <div class="card" style="margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px;">表单回答</div>
+      <div class="stack" style="gap:14px;">
+        <% answers.each do |ans| %>
+          <div>
+            <div style="font-size:12px;color:var(--text-3);margin-bottom:4px;"><%= ans.form_field.label %></div>
+            <div style="font-size:14px;line-height:1.6;"><%= ans.value %></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Admin note %>
+  <% if submission.admin_note.present? %>
+    <div class="card" style="background:var(--bg);border:1px dashed var(--border);margin-bottom:16px;">
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:6px;">备注</div>
+      <div style="font-size:13px;"><%= submission.admin_note %></div>
+    </div>
+  <% end %>
+
+  <%# Keyboard hint %>
+  <% if submission.status == "pending" %>
+    <div style="padding:12px 14px;background:var(--bg-elev);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-2);">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      提示：用 <span class="kbd-key">E</span> 批准、<span class="kbd-key">X</span> 拒绝、<span class="kbd-key">S</span> 标星 — 不用离开键盘。
+    </div>
+  <% end %>
+</div>

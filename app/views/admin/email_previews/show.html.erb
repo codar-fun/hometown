@@ -1,0 +1,100 @@
+<% content_for :title, "邮件预览 — Hometown" %>
+<div class="page" style="max-width:1100px;">
+  <div style="margin-bottom:24px;">
+    <h1 class="page-title">邮件通知预览</h1>
+    <p class="page-subtitle">报名通过后，发给申请者的邮件长这样。</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:180px 1fr;gap:16px;">
+    <div class="stack" style="gap:4px;">
+      <% [
+        { id: "approved", label: "已通过",   active: true },
+        { id: "rejected", label: "未通过",   active: false },
+        { id: "waitlist", label: "候补名单", active: false },
+        { id: "reminder", label: "活动前提醒", active: false },
+      ].each do |t| %>
+        <button class="nav-item <%= t[:active] ? 'active' : '' %>" style="justify-content:flex-start;gap:8px;">
+          <%= inline_svg_icon("mail") %> <%= t[:label] %>
+        </button>
+      <% end %>
+    </div>
+
+    <div>
+      <%# Email client mock %>
+      <div style="background:#FFFFFF;border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+        <%# Titlebar %>
+        <div style="background:#F5F5F4;padding:14px 20px;border-bottom:1px solid #E7E5E4;display:flex;align-items:center;gap:8px;">
+          <div style="display:flex;gap:6px;">
+            <span style="width:10px;height:10px;border-radius:50%;background:#FF5F57;display:inline-block;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#FEBC2E;display:inline-block;"></span>
+            <span style="width:10px;height:10px;border-radius:50%;background:#28C840;display:inline-block;"></span>
+          </div>
+          <span style="margin-left:12px;font-size:12px;color:#78716C;">邮件 — 收件箱</span>
+        </div>
+
+        <%# Subject + meta %>
+        <div style="padding:20px 28px 16px;border-bottom:1px solid #E7E5E4;color:#1C1917;">
+          <div style="font-size:18px;font-weight:600;margin-bottom:10px;color:#0C0A09;">🎉 你被录取了 — Hometown Hackathon 2026</div>
+          <div style="display:flex;gap:16px;font-size:12px;color:#78716C;flex-wrap:wrap;">
+            <span><strong style="color:#1C1917;">From</strong> Hometown &lt;hi@hometown.dev&gt;</span>
+            <% if @submission %>
+              <span><strong style="color:#1C1917;">To</strong> <%= @submission.user.email %></span>
+            <% else %>
+              <span><strong style="color:#1C1917;">To</strong> applicant@example.com</span>
+            <% end %>
+            <span style="margin-left:auto;"><%= Time.current.strftime("%-m 月 %-d 日 · %H:%M") %></span>
+          </div>
+        </div>
+
+        <%# Email body %>
+        <div style="padding:32px 28px;color:#1C1917;font-size:14px;line-height:1.7;font-family:system-ui,-apple-system,sans-serif;">
+          <div style="margin-bottom:24px;padding:4px 0;">
+            <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:#ECFCCB;color:#365314;border-radius:999px;font-size:12px;font-weight:600;">
+              ✓ 报名已通过
+            </div>
+          </div>
+
+          <p style="margin:0 0 16px;">嗨 <% if @submission %><%= @submission.user.name || @submission.user.email.split("@").first %><% else %>李明<% end %>，</p>
+          <p style="margin:0 0 16px;">
+            你的 Hometown Hackathon 2026 报名审核通过 — 我们很期待你来。
+            <% if @submission && (answer = @submission.form_answers.first) %>
+              组织者们浏览了你的回答，特别喜欢你提到的「<%= answer.value.to_s.truncate(30) %>…」。
+            <% else %>
+              组织者们浏览了你的项目想法，非常期待你的到来。
+            <% end %>
+          </p>
+
+          <div style="background:#FAFAF9;border:1px solid #E7E5E4;border-radius:8px;padding:16px;margin:20px 0;">
+            <div style="font-size:11px;color:#78716C;text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:10px;">活动信息</div>
+            <div style="display:grid;grid-template-columns:70px 1fr;gap:6px 12px;font-size:13px;">
+              <div style="color:#78716C;">日期</div><div>5 月 18 日 09:00 — 5 月 19 日 18:00</div>
+              <div style="color:#78716C;">地点</div><div>上海徐汇 · 西岸艺术中心 B 馆</div>
+              <div style="color:#78716C;">主题</div><div>Tools for Builders</div>
+              <div style="color:#78716C;">奖池</div><div>¥80,000 + 6 家公司面试直通</div>
+            </div>
+          </div>
+
+          <p style="margin:0 0 8px;">请在 5 月 5 日前完成以下两件事：</p>
+          <ul style="margin:0 0 20px 20px;padding:0;color:#1C1917;">
+            <li style="margin-bottom:6px;">填写 T 恤尺码和饮食偏好（5 分钟）</li>
+            <li style="margin-bottom:6px;">加入选手 Discord 频道找队友</li>
+          </ul>
+
+          <a href="#" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#0C0A09;color:#FFFFFF;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;">
+            完成参赛资料 →
+          </a>
+
+          <div style="margin-top:32px;padding-top:20px;border-top:1px solid #E7E5E4;font-size:12px;color:#78716C;line-height:1.6;">
+            有任何问题随时回复这封邮件，或者在 Discord 里 @ 组织者。<br>
+            — Avery，代表 Hometown 组织团队
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding:12px;background:var(--bg-elev);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        模板支持 <span class="mono" style="color:var(--accent);">{{name}}</span> <span class="mono" style="color:var(--accent);">{{idea}}</span> 等变量，会在发送时自动替换。
+      </div>
+    </div>
+  </div>
+</div>
