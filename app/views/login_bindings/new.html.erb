@@ -1,0 +1,73 @@
+<% content_for :title, "绑定登录方式 — Hometown" %>
+<div style="display:grid;place-items:center;min-height:80vh;padding:32px;">
+  <div style="width:min(480px,90vw);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+      <%= link_to edit_profile_path(current_user), class: "btn btn-ghost btn-sm" do %>
+        <%= inline_svg_icon("arrow_left") %>
+      <% end %>
+      <div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:1px;">账号安全</div>
+        <div style="font-weight:600;font-size:15px;">绑定登录方式</div>
+      </div>
+    </div>
+
+    <% if flash[:alert] %>
+      <div class="flash flash-alert" style="margin-bottom:16px;"><%= flash[:alert] %></div>
+    <% end %>
+
+    <div class="card stack" style="gap:0;padding:0;overflow:hidden;">
+      <%# Tab switcher %>
+      <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+        <%= link_to new_login_binding_path(type: "email"),
+              style: "padding:14px;text-align:center;font-size:13px;font-weight:500;text-decoration:none;border-right:1px solid var(--border);#{@type == 'email' ? 'color:var(--accent);border-bottom:2px solid var(--accent);margin-bottom:-1px;background:var(--bg);' : 'color:var(--text-2);background:var(--bg-elev);'}" do %>
+          邮箱
+        <% end %>
+        <%= link_to new_login_binding_path(type: "phone"),
+              style: "padding:14px;text-align:center;font-size:13px;font-weight:500;text-decoration:none;#{@type == 'phone' ? 'color:var(--accent);border-bottom:2px solid var(--accent);margin-bottom:-1px;background:var(--bg);' : 'color:var(--text-2);background:var(--bg-elev);'}" do %>
+          手机号
+        <% end %>
+      </div>
+
+      <%= form_with url: login_bindings_path, method: :post, class: "stack", style: "gap:16px;padding:24px;" do |f| %>
+        <%= hidden_field_tag :type, @type %>
+
+        <% if @type == "email" %>
+          <div>
+            <label class="label">邮箱地址</label>
+            <%= text_field_tag :value, current_user.email,
+                  type: "email", class: "input", autofocus: true,
+                  placeholder: "you@example.com" %>
+            <% if current_user.email.present? %>
+              <div style="font-size:11px;color:var(--text-3);margin-top:6px;">
+                当前：<span style="font-family:var(--font-mono);"><%= current_user.email %></span>
+              </div>
+            <% end %>
+          </div>
+          <p style="margin:0;font-size:12px;color:var(--text-2);line-height:1.5;">
+            我们将向该邮箱发送一个 6 位验证码，验证后完成绑定。
+          </p>
+        <% else %>
+          <div>
+            <label class="label">手机号</label>
+            <%= text_field_tag :value, current_user.phone,
+                  type: "tel", class: "input", autofocus: true,
+                  placeholder: "+86 138 0000 0000" %>
+            <% if current_user.phone.present? %>
+              <div style="font-size:11px;color:var(--text-3);margin-top:6px;">
+                当前：<span style="font-family:var(--font-mono);"><%= current_user.phone %></span>
+              </div>
+            <% end %>
+          </div>
+          <p style="margin:0;font-size:12px;color:var(--text-2);line-height:1.5;">
+            我们将向该手机号发送一个 6 位验证码，验证后完成绑定。
+          </p>
+        <% end %>
+
+        <div style="display:flex;gap:8px;">
+          <%= link_to edit_profile_path(current_user), class: "btn", style: "flex:1;justify-content:center;" do %>取消<% end %>
+          <%= f.submit "发送验证码", class: "btn btn-primary", style: "flex:2;justify-content:center;" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

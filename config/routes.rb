@@ -14,6 +14,14 @@ Rails.application.routes.draw do
   # User profiles
   resources :profiles, only: [ :show, :edit, :update ]
 
+  # Contact binding (add/update email or phone with OTP verification)
+  resources :login_bindings, only: [ :new, :create ] do
+    collection do
+      get  :verify
+      post :verify
+    end
+  end
+
   # Public forms and submissions
   resources :forms, only: [ :show ], param: :slug do
     resources :form_submissions, only: [ :new, :create ], shallow: true

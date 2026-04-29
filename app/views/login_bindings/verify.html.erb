@@ -1,0 +1,55 @@
+<% content_for :title, "输入验证码 — Hometown" %>
+<div style="display:grid;place-items:center;min-height:80vh;padding:32px;">
+  <div style="width:min(420px,90vw);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+      <%= link_to new_login_binding_path(type: @type), class: "btn btn-ghost btn-sm" do %>
+        <%= inline_svg_icon("arrow_left") %>
+      <% end %>
+      <div>
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:1px;">账号安全</div>
+        <div style="font-weight:600;font-size:15px;">验证登录方式</div>
+      </div>
+    </div>
+
+    <div class="card stack" style="gap:16px;">
+      <div>
+        <div style="font-size:14px;font-weight:500;margin-bottom:4px;">输入 6 位验证码</div>
+        <div style="font-size:12px;color:var(--text-2);">
+          已发送至
+          <span style="color:var(--text);font-family:var(--font-mono);"><%= @value %></span>
+        </div>
+      </div>
+
+      <%= form_with url: verify_login_bindings_path, method: :post,
+            data: { controller: "otp", "otp-resend-in-value": 60 } do |f| %>
+        <div class="otp-box" data-action="paste->otp#paste">
+          <% 6.times do %>
+            <input type="tel" inputmode="numeric" maxlength="1" class="otp-digit"
+              data-otp-target="digit"
+              data-action="input->otp#input keydown->otp#keydown">
+          <% end %>
+        </div>
+
+        <input type="hidden" name="code" value="" data-otp-target="codeField">
+
+        <% if @error %>
+          <div style="color:var(--danger);font-size:12px;text-align:center;"><%= @error %></div>
+        <% end %>
+        <% if flash[:notice] %>
+          <div style="color:var(--text-2);font-size:12px;text-align:center;"><%= flash[:notice] %></div>
+        <% end %>
+
+        <div style="font-size:12px;color:var(--text-3);text-align:center;">
+          <span data-otp-target="countdown"></span>
+          <button type="button" data-otp-target="resend" hidden
+            data-action="click->otp#resend"
+            style="color:var(--accent);background:none;border:none;cursor:pointer;font-size:12px;">
+            重新发送验证码
+          </button>
+        </div>
+
+        <%= f.submit "确认绑定", class: "btn btn-primary btn-lg", style: "width:100%;justify-content:center;" %>
+      <% end %>
+    </div>
+  </div>
+</div>
