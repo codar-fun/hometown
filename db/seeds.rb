@@ -60,7 +60,7 @@ puts "Users: #{User.count}"
 
 hack_form = Form.find_or_create_by!(slug: "hackathon-2026") do |f|
   f.title       = "黑客松报名表单"
-  f.description = "Hometown Hackathon 2026 · 5月18-19日 · 上海"
+  f.description = "数智乡建黑客松 2026 · 5月21-24日 · 福建屏南"
   f.published   = true
   f.created_by  = avery
 end
@@ -206,10 +206,10 @@ hackathon_2026.hackathon_tracks.destroy_all
 end
 
 [
-  { name: "ByteDance", position: 1 },
-  { name: "Vercel",    position: 2 },
-  { name: "Linear",    position: 3 },
-  { name: "Anthropic", position: 4 },
+  { name: "乡建DAO", position: 1 },
+  { name: "Social Layer",    position: 2 },
+  { name: "SeeDAO",    position: 3 },
+  { name: "NCC", position: 4 },
 ].each do |s|
   HackathonSponsor.find_or_create_by!(hackathon: hackathon_2026, name: s[:name]) do |sp|
     sp.position = s[:position]
