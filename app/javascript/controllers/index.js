@@ -24,3 +24,6 @@ application.register("auth-toggle", AuthToggleController)
 
 import ReviewQueueController from "./review_queue_controller"
 application.register("review-queue", ReviewQueueController)
+
+import SidebarController from "./sidebar_controller"
+application.register("sidebar", SidebarController)

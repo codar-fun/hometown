@@ -7,7 +7,7 @@
       <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);"></span>
       报名进行中 · 截止 5 月 10 日
     </div>
-    <h1 style="font-size:44px;font-weight:600;letter-spacing:-0.03em;margin:0 0 12px;line-height:1.1;">
+    <h1 style="font-size:clamp(28px,6vw,44px);font-weight:600;letter-spacing:-0.03em;margin:0 0 12px;line-height:1.1;">
       一个让独立开发者<br>
       <span style="color:var(--text-3);">不再孤单的</span> 社区。
     </h1>
@@ -27,7 +27,7 @@
   </div>
 
   <%# Feature grid %>
-  <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:32px;">
+  <div class="grid-2-1">
     <%# Hackathon card %>
     <% hackathon = featured_hackathon %>
     <% if hackathon %>

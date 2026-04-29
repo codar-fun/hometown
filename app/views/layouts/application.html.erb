@@ -12,21 +12,38 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
   <body>
-    <div class="app">
-      <%= render "layouts/sidebar" %>
-      <main class="main">
-        <% if notice %>
-          <div style="padding: 0 32px; padding-top: 16px;">
-            <div class="flash flash-notice"><%= notice %></div>
-          </div>
+    <div data-controller="sidebar">
+      <%# Backdrop — closes sidebar when tapped outside %>
+      <div class="sidebar-backdrop" data-sidebar-target="backdrop" data-action="click->sidebar#close"></div>
+
+      <%# Mobile top bar %>
+      <div class="mobile-bar">
+        <button class="hamburger" data-action="sidebar#open" aria-label="打开菜单">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="brand-mark" style="width:24px;height:24px;font-size:12px;border-radius:6px;">H</div>
+        <span style="font-weight:600;font-size:14px;letter-spacing:-0.01em;">Hometown</span>
+        <% if !logged_in? %>
+          <%= link_to new_identification_path, class: "btn btn-primary btn-sm", style: "margin-left:auto;" do %>登录<% end %>
         <% end %>
-        <% if alert %>
-          <div style="padding: 0 32px; padding-top: 16px;">
-            <div class="flash flash-alert"><%= alert %></div>
-          </div>
-        <% end %>
-        <%= yield %>
-      </main>
+      </div>
+
+      <div class="app">
+        <%= render "layouts/sidebar" %>
+        <main class="main">
+          <% if notice %>
+            <div style="padding: 0 32px; padding-top: 16px;">
+              <div class="flash flash-notice"><%= notice %></div>
+            </div>
+          <% end %>
+          <% if alert %>
+            <div style="padding: 0 32px; padding-top: 16px;">
+              <div class="flash flash-alert"><%= alert %></div>
+            </div>
+          <% end %>
+          <%= yield %>
+        </main>
+      </div>
     </div>
   </body>
 </html>
