@@ -153,6 +153,27 @@ hack_form.form_fields.destroy_all
     position:   9,
     options:    [],
   },
+  {
+    label:      "微信号",
+    field_type: "short_text",
+    required:   true,
+    position:   10,
+    options:    [],
+  },
+  {
+    label:      "手机号",
+    field_type: "phone",
+    required:   true,
+    position:   11,
+    options:    [],
+  },
+  {
+    label:      "GitHub 账号（选填）",
+    field_type: "url",
+    required:   false,
+    position:   12,
+    options:    [],
+  },
 ].each { |attrs| hack_form.form_fields.create!(attrs) }
 
 fields = hack_form.form_fields.order(:position).to_a
