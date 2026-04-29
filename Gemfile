@@ -31,7 +31,7 @@ gem "rotp"
 gem "phonelib"
 
 # Pagination for admin lists
-gem "pagy", "~> 9.0"
+gem "pagy", "~> 43.5"
 
 # SMS delivery via Twilio (wrapped behind a service object)
 gem "twilio-ruby", require: false
