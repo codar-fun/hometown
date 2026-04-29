@@ -42,6 +42,15 @@ gem "rack-attack"
 # Form field ordering
 gem "acts_as_list"
 
+# Aliyun SMS SDK
+gem "aliyunsdkcore"
+
+# CORS headers for API access
+gem "rack-cors"
+
+# Transactional email via Resend
+gem "resend"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
@@ -58,6 +67,9 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  # Load .env file automatically
+  gem "dotenv-rails"
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
