@@ -7,8 +7,7 @@ class Session < ApplicationRecord
 
   def self.find_by_token(raw)
     return nil if raw.blank?
-    digest = Digest::SHA256.hexdigest(raw)
-    find_by(token_digest: digest)
+    find_by(token_digest: Digest::SHA256.hexdigest(raw))
   end
 
   private
