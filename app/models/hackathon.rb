@@ -19,6 +19,7 @@ class Hackathon < ApplicationRecord
 
   scope :published, -> { where.not(status: "draft") }
   scope :live,      -> { where(status: "live") }
+  scope :featured,  -> { where(featured: true) }
 
   private
 

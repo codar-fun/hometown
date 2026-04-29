@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_080012) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_29_100707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -151,6 +151,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_080012) do
     t.string "currency", default: "CNY"
     t.text "description"
     t.date "end_date"
+    t.boolean "featured", default: false, null: false
     t.string "form_id"
     t.string "location"
     t.string "location_type", default: "onsite"

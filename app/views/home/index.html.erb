@@ -15,10 +15,10 @@
       Hometown 是为热爱手艺的工程师、设计师和产品人准备的小镇广场。我们办黑客松、办读书会、办深夜聊天 — 也帮你找到一起做事的人。
     </p>
     <div style="display:flex;gap:10px;">
-      <% hack_form = Form.where(published: true).order(created_at: :desc).first %>
-      <% if hack_form %>
-        <%= link_to form_path(hack_form.slug), class: "btn btn-primary btn-lg" do %>
-          报名 Hackathon 2026
+      <% featured_hackathon = Hackathon.featured.first %>
+      <% if featured_hackathon&.form&.published? %>
+        <%= link_to form_path(featured_hackathon.form.slug), class: "btn btn-primary btn-lg" do %>
+          报名黑客松
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         <% end %>
       <% end %>
@@ -29,7 +29,7 @@
   <%# Feature grid %>
   <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:32px;">
     <%# Hackathon card %>
-    <% hackathon = Hackathon.where(status: "live").order(start_date: :asc).first %>
+    <% hackathon = featured_hackathon %>
     <% if hackathon %>
       <div class="card" style="background:linear-gradient(135deg,#F7FEE7 0%,#FFFFFF 60%);border-color:#D9F99D;padding:28px;position:relative;overflow:hidden;">
         <div style="position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(77,124,15,0.10),transparent 70%);border-radius:50%;"></div>
