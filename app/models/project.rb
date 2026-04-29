@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   belongs_to :hackathon, optional: true
+  belongs_to :team, optional: true
   has_many :project_team_members, dependent: :destroy
   has_many :team_members, through: :project_team_members, source: :user
   has_many :project_likes, dependent: :destroy

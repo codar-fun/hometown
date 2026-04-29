@@ -17,6 +17,9 @@ class User < ApplicationRecord
   has_many :follows_as_following, class_name: "UserFollow", foreign_key: :following_id, dependent: :destroy
   has_many :following, through: :follows_as_follower, source: :following
   has_many :followers, through: :follows_as_following, source: :follower
+  has_many :owned_teams, class_name: "Team", foreign_key: :owner_id, dependent: :destroy
+  has_many :team_memberships, class_name: "TeamMember", dependent: :destroy
+  has_many :teams, through: :team_memberships
   has_one_attached :avatar
 
   validates :email,

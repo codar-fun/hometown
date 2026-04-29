@@ -1,0 +1,45 @@
+<% content_for :title, "团队列表 — Hometown" %>
+<div class="page" style="max-width:900px;">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">团队</h1>
+      <p class="page-subtitle">找到志同道合的伙伴，组队参加黑客松</p>
+    </div>
+    <% if logged_in? %>
+      <%= link_to new_team_path, class: "btn btn-primary" do %>+ 创建团队<% end %>
+    <% end %>
+  </div>
+
+  <% if @teams.any? %>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;">
+      <% @teams.each do |team| %>
+        <%= link_to team_path(team), style: "text-decoration:none;display:block;" do %>
+          <div class="card" style="padding:20px;transition:border-color .15s;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+              <div class="avatar" style="width:40px;height:40px;font-size:16px;border-radius:10px;<%= team.avatar_color.present? ? "background:#{team.avatar_color};color:#0C0A09;" : "" %>">
+                <%= team.name&.first&.upcase || "?" %>
+              </div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:15px;font-weight:600;color:var(--text);"><%= team.name %></div>
+                <div style="font-size:11px;color:var(--text-3);font-family:var(--font-mono);">@<%= team.slug %></div>
+              </div>
+            </div>
+            <% if team.description.present? %>
+              <p style="font-size:13px;color:var(--text-2);margin:0 0 12px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"><%= team.description %></p>
+            <% end %>
+            <div style="font-size:11px;color:var(--text-3);">
+              <%= team.team_members.size %> 位成员 · 由 <%= team.owner.display_name %> 创建
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="card" style="text-align:center;padding:48px 24px;">
+      <p style="color:var(--text-3);font-size:14px;margin:0 0 16px;">还没有团队，来创建第一个吧！</p>
+      <% if logged_in? %>
+        <%= link_to new_team_path, class: "btn btn-primary" do %>创建团队<% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

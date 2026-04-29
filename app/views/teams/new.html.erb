@@ -1,0 +1,10 @@
+<% content_for :title, "创建团队 — Hometown" %>
+<div class="page" style="max-width:640px;">
+  <div class="page-header" style="border-bottom:none;margin-bottom:4px;padding-bottom:0;">
+    <div>
+      <h1 class="page-title">创建团队</h1>
+      <p class="page-subtitle">组建你的开发团队，一起参加黑客松</p>
+    </div>
+  </div>
+  <%= render "form", team: @team, url: teams_path, submit_label: "创建团队" %>
+</div>

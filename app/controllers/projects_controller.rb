@@ -20,6 +20,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @hackathons = Hackathon.where(status: %w[live reviewing]).order(start_date: :desc)
+    @teams = logged_in? ? current_user.teams.order(:name) : []
   end
 
   def create
@@ -31,6 +32,7 @@ class ProjectsController < ApplicationController
       redirect_to project_path(@project), notice: "项目已提交"
     else
       @hackathons = Hackathon.where(status: %w[live reviewing]).order(start_date: :desc)
+      @teams = current_user.teams.order(:name)
       render :new, status: :unprocessable_entity
     end
   end
@@ -38,7 +40,7 @@ class ProjectsController < ApplicationController
   private
 
   def project_params
-    params.require(:project).permit(:name, :tagline, :hackathon_id, :track,
+    params.require(:project).permit(:name, :tagline, :hackathon_id, :team_id, :track,
       :cover_color, :cover_pattern, :description, :demo_url, :github_url,
       :video_url, tech: [], seeking: [])
   end

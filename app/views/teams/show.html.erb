@@ -1,0 +1,83 @@
+<% content_for :title, "#{@team.name} — Hometown" %>
+<div class="page" style="max-width:880px;">
+  <%= link_to teams_path, class: "btn btn-ghost btn-sm", style: "margin-bottom:12px;" do %>
+    <%= inline_svg_icon("arrow_left") %> 团队列表
+  <% end %>
+
+  <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+    <div class="avatar" style="width:56px;height:56px;font-size:22px;border-radius:14px;flex-shrink:0;<%= @team.avatar_color.present? ? "background:#{@team.avatar_color};color:#0C0A09;" : "" %>">
+      <%= @team.name&.first&.upcase || "?" %>
+    </div>
+    <div style="flex:1;min-width:0;">
+      <h1 style="font-size:24px;font-weight:600;letter-spacing:-0.02em;margin:0 0 4px;"><%= @team.name %></h1>
+      <div style="font-size:12px;color:var(--text-3);font-family:var(--font-mono);">@<%= @team.slug %></div>
+    </div>
+    <% if @is_owner %>
+      <%= link_to edit_team_path(@team), class: "btn btn-sm" do %>编辑<% end %>
+    <% end %>
+  </div>
+
+  <div class="grid-2-1" style="gap:20px;">
+    <div class="stack" style="gap:16px;">
+      <% if @team.description.present? %>
+        <div class="card">
+          <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:8px;">关于团队</div>
+          <p style="margin:0;font-size:14px;line-height:1.6;white-space:pre-wrap;"><%= @team.description %></p>
+        </div>
+      <% end %>
+
+      <%# Add member form (owner only) %>
+      <% if @is_owner %>
+        <div class="card">
+          <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">添加成员</div>
+          <%= form_with url: team_team_members_path(@team), method: :post, style: "display:flex;gap:8px;" do |f| %>
+            <%= f.text_field :handle, class: "input", style: "flex:1;", placeholder: "用户名 / 邮箱 / 用户 ID" %>
+            <%= f.submit "添加", class: "btn btn-primary btn-sm" %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="stack" style="gap:16px;">
+      <div class="card">
+        <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">
+          成员 (<%= @team_members.size %>)
+        </div>
+        <div class="stack" style="gap:10px;">
+          <% @team_members.each do |tm| %>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="avatar" style="width:32px;height:32px;font-size:13px;flex-shrink:0;">
+                <%= tm.user.name&.first&.upcase || "?" %>
+              </div>
+              <div style="flex:1;min-width:0;">
+                <%= link_to profile_path(tm.user), style: "font-size:13px;font-weight:500;color:var(--text);text-decoration:none;" do %>
+                  <%= tm.user.display_name %>
+                <% end %>
+                <% if @team.owner?(tm.user) %>
+                  <div style="font-size:11px;color:var(--accent);">创建者</div>
+                <% elsif tm.joined_at.present? %>
+                  <div style="font-size:11px;color:var(--text-3);">加入于 <%= tm.joined_at.strftime("%Y-%m-%d") %></div>
+                <% end %>
+              </div>
+              <% unless @team.owner?(tm.user) %>
+                <% if @is_owner || tm.user == current_user %>
+                  <%= button_to team_team_member_path(@team, tm), method: :delete,
+                      class: "btn btn-ghost btn-sm",
+                      style: "font-size:11px;padding:2px 8px;color:var(--danger);",
+                      data: { turbo_confirm: tm.user == current_user ? "确定退出团队？" : "确定移出该成员？" } do %>
+                    <%= tm.user == current_user ? "退出" : "移出" %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="card" style="padding:16px;text-align:center;">
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:4px;">创建于</div>
+        <div style="font-size:13px;font-weight:500;"><%= @team.created_at.strftime("%Y 年 %-m 月 %-d 日") %></div>
+      </div>
+    </div>
+  </div>
+</div>

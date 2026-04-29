@@ -35,6 +35,12 @@
               <%= f.select :hackathon_id, @hackathons.map { |h| [h.name, h.id] }, { include_blank: "不关联" }, class: "select" %>
             </div>
           <% end %>
+          <% if @teams.any? %>
+            <div>
+              <label class="label">代表团队</label>
+              <%= f.select :team_id, @teams.map { |t| [t.name, t.id] }, { include_blank: "个人参赛" }, class: "select" %>
+            </div>
+          <% end %>
           <div>
             <label class="label">所属赛道</label>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">

@@ -1,0 +1,12 @@
+<% content_for :title, "编辑团队 — Hometown" %>
+<div class="page" style="max-width:640px;">
+  <%= link_to team_path(@team), class: "btn btn-ghost btn-sm", style: "margin-bottom:12px;" do %>
+    <%= inline_svg_icon("arrow_left") %> 返回团队
+  <% end %>
+  <div class="page-header" style="border-bottom:none;margin-bottom:4px;padding-bottom:0;">
+    <div>
+      <h1 class="page-title">编辑团队</h1>
+    </div>
+  </div>
+  <%= render "form", team: @team, url: team_path(@team), submit_label: "保存修改" %>
+</div>

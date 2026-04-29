@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_100707) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_29_175233) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -215,6 +215,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_100707) do
     t.jsonb "seeking", default: []
     t.datetime "submitted_at"
     t.string "tagline"
+    t.string "team_id"
     t.jsonb "tech", default: []
     t.string "track"
     t.datetime "updated_at", null: false
@@ -234,6 +235,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_100707) do
     t.string "user_id", null: false
     t.index ["token_digest"], name: "index_sessions_on_token_digest", unique: true
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "team_members", id: :string, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "joined_at"
+    t.string "team_id", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.index ["team_id", "user_id"], name: "index_team_members_on_team_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_team_members_on_user_id"
+  end
+
+  create_table "teams", id: :string, force: :cascade do |t|
+    t.string "avatar_color"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.string "owner_id", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_teams_on_owner_id"
+    t.index ["slug"], name: "index_teams_on_slug", unique: true
   end
 
   create_table "user_follows", id: :string, force: :cascade do |t|
@@ -300,6 +323,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_100707) do
   add_foreign_key "project_team_members", "users"
   add_foreign_key "projects", "hackathons"
   add_foreign_key "sessions", "users"
+  add_foreign_key "team_members", "teams"
+  add_foreign_key "team_members", "users"
+  add_foreign_key "teams", "users", column: "owner_id"
   add_foreign_key "user_follows", "users", column: "follower_id"
   add_foreign_key "user_follows", "users", column: "following_id"
   add_foreign_key "verification_codes", "users"

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   resources :events,   only: [ :index ]
   resources :projects, only: [ :index, :show, :new, :create ]
   resources :members,  only: [ :index ]
+  resources :teams, only: [ :index, :show, :new, :create, :edit, :update ] do
+    resources :team_members, only: [ :create, :destroy ]
+  end
 
   # User profiles
   resources :profiles, only: [ :show, :edit, :update ]

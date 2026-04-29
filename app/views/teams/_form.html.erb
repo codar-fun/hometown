@@ -1,0 +1,37 @@
+<%= form_with model: team, url: url do |f| %>
+  <div class="card" style="padding:0;">
+    <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+      <div class="stack" style="gap:14px;">
+        <div>
+          <label class="label">团队名称 <span style="color:var(--danger)">*</span></label>
+          <%= f.text_field :name, class: "input input-lg", placeholder: "给团队起一个好名字", maxlength: 60, required: true %>
+        </div>
+        <div>
+          <label class="label">团队标识 (slug)</label>
+          <%= f.text_field :slug, class: "input", placeholder: "my-awesome-team", style: "font-family:var(--font-mono);" %>
+          <div style="font-size:11px;color:var(--text-3);margin-top:4px;">只允许小写字母、数字和连字符，留空自动生成</div>
+        </div>
+        <div>
+          <label class="label">简介</label>
+          <%= f.text_area :description, class: "input textarea", style: "min-height:100px;", placeholder: "介绍一下你们团队…" %>
+        </div>
+        <div>
+          <label class="label">主题色</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <% %w[#BBF7D0 #BAE6FD #FDE68A #FECACA #E9D5FF #FED7AA #A7F3D0 #D1FAE5].each do |color| %>
+              <label style="cursor:pointer;">
+                <%= f.radio_button :avatar_color, color, style: "display:none;" %>
+                <span style="display:block;width:28px;height:28px;border-radius:50%;background:<%= color %>;border:2px solid <%= team.avatar_color == color ? 'var(--text)' : 'transparent' %>;transition:border-color .1s;"></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:16px 24px;display:flex;justify-content:flex-end;gap:8px;">
+      <%= link_to teams_path, class: "btn" do %>取消<% end %>
+      <%= f.submit submit_label, class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
