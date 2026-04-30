@@ -1,0 +1,19 @@
+hackathon_form:
+  id: "form_hackathon_001"
+  title: "Hackathon 2026 Registration"
+  slug: "hackathon-2026-test"
+  description: "Test hackathon registration form"
+  published: true
+  created_by_id: "user_admin_003"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+unpublished_form:
+  id: "form_unpub_002"
+  title: "Draft Form"
+  slug: "draft-form-test"
+  description: "Not published"
+  published: false
+  created_by_id: "user_admin_003"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

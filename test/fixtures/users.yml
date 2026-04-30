@@ -1,0 +1,23 @@
+member:
+  id: "user_member_001"
+  email: "member@example.com"
+  name: "Test Member"
+  role: "member"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+other_member:
+  id: "user_other_002"
+  email: "other@example.com"
+  name: "Other Member"
+  role: "member"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+admin:
+  id: "user_admin_003"
+  email: "admin@example.com"
+  name: "Admin User"
+  role: "admin"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

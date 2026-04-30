@@ -1,0 +1,32 @@
+name_field:
+  id: "field_name_001"
+  form_id: "form_hackathon_001"
+  label: "姓名"
+  field_type: "short_text"
+  required: true
+  position: 1
+  options: "[]"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+intro_field:
+  id: "field_intro_002"
+  form_id: "form_hackathon_001"
+  label: "自我介绍"
+  field_type: "long_text"
+  required: true
+  position: 2
+  options: "[]"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+github_field:
+  id: "field_github_003"
+  form_id: "form_hackathon_001"
+  label: "GitHub 账号"
+  field_type: "short_text"
+  required: false
+  position: 3
+  options: "[]"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

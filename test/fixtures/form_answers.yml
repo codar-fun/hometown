@@ -1,0 +1,15 @@
+answer_name:
+  id: "ans_name_001"
+  form_submission_id: "sub_existing_001"
+  form_field_id: "field_name_001"
+  value: "张三"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+answer_intro:
+  id: "ans_intro_002"
+  form_submission_id: "sub_existing_001"
+  form_field_id: "field_intro_002"
+  value: "我是一名独立开发者"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

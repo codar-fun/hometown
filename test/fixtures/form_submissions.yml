@@ -1,0 +1,8 @@
+existing_submission:
+  id: "sub_existing_001"
+  form_id: "form_hackathon_001"
+  user_id: "user_member_001"
+  status: "pending"
+  submitted_at: <%= Time.current %>
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
