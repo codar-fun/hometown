@@ -1,0 +1,39 @@
+lib/send_sms.rb
+  b2a4b8d6fb27cb01 87-89,102
+app/controllers/identifications_controller.rb
+  b2a4b8d6fb27cb01 38
+app/views/form_submissions/_form_field_input.html.erb
+  b2a4b8d6fb27cb01 4-7,10,13,16,22,25,28,35-36,38,51,53,62,67-69,71,77
+app/models/user.rb
+  b2a4b8d6fb27cb01 54
+app/views/form_submissions/show.html.erb
+  b2a4b8d6fb27cb01 70-72
+config/initializers/phonelib.rb
+  b2a4b8d6fb27cb01 1
+app/controllers/form_submissions_controller.rb
+  b2a4b8d6fb27cb01 4,30-34,38-66,69-74
+config/routes.rb
+  b2a4b8d6fb27cb01 32
+app/views/form_submissions/edit.html.erb
+  b2a4b8d6fb27cb01 1-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "14262f27176aba8a62dd085acc65c69e845274dd",
+  "prompts": {
+    "b2a4b8d6fb27cb01": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus",
+      "messages": [],
+      "total_additions": 120,
+      "total_deletions": 20,
+      "accepted_lines": 120,
+      "overriden_lines": 1
+    }
+  }
+}
