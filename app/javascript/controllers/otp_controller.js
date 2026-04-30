@@ -5,6 +5,7 @@ export default class extends Controller {
   static values = { resendIn: { type: Number, default: 60 } }
 
   connect() {
+    this._submitted = false
     this.digitTargets[0]?.focus()
     if (this.resendInValue > 0) this.startCountdown()
   }
@@ -45,8 +46,8 @@ export default class extends Controller {
     e.preventDefault()
     const digits = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6)
     if (digits.length === 6) {
+      // Set values without triggering input events
       this.digitTargets.forEach((el, i) => { el.value = digits[i] || "" })
-      this.digitTargets[5].focus()
       this.maybeSubmit()
     }
   }
@@ -54,6 +55,8 @@ export default class extends Controller {
   maybeSubmit() {
     const code = this.digitTargets.map(el => el.value).join("")
     if (code.length !== 6) return
+    if (this._submitted) return
+    this._submitted = true
     if (this.hasCodeFieldTarget) this.codeFieldTarget.value = code
     setTimeout(() => this.element.closest("form")?.requestSubmit(), 150)
   }
