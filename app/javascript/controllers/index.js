@@ -27,3 +27,6 @@ application.register("review-queue", ReviewQueueController)
 
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
+
+import FormController from "./form_controller"
+application.register("form", FormController)

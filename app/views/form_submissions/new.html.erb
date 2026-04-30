@@ -19,7 +19,8 @@
   <% end %>
 
   <%= form_with url: form_form_submissions_path(@form), method: :post,
-        multipart: true, class: "stack", style: "gap:24px;" do |f| %>
+        multipart: true, class: "stack", style: "gap:24px;",
+        data: { controller: "form", action: "keydown->form#preventEnter" } do |f| %>
 
     <% @form.form_fields.order(:position).each do |field| %>
       <div>
