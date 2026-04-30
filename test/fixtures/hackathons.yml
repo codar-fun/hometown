@@ -1,0 +1,27 @@
+live_hackathon:
+  id: "hack_live_001"
+  name: "Hackathon 2026"
+  slug: "hackathon-2026"
+  status: "live"
+  review_mode: "manual"
+  location_type: "onsite"
+  capacity: 100
+  prize_pool: "10000.00"
+  currency: "CNY"
+  created_by_id: "user_admin_003"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>
+
+draft_hackathon:
+  id: "hack_draft_002"
+  name: "Draft Hackathon"
+  slug: "draft-hackathon"
+  status: "draft"
+  review_mode: "manual"
+  location_type: "online"
+  capacity: 50
+  prize_pool: "0.00"
+  currency: "CNY"
+  created_by_id: "user_admin_003"
+  created_at: <%= Time.current %>
+  updated_at: <%= Time.current %>

@@ -19,6 +19,7 @@ class Admin::HackathonsController < Admin::BaseController
   def new
     @hackathon = Hackathon.new(status: "draft", currency: "CNY", review_mode: "manual",
                                location_type: "onsite", capacity: 100)
+    @forms = Form.order(created_at: :desc)
   end
 
   def create
@@ -27,6 +28,7 @@ class Admin::HackathonsController < Admin::BaseController
     if @hackathon.save
       redirect_to edit_admin_hackathon_path(@hackathon), notice: "黑客松已创建"
     else
+      @forms = Form.order(created_at: :desc)
       render :new, status: :unprocessable_entity
     end
   end
