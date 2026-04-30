@@ -1,0 +1,45 @@
+<% content_for :title, "修改报名 — #{@submission.form.title}" %>
+<div style="max-width:640px;margin:0 auto;padding:40px 24px 80px;">
+
+  <%# Header %>
+  <div style="margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+      <div class="brand-mark">H</div>
+      <div style="font-size:13px;color:var(--text-2);">Hometown</div>
+    </div>
+    <div style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">修改报名</div>
+    <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;letter-spacing:-0.02em;"><%= @submission.form.title %></h1>
+    <p style="margin:0;font-size:14px;color:var(--text-2);line-height:1.6;">你的报名正在审核中，可以在此修改内容。</p>
+  </div>
+
+  <% if flash[:alert] %>
+    <div class="flash flash-alert" style="margin-bottom:24px;"><%= flash[:alert] %></div>
+  <% end %>
+
+  <%= form_with url: form_submission_path(@submission), method: :patch,
+        multipart: true, class: "stack", style: "gap:24px;",
+        data: { controller: "form", action: "keydown->form#preventEnter" } do |f| %>
+
+    <% @submission.form.form_fields.order(:position).each do |field| %>
+      <% answer = @submission.form_answers.find { |a| a.form_field_id == field.id } %>
+      <% current_value = answer&.value %>
+      <% current_value = answer.file_attachment.filename.to_s if field.field_type == "file" && answer&.file_attachment&.attached? %>
+      <div>
+        <label style="display:block;font-size:14px;font-weight:500;margin-bottom:<%= field.field_type.in?(%w[radio checkbox]) ? '10px' : '6px' %>;">
+          <%= field.label %>
+          <% if field.required? %>
+            <span style="color:var(--danger);margin-left:2px;">*</span>
+          <% end %>
+        </label>
+        <%= render "form_field_input", field: field, value: current_value %>
+      </div>
+    <% end %>
+
+    <div style="display:flex;gap:10px;padding-top:8px;border-top:1px solid var(--border);">
+      <%= link_to form_submission_path(@submission), class: "btn" do %>取消<% end %>
+      <button type="submit" class="btn btn-primary btn-lg" style="flex:1;justify-content:center;">
+        保存修改
+      </button>
+    </div>
+  <% end %>
+</div>

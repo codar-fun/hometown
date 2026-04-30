@@ -33,7 +33,7 @@ export default class extends Controller {
     }
     if (this.hasInputTarget) {
       this.inputTarget.type = isPhone ? "tel" : "email"
-      this.inputTarget.placeholder = isPhone ? "+86 138 0000 0000" : "you@example.com"
+      this.inputTarget.placeholder = isPhone ? "138 0000 0000" : "you@example.com"
       this.inputTarget.name = isPhone ? "phone" : "email"
       this.inputTarget.value = ""
       this.inputTarget.focus()

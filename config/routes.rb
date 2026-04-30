@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :forms, only: [ :show ], param: :slug do
     resources :form_submissions, only: [ :new, :create ], shallow: true
   end
-  resources :form_submissions, only: [ :show ]
+  resources :form_submissions, only: [ :show, :edit, :update ]
 
   # Admin namespace
   namespace :admin do

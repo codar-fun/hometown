@@ -35,7 +35,7 @@ class IdentificationsController < ApplicationController
       return nil unless identifier.match?(URI::MailTo::EMAIL_REGEXP)
       User.find_or_create_by!(email: identifier.downcase) { |u| u.role = "member" }
     else
-      parsed = Phonelib.parse(identifier)
+      parsed = Phonelib.parse(identifier, "CN")
       return nil unless parsed.valid?
       User.find_or_create_by!(phone: parsed.e164) { |u| u.role = "member" }
     end

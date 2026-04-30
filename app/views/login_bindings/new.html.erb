@@ -51,7 +51,7 @@
             <label class="label">手机号</label>
             <%= text_field_tag :value, current_user.phone,
                   type: "tel", class: "input", autofocus: true,
-                  placeholder: "+86 138 0000 0000" %>
+                  placeholder: "138 0000 0000" %>
             <% if current_user.phone.present? %>
               <div style="font-size:11px;color:var(--text-3);margin-top:6px;">
                 当前：<span style="font-family:var(--font-mono);"><%= current_user.phone %></span>

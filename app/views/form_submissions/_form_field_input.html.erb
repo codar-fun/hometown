@@ -1,36 +1,41 @@
 <% field_name = field.id.to_s %>
 <% opts = Array(field.options) %>
 <% ft = field.field_type %>
+<% current_value = defined?(value) ? value : nil %>
+<%# For checkbox/radio, parse JSON array if stored that way %>
+<% selected_values = begin; JSON.parse(current_value); rescue; Array(current_value); end if current_value.present? %>
+<% selected_values ||= [] %>
 
 <% if ft == "short_text" %>
-  <%= text_field_tag field_name, nil, class: "input", required: field.required?, placeholder: field.label %>
+  <%= text_field_tag field_name, current_value, class: "input", required: field.required?, placeholder: field.label %>
 
 <% elsif ft == "long_text" %>
-  <%= text_area_tag field_name, nil, class: "input textarea", style: "min-height:120px;", required: field.required?, placeholder: "请输入..." %>
+  <%= text_area_tag field_name, current_value, class: "input textarea", style: "min-height:120px;", required: field.required?, placeholder: "请输入..." %>
 
 <% elsif ft == "email" %>
-  <%= email_field_tag field_name, nil, class: "input", required: field.required?, placeholder: "you@example.com" %>
+  <%= email_field_tag field_name, current_value, class: "input", required: field.required?, placeholder: "you@example.com" %>
 
 <% elsif ft == "phone" %>
-  <%= telephone_field_tag field_name, nil, class: "input", required: field.required?, placeholder: "+86 138 0000 0000" %>
+  <%= telephone_field_tag field_name, current_value, class: "input", required: field.required?, placeholder: "138 0000 0000" %>
 
 <% elsif ft == "url" %>
-  <%= text_field_tag field_name, nil, class: "input", required: field.required?, placeholder: "https://" %>
+  <%= text_field_tag field_name, current_value, class: "input", required: field.required?, placeholder: "https://" %>
 
 <% elsif ft == "number" %>
-  <%= number_field_tag field_name, nil, class: "input", required: field.required? %>
+  <%= number_field_tag field_name, current_value, class: "input", required: field.required? %>
 
 <% elsif ft == "date" %>
-  <%= date_field_tag field_name, nil, class: "input", required: field.required? %>
+  <%= date_field_tag field_name, current_value, class: "input", required: field.required? %>
 
 <% elsif ft == "radio" %>
   <div class="stack" style="gap:8px;">
     <% opts.each do |opt| %>
       <% val = opt.is_a?(Hash) ? opt["value"] : opt %>
       <% lbl = opt.is_a?(Hash) ? opt["label"] : opt %>
-      <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;"
+      <% checked = selected_values.include?(val) %>
+      <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid <%= checked ? 'var(--accent)' : 'var(--border)' %>;border-radius:8px;cursor:pointer;<%= checked ? 'background:var(--bg-elev);' : '' %>"
              onclick="this.closest('.stack').querySelectorAll('label').forEach(function(l){l.style.background='';l.style.borderColor='var(--border)'});this.style.background='var(--bg-elev)';this.style.borderColor='var(--accent)'">
-        <%= radio_button_tag field_name, val, false,
+        <%= radio_button_tag field_name, val, checked,
               required: field.required?,
               style: "width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;" %>
         <span style="font-size:14px;"><%= lbl %></span>
@@ -43,8 +48,9 @@
     <% opts.each do |opt| %>
       <% val = opt.is_a?(Hash) ? opt["value"] : opt %>
       <% lbl = opt.is_a?(Hash) ? opt["label"] : opt %>
+      <% checked = selected_values.include?(val) %>
       <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;cursor:pointer;">
-        <%= check_box_tag "#{field_name}[]", val, false,
+        <%= check_box_tag "#{field_name}[]", val, checked,
               style: "width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;" %>
         <span style="font-size:14px;"><%= lbl %></span>
       </label>
@@ -53,18 +59,21 @@
 
 <% elsif ft == "select" %>
   <%= select_tag field_name,
-        options_for_select(opts.map { |o| o.is_a?(Hash) ? [o["label"], o["value"]] : [o, o] }),
+        options_for_select(opts.map { |o| o.is_a?(Hash) ? [o["label"], o["value"]] : [o, o] }, current_value),
         include_blank: "请选择…", class: "select", required: field.required? %>
 
 <% elsif ft == "file" %>
   <div data-controller="file-preview">
+    <% if current_value.present? %>
+      <div style="font-size:13px;color:var(--text-2);margin-bottom:6px;">当前文件：<%= current_value %></div>
+    <% end %>
     <%= file_field_tag "file_#{field_name}", class: "input", style: "font-size:13px;", accept: "*/*",
-          required: field.required?,
+          required: field.required? && current_value.blank?,
           data: { file_preview_target: "input", action: "change->file-preview#show" } %>
     <span data-file-preview-target="preview" style="font-size:12px;color:var(--text-3);margin-top:4px;display:block;"></span>
   </div>
 
 <% else %>
-  <%= text_field_tag field_name, nil, class: "input", required: field.required? %>
+  <%= text_field_tag field_name, current_value, class: "input", required: field.required? %>
 
 <% end %>

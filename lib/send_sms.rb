@@ -84,6 +84,9 @@ module SendSms
     end
 
     def self.send_sms_aliyun(phone, code)
+        # Aliyun domestic SMS expects bare 11-digit number; strip +86 / 86 prefix if present
+        normalized = phone.to_s.gsub(/\A\+?86/, "").strip
+
         client = RPCClient.new(
           access_key_id: ENV["ACCESS_KEY_ID"],
           access_key_secret: ENV["ACCESS_KEY_SECRET"],
@@ -96,7 +99,7 @@ module SendSms
           params: {
             "SignName": ENV["ALIYUN_SMS_SIGN_NAME"],
             "TemplateCode": ENV["ALIYUN_SMS_TEMPLATE_CODE"],
-            "PhoneNumbers": "#{phone}",
+            "PhoneNumbers": normalized,
             "TemplateParam": "{\"code\":\"#{code}\"}"
           },
           opts: {

@@ -51,7 +51,7 @@ class User < ApplicationRecord
 
   def normalize_phone
     return if phone.blank?
-    parsed = Phonelib.parse(phone)
+    parsed = Phonelib.parse(phone, "CN")
     self.phone = parsed.e164.presence || phone
   end
 end
