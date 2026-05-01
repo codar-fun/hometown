@@ -5,7 +5,6 @@ export default class extends Controller {
   static values = { resendIn: { type: Number, default: 60 } }
 
   connect() {
-    this._submitted = false
     this.digitTargets[0]?.focus()
     if (this.resendInValue > 0) this.startCountdown()
   }
@@ -24,7 +23,7 @@ export default class extends Controller {
     if (raw.length > 1) {
       const digits = raw.slice(0, 6)
       this.digitTargets.forEach((el, i) => { el.value = digits[i] || "" })
-      this.maybeSubmit()
+      this.syncCodeField()
       return
     }
 
@@ -33,10 +32,10 @@ export default class extends Controller {
       input.value = digit
       const next = this.digitTargets[idx + 1]
       if (next) next.focus()
-      else this.maybeSubmit()
     } else {
       input.value = ""
     }
+    this.syncCodeField()
   }
 
   keydown(e) {
@@ -55,20 +54,16 @@ export default class extends Controller {
   paste(e) {
     e.preventDefault()
     const digits = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6)
-    if (digits.length === 6) {
-      // Set values without triggering input events
+    if (digits.length > 0) {
       this.digitTargets.forEach((el, i) => { el.value = digits[i] || "" })
-      this.maybeSubmit()
+      this.syncCodeField()
     }
   }
 
-  maybeSubmit() {
-    const code = this.digitTargets.map(el => el.value).join("")
-    if (code.length !== 6) return
-    if (this._submitted) return
-    this._submitted = true
-    if (this.hasCodeFieldTarget) this.codeFieldTarget.value = code
-    setTimeout(() => this.element.closest("form")?.requestSubmit(), 150)
+  syncCodeField() {
+    if (this.hasCodeFieldTarget) {
+      this.codeFieldTarget.value = this.digitTargets.map(el => el.value).join("")
+    }
   }
 
   resend() {
