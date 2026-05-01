@@ -13,9 +13,11 @@ class OtpService
   end
 
   def self.verify(user:, raw_code:)
-    vc = user.verification_codes.valid_codes.order(created_at: :desc).first
+    vc = user.verification_codes.order(created_at: :desc).first
     return :not_found if vc.nil?
-    return :invalid unless vc.authenticate_code(raw_code)
+    return :expired  if vc.expired?
+    return :used     if vc.used?
+    return :invalid  unless vc.authenticate_code(raw_code)
     vc.consume!
     :ok
   end

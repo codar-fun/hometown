@@ -17,8 +17,18 @@ export default class extends Controller {
   input(e) {
     const input = e.currentTarget
     const idx = this.digitTargets.indexOf(input)
-    const digit = e.data?.replace(/\D/g, "") || ""
 
+    // Mobile browsers (iOS Safari) dump the full OTP into the first input via autocomplete.
+    // Detect multi-char data and redistribute across all digit inputs.
+    const raw = (e.data || input.value || "").replace(/\D/g, "")
+    if (raw.length > 1) {
+      const digits = raw.slice(0, 6)
+      this.digitTargets.forEach((el, i) => { el.value = digits[i] || "" })
+      this.maybeSubmit()
+      return
+    }
+
+    const digit = raw
     if (digit) {
       input.value = digit
       const next = this.digitTargets[idx + 1]

@@ -41,8 +41,14 @@ class VerificationsController < ApplicationController
     when :invalid
       flash.now[:alert] = "验证码错误，请重试。"
       render :new, status: :unprocessable_entity
-    when :not_found
+    when :expired
       flash.now[:alert] = "验证码已过期，请重新发送。"
+      render :new, status: :unprocessable_entity
+    when :used
+      flash.now[:alert] = "验证码已使用，请重新发送。"
+      render :new, status: :unprocessable_entity
+    when :not_found
+      flash.now[:alert] = "未找到验证码，请先发送。"
       render :new, status: :unprocessable_entity
     end
   end

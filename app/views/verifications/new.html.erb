@@ -19,8 +19,9 @@
       <%= form_with url: verification_path, method: :post,
             data: { controller: "otp", "otp-resend-in-value": 60 } do |f| %>
         <div class="otp-box" data-action="paste->otp#paste">
-          <% 6.times do %>
+          <% 6.times do |i| %>
             <input type="tel" inputmode="numeric" maxlength="1" class="otp-digit"
+              autocomplete="<%= i == 0 ? 'one-time-code' : 'off' %>"
               data-otp-target="digit"
               data-action="input->otp#input keydown->otp#keydown">
           <% end %>
