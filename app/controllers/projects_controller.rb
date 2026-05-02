@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :require_login, only: [ :new, :create ]
+  before_action :require_login, only: [ :new, :create, :star ]
 
   def index
     @projects = Project.all.includes(:project_team_members, :hackathon)
@@ -35,6 +35,17 @@ class ProjectsController < ApplicationController
       @teams = current_user.teams.order(:name)
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def star
+    @project = Project.find(params[:id])
+    like = current_user.project_likes.find_by(project: @project)
+    if like
+      like.destroy
+    else
+      current_user.project_likes.create!(project: @project)
+    end
+    redirect_to project_path(@project)
   end
 
   private
