@@ -1,3 +1,15 @@
-<% content_for :title, "New Form" %>
-<h1>New Form</h1>
-<%= render "form", form: @form %>
+<% content_for :title, "新建表单" %>
+
+<div style="max-width:760px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+    <%= link_to admin_forms_path, class: "btn btn-ghost btn-sm" do %>
+      <%= inline_svg_icon("arrow_left") %>
+    <% end %>
+    <div>
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:2px;">表单管理</div>
+      <h1 style="margin:0;font-size:20px;font-weight:600;">新建表单</h1>
+    </div>
+  </div>
+
+  <%= render "form", form: @form %>
+</div>

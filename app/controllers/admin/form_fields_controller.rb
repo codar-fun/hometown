@@ -53,6 +53,11 @@ class Admin::FormFieldsController < Admin::BaseController
   end
 
   def field_params
-    params.require(:form_field).permit(:label, :field_type, :required, :position, options: [])
+    p = params.require(:form_field).permit(:label, :field_type, :required, :position, options: [])
+    # Options arrive as a single textarea string (one option per line); split into array
+    if p[:options].is_a?(Array) && p[:options].length == 1
+      p[:options] = p[:options].first.to_s.split("\n").map(&:strip).reject(&:blank?)
+    end
+    p
   end
 end

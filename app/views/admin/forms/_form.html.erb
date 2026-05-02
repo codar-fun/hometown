@@ -1,48 +1,66 @@
-<%= form_with model: [:admin, form], multipart: false do |f| %>
+<%= form_with model: [:admin, form], class: "stack", style: "gap:0;" do |f| %>
   <% if form.errors.any? %>
-    <div class="error-messages">
-      <% form.errors.full_messages.each do |msg| %>
-        <p><%= msg %></p>
-      <% end %>
+    <div class="flash flash-alert" style="margin-bottom:16px;">
+      <%= form.errors.full_messages.join(", ") %>
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= f.label :title %>
-    <%= f.text_field :title, class: "form-input", required: true %>
+  <div class="card" style="padding:0;margin-bottom:16px;">
+    <div style="padding:20px 24px;">
+      <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">基础信息</h3>
+      <div class="stack" style="gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label class="label">标题 *</label>
+            <%= f.text_field :title, class: "input", required: true %>
+          </div>
+          <div>
+            <label class="label">Slug</label>
+            <%= f.text_field :slug, class: "input", placeholder: "留空则自动生成" %>
+          </div>
+        </div>
+        <div>
+          <label class="label">描述</label>
+          <%= f.text_area :description, class: "input textarea", style: "min-height:80px;", rows: 3 %>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
+          <%= f.check_box :published, style: "width:16px;height:16px;accent-color:var(--accent);" %>
+          立即发布
+        </label>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= f.label :slug, "URL Slug" %>
-    <%= f.text_field :slug, class: "form-input", placeholder: "auto-generated if blank" %>
+  <div style="display:flex;gap:8px;margin-bottom:24px;">
+    <%= f.submit form.new_record? ? "创建表单" : "保存修改", class: "btn btn-primary" %>
+    <%= link_to "取消", admin_forms_path, class: "btn" %>
   </div>
+<% end %>
 
-  <div class="form-group">
-    <%= f.label :description %>
-    <%= f.text_area :description, rows: 3, class: "form-input" %>
-  </div>
+<%# Fields section is outside the form above to avoid nested <form> tags %>
+<% if form.persisted? %>
+  <div class="card" style="padding:0;">
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border);">
+      <h3 style="font-size:13px;font-weight:600;margin:0;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">表单字段</h3>
+    </div>
 
-  <div class="form-group">
-    <label class="checkbox-label">
-      <%= f.check_box :published %>
-      Publish immediately
-    </label>
-  </div>
-
-  <div class="form-section">
-    <h3>Form Fields</h3>
-    <div id="form-fields-list">
-      <% form.form_fields.each do |field| %>
-        <turbo-frame id="form_field_<%= field.id || 'new' %>">
+    <div id="form-fields-list" style="padding:0 20px;">
+      <% form.form_fields.order(:position).each do |field| %>
+        <turbo-frame id="form_field_<%= field.id %>">
           <%= render "admin/form_fields/field_row", field: field, form_obj: form %>
         </turbo-frame>
       <% end %>
+      <% if form.form_fields.empty? %>
+        <p style="font-size:13px;color:var(--text-3);padding:16px 0;">暂无字段</p>
+      <% end %>
     </div>
-    <div class="add-field-section">
-      <p>Save the form first, then add and manage fields from the form detail page.</p>
+
+    <div style="padding:12px 20px;border-top:1px solid var(--border);">
+      <%= button_to admin_form_form_fields_path(form), method: :post,
+            params: { form_field: { label: "新字段", field_type: "short_text", required: false, position: form.form_fields.count + 1 } },
+            class: "btn btn-sm" do %>
+        + 添加字段
+      <% end %>
     </div>
   </div>
-
-  <%= f.submit form.new_record? ? "Create Form" : "Update Form", class: "btn btn-primary" %>
-  <%= link_to "Cancel", admin_forms_path, class: "btn btn-secondary" %>
 <% end %>

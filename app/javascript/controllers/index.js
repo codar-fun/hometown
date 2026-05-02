@@ -30,3 +30,6 @@ application.register("sidebar", SidebarController)
 
 import FormController from "./form_controller"
 application.register("form", FormController)
+
+import FieldRowController from "./field_row_controller"
+application.register("field-row", FieldRowController)

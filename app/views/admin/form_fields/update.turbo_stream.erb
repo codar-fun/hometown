@@ -1,0 +1,5 @@
+<%= turbo_stream.replace "form_field_#{@field.id}" do %>
+  <turbo-frame id="form_field_<%= @field.id %>">
+    <%= render "field_row", field: @field, form_obj: @form %>
+  </turbo-frame>
+<% end %>

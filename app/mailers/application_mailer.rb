@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "Hometown <onboarding@resend.dev>"
+  default from: "Hometown <notify@app.sola.day>"
   layout "mailer"
 end

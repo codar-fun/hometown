@@ -1,18 +1,45 @@
-<div class="field-row" data-controller="form-field-builder">
-  <div class="field-info">
-    <strong><%= field.label %></strong>
-    <span class="field-type-badge"><%= field.field_type %></span>
-    <% if field.required? %>
-      <span class="required-badge">Required</span>
-    <% end %>
-    <% if field.options.present? %>
-      <span class="field-options">Options: <%= (field.options || []).map { |o| o.is_a?(Hash) ? o["label"] : o }.join(", ") %></span>
-    <% end %>
+<% choice_types = %w[radio checkbox select] %>
+<% is_choice = choice_types.include?(field.field_type) %>
+<% existing_options = (field.options || []).map { |o| o.is_a?(Hash) ? o["label"] : o }.join("\n") %>
+
+<%= form_with model: [:admin, form_obj, field],
+      data: { controller: "field-row", field_row_choice_types_value: choice_types.to_json } do |f| %>
+  <div style="padding:12px 0;border-bottom:1px solid var(--border);">
+    <%# Main row %>
+    <div style="display:grid;grid-template-columns:1fr 150px 80px auto;gap:8px;align-items:center;">
+      <%= f.text_field :label, class: "input", style: "height:32px;font-size:13px;",
+            placeholder: "字段名称", required: true %>
+
+      <%= f.select :field_type,
+            FormField::FIELD_TYPES.map { |t| [t, t] },
+            {},
+            class: "select", style: "height:32px;font-size:13px;",
+            data: { action: "change->field-row#toggleOptions", field_row_target: "typeSelect" } %>
+
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+        <%= f.check_box :required, style: "width:14px;height:14px;accent-color:var(--accent);" %>
+        <span style="color:var(--text-2);">必填</span>
+      </label>
+
+      <div style="display:flex;gap:4px;">
+        <%= f.submit "保存", class: "btn btn-sm btn-primary", style: "height:30px;padding:0 10px;font-size:12px;" %>
+        <%= button_to admin_form_form_field_path(form_obj, field), method: :delete,
+              class: "btn btn-sm", style: "height:30px;padding:0 10px;font-size:12px;",
+              data: { turbo_confirm: "删除此字段？" } do %>删除<% end %>
+      </div>
+    </div>
+
+    <%# Options section for choice fields %>
+    <div data-field-row-target="optionsSection"
+         style="margin-top:10px;<%= is_choice ? '' : 'display:none;' %>">
+      <label class="label" style="margin-bottom:4px;">选项（每行一个）</label>
+      <%= text_area_tag "form_field[options][]",
+            existing_options,
+            class: "input textarea",
+            style: "min-height:80px;font-size:13px;",
+            placeholder: "选项一\n选项二\n选项三",
+            data: { field_row_target: "optionsTextarea" } %>
+      <p style="font-size:11px;color:var(--text-3);margin:4px 0 0;">每行作为一个选项，保存时自动处理。</p>
+    </div>
   </div>
-  <div class="field-actions">
-    <%= button_to "Remove", admin_form_form_field_path(form_obj, field),
-          method: :delete,
-          class: "btn btn-sm btn-danger",
-          data: { turbo_method: :delete, turbo_confirm: "Remove this field?" } %>
-  </div>
-</div>
+<% end %>

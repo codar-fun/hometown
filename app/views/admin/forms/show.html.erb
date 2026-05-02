@@ -1,72 +1,93 @@
 <% content_for :title, @form.title %>
-<div class="page-header">
-  <h1><%= @form.title %></h1>
-  <div class="page-actions">
-    <%= link_to "Edit", edit_admin_form_path(@form), class: "btn btn-secondary" %>
-    <% if @form.published? %>
-      <%= button_to "Unpublish", unpublish_admin_form_path(@form), method: :patch, class: "btn btn-warning" %>
-    <% else %>
-      <%= button_to "Publish", publish_admin_form_path(@form), method: :patch, class: "btn btn-success" %>
+
+<div style="max-width:900px;">
+  <%# Header %>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+    <%= link_to admin_forms_path, class: "btn btn-ghost btn-sm" do %>
+      <%= inline_svg_icon("arrow_left") %>
     <% end %>
-    <%= link_to "View Public", form_path(@form.slug), class: "btn btn-secondary", target: "_blank" %>
-  </div>
-</div>
-
-<div class="form-detail">
-  <p><strong>Slug:</strong> <code><%= @form.slug %></code></p>
-  <p><strong>Status:</strong> <%= @form.published? ? "Published" : "Draft" %></p>
-  <% if @form.description.present? %>
-    <p><strong>Description:</strong> <%= @form.description %></p>
-  <% end %>
-</div>
-
-<section class="fields-section">
-  <div class="section-header">
-    <h2>Fields (<%= @form.form_fields.count %>)</h2>
-    <%= link_to "+ Add Field", "#add-field-form", class: "btn btn-sm btn-primary" %>
-  </div>
-
-  <div id="form-fields-list">
-    <% @form.form_fields.each do |field| %>
-      <turbo-frame id="form_field_<%= field.id %>">
-        <%= render "admin/form_fields/field_row", field: field, form_obj: @form %>
-      </turbo-frame>
-    <% end %>
-  </div>
-
-  <div id="add-field-form" class="add-field-panel">
-    <h3>Add New Field</h3>
-    <%= render "admin/form_fields/new_field_form", form_obj: @form %>
-  </div>
-</section>
-
-<section class="submissions-section">
-  <div class="section-header">
-    <h2>Submissions (<%= @form.form_submissions.count %>)</h2>
-    <div class="status-filters">
-      <%= link_to "All", admin_form_form_submissions_path(@form), class: "btn btn-sm #{'active' if params[:status].blank?}" %>
-      <%= link_to "Pending", admin_form_form_submissions_path(@form, status: "pending"), class: "btn btn-sm #{'active' if params[:status] == 'pending'}" %>
-      <%= link_to "Approved", admin_form_form_submissions_path(@form, status: "approved"), class: "btn btn-sm #{'active' if params[:status] == 'approved'}" %>
-      <%= link_to "Rejected", admin_form_form_submissions_path(@form, status: "rejected"), class: "btn btn-sm #{'active' if params[:status] == 'rejected'}" %>
+    <div style="flex:1;">
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:2px;">表单管理</div>
+      <h1 style="margin:0;font-size:20px;font-weight:600;"><%= @form.title %></h1>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span style="font-size:12px;color:var(--text-3);font-family:var(--font-mono);"><%= @form.slug %></span>
+      <%= link_to edit_admin_form_path(@form), class: "btn btn-sm" do %>编辑<% end %>
+      <% if @form.published? %>
+        <%= button_to unpublish_admin_form_path(@form), method: :patch, class: "btn btn-sm" do %>下线<% end %>
+      <% else %>
+        <%= button_to publish_admin_form_path(@form), method: :patch, class: "btn btn-primary btn-sm" do %>发布<% end %>
+      <% end %>
     </div>
   </div>
 
-  <table class="admin-table">
-    <thead>
-      <tr><th>User</th><th>Submitted</th><th>Status</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-      <% @submissions.each do |submission| %>
-        <tr>
-          <td><%= submission.user.display_name %></td>
-          <td><%= submission.submitted_at.strftime("%b %d, %Y %H:%M") %></td>
-          <td id="submission_status_<%= submission.id %>">
-            <%= render "admin/form_submissions/status_badge", submission: submission %>
-          </td>
-          <td><%= link_to "Review", admin_form_form_submission_path(@form, submission), class: "btn btn-sm" %></td>
-        </tr>
+  <%# Fields card %>
+  <div class="card" style="padding:0;margin-bottom:16px;">
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:13px;font-weight:600;">表单字段 <span style="color:var(--text-3);font-weight:400;"><%= @form.form_fields.count %></span></div>
+    </div>
+
+    <div id="form-fields-list" class="stack" style="gap:8px;padding:12px 20px;">
+      <% @form.form_fields.order(:position).each do |field| %>
+        <turbo-frame id="form_field_<%= field.id %>">
+          <%= render "admin/form_fields/field_row", field: field, form_obj: @form %>
+        </turbo-frame>
       <% end %>
-    </tbody>
-  </table>
-  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
-</section>
+      <% if @form.form_fields.empty? %>
+        <p style="font-size:13px;color:var(--text-3);margin:8px 0;">暂无字段</p>
+      <% end %>
+    </div>
+
+    <div style="padding:12px 20px;border-top:1px solid var(--border);">
+      <%= button_to admin_form_form_fields_path(@form), method: :post,
+            params: { form_field: { label: "新字段", field_type: "short_text", required: false, position: @form.form_fields.count + 1 } },
+            class: "btn btn-sm" do %>
+        + 添加字段
+      <% end %>
+    </div>
+  </div>
+
+  <%# Submissions card %>
+  <div class="card" style="padding:0;">
+    <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:13px;font-weight:600;">报名列表 <span style="color:var(--text-3);font-weight:400;"><%= @form.form_submissions.count %></span></div>
+      <%= link_to admin_form_submissions_path, class: "btn btn-sm" do %>在审核页查看<% end %>
+    </div>
+
+    <% if @submissions.any? %>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);">
+            <th style="padding:10px 20px;text-align:left;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">申请者</th>
+            <th style="padding:10px 20px;text-align:left;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">提交时间</th>
+            <th style="padding:10px 20px;text-align:left;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">状态</th>
+            <th style="padding:10px 20px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @submissions.each do |submission| %>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:12px 20px;font-size:14px;"><%= submission.user.display_name %></td>
+              <td style="padding:12px 20px;font-size:13px;color:var(--text-2);">
+                <%= submission.submitted_at.strftime("%-m月%-d日 %H:%M") %>
+              </td>
+              <td style="padding:12px 20px;">
+                <%= status_badge(submission.status) %>
+              </td>
+              <td style="padding:12px 20px;text-align:right;">
+                <%= link_to admin_form_submission_path(submission), class: "btn btn-sm" do %>审核<% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% if @pagy.pages > 1 %>
+        <div style="padding:12px 20px;border-top:1px solid var(--border);">
+          <%== pagy_nav(@pagy) %>
+        </div>
+      <% end %>
+    <% else %>
+      <div style="padding:40px;text-align:center;font-size:13px;color:var(--text-3);">暂无报名</div>
+    <% end %>
+  </div>
+</div>
