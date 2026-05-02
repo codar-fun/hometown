@@ -20,5 +20,7 @@ module Hometown
     config.generators do |g|
       g.orm :active_record, primary_key_type: :string
     end
+
+    config.active_job.queue_adapter = :inline
   end
 end
