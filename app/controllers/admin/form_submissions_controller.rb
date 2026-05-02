@@ -31,7 +31,7 @@ class Admin::FormSubmissionsController < Admin::BaseController
           turbo_stream.replace("submission_#{@submission.id}",
             partial: "admin/form_submissions/submission_row",
             locals: { submission: @submission }),
-          turbo_stream.replace("detail_panel",
+          turbo_stream.update("detail_panel",
             partial: "admin/form_submissions/detail",
             locals: { submission: @submission })
         ]
@@ -48,7 +48,7 @@ class Admin::FormSubmissionsController < Admin::BaseController
           turbo_stream.replace("submission_#{@submission.id}",
             partial: "admin/form_submissions/submission_row",
             locals: { submission: @submission }),
-          turbo_stream.replace("detail_panel",
+          turbo_stream.update("detail_panel",
             partial: "admin/form_submissions/detail",
             locals: { submission: @submission })
         ]

@@ -24,6 +24,10 @@ export default class extends Controller {
     this.itemTargets.forEach(el => el.classList.remove("active"))
     btn.classList.add("active")
     btn.scrollIntoView({ block: "nearest" })
+
+    const id = btn.dataset.submissionId
+    const frame = document.getElementById("detail_panel")
+    if (frame && id) frame.src = `/admin/form_submissions/${id}`
   }
 
   onKey(e) {

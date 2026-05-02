@@ -47,11 +47,11 @@
   </div>
 
   <%# Right: detail panel %>
-  <div class="review-detail" id="detail_panel">
+  <%= turbo_frame_tag "detail_panel", class: "review-detail" do %>
     <% if @selected %>
       <%= render "detail", submission: @selected %>
     <% else %>
       <div style="display:grid;place-items:center;height:100%;color:var(--text-3);">选择左侧的申请进行审核</div>
     <% end %>
-  </div>
+  <% end %>
 </div>
