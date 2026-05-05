@@ -8,6 +8,8 @@ class FormSubmission < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
   validate :one_submission_per_user, on: :create
 
+  after_create_commit  :sync_hackathon_registered_count
+  after_destroy_commit :sync_hackathon_registered_count
   after_update :notify_on_status_change, if: :saved_change_to_status?
 
   scope :pending,  -> { where(status: "pending") }
@@ -32,5 +34,11 @@ class FormSubmission < ApplicationRecord
 
   def notify_on_status_change
     NotifyApplicationStatusJob.perform_later(id)
+  end
+
+  def sync_hackathon_registered_count
+    hackathon = Hackathon.find_by(form_id: form_id)
+    return unless hackathon
+    hackathon.update_column(:registered_count, hackathon.form.form_submissions.count)
   end
 end

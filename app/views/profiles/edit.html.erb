@@ -23,9 +23,7 @@
         <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">头像</h3>
         <div style="display:flex;align-items:center;gap:16px;">
           <% if @user.avatar.attached? %>
-            <%= image_tag @user.avatar.variant(resize_to_fill: [72,72]),
-                  alt: @user.display_name,
-                  style: "width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border);" %>
+            <%= image_tag @user.avatar, alt: @user.display_name, style: "width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border);" %>
           <% else %>
             <div class="avatar" style="width:72px;height:72px;font-size:28px;<%= @user.avatar_color.present? ? "background:#{@user.avatar_color};color:#0C0A09;" : "" %>flex-shrink:0;">
               <%= @user.name&.first || @user.email&.first&.upcase || "?" %>
@@ -90,10 +88,6 @@
               <label class="label">学校 / 公司</label>
               <%= f.text_field :school, class: "input", placeholder: "同济大学" %>
             </div>
-          </div>
-          <div>
-            <label class="label">主要角色</label>
-            <%= f.select :role, [["开发者","开发者"],["设计师","设计师"],["产品经理","产品经理"],["创业者","创业者"],["学生","学生"],["其他","其他"]], { include_blank: "选择角色..." }, class: "select" %>
           </div>
           <div>
             <label class="label">GitHub</label>

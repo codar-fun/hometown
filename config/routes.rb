@@ -65,5 +65,9 @@ Rails.application.routes.draw do
     resource :email_preview, only: [ :show ]
   end
 
+  namespace :api do
+    resources :images, only: [:create]
+  end
+
   root to: "home#index"
 end

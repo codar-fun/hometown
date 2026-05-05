@@ -44,9 +44,13 @@
   <div style="display:flex;flex-direction:column;gap:8px;">
     <% @members.each_with_index do |m, i| %>
       <div class="card" style="padding:14px 18px;display:flex;align-items:center;gap:16px;">
-        <div class="avatar" style="width:44px;height:44px;font-size:16px;flex-shrink:0;<%= m.avatar_color.present? ? "background:#{m.avatar_color};color:#0C0A09;" : "background:hsl(#{(i*37)%360},50%,60%);" %>">
-          <%= m.name&.first || m.email&.first&.upcase || "?" %>
-        </div>
+        <% if m.avatar.attached? %>
+          <%= image_tag m.avatar, class: "avatar", alt: m.display_name, style: "width:44px;height:44px;flex-shrink:0;object-fit:cover;" %>
+        <% else %>
+          <div class="avatar" style="width:44px;height:44px;font-size:16px;flex-shrink:0;<%= m.avatar_color.present? ? "background:#{m.avatar_color};color:#0C0A09;" : "background:hsl(#{(i*37)%360},50%,60%);" %>">
+            <%= m.name&.first || m.email&.first&.upcase || "?" %>
+          </div>
+        <% end %>
         <div style="min-width:200px;flex:0 0 auto;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
             <span style="font-size:14px;font-weight:600;"><%= m.name || m.handle %></span>

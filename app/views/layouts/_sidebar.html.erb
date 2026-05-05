@@ -85,9 +85,13 @@
     <div style="display:flex;align-items:center;gap:8px;">
       <%= link_to profile_path(current_user), class: "user-card", style: "flex:1;min-width:0;",
             data: { action: "sidebar#closeOnMobile" } do %>
-        <div class="avatar" style="<%= current_user.avatar_color.present? ? "background:#{current_user.avatar_color};color:#0C0A09;" : "" %>">
-          <%= current_user.name&.first || current_user.email&.first&.upcase || "?" %>
-        </div>
+        <% if current_user.avatar.attached? %>
+          <%= image_tag current_user.avatar, class: "avatar", alt: current_user.display_name, style: "object-fit:cover;" %>
+        <% else %>
+          <div class="avatar" style="<%= current_user.avatar_color.present? ? "background:#{current_user.avatar_color};color:#0C0A09;" : "" %>">
+            <%= current_user.name&.first || current_user.email&.first&.upcase || "?" %>
+          </div>
+        <% end %>
         <div class="user-meta">
           <div class="nm"><%= current_user.display_name %></div>
           <div class="sub"><%= current_user.admin? ? "Admin" : "社区成员" %></div>
