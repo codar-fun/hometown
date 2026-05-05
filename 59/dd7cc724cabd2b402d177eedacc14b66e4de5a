@@ -1,0 +1,60 @@
+config/routes.rb
+  b1c3be126dca352f 68-71
+app/views/layouts/_sidebar.html.erb
+  b2a4b8d6fb27cb01 88-94
+app/views/members/index.html.erb
+  b2a4b8d6fb27cb01 47-53
+app/views/home/index.html.erb
+  b2a4b8d6fb27cb01 59-65
+app/controllers/api/images_controller.rb
+  b1c3be126dca352f 1-41
+app/views/profiles/edit.html.erb
+  b2a4b8d6fb27cb01 26
+Gemfile
+  b1c3be126dca352f 70
+app/views/profiles/show.html.erb
+  b2a4b8d6fb27cb01 10
+app/models/form_submission.rb
+  b2a4b8d6fb27cb01 11-12,38-43
+config/initializers/active_storage_tsid.rb
+  b2a4b8d6fb27cb01 1-3
+config/storage.yml
+  b1c3be126dca352f 9-17
+config/environments/production.rb
+  b1c3be126dca352f 25
+app/controllers/profiles_controller.rb
+  b2a4b8d6fb27cb01 33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "59dd7cc724cabd2b402d177eedacc14b66e4de5a",
+  "prompts": {
+    "b1c3be126dca352f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e75e38a4-5f42-4185-98e6-cc3d1d03b193",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus",
+      "messages": [],
+      "total_additions": 56,
+      "total_deletions": 1,
+      "accepted_lines": 56,
+      "overriden_lines": 0
+    },
+    "b2a4b8d6fb27cb01": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus",
+      "messages": [],
+      "total_additions": 52,
+      "total_deletions": 35,
+      "accepted_lines": 35,
+      "overriden_lines": 0
+    }
+  }
+}
