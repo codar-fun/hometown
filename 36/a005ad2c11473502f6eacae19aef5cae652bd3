@@ -1,0 +1,22 @@
+app/views/members/index.html.erb
+  s_b2a4b8d6fb27cb::t_ce0d9450b445be 46-47
+app/javascript/controllers/member_card_controller.js
+  s_b2a4b8d6fb27cb::t_1e3c1f4b4f1597 1-3,5-12,15-17
+  s_b2a4b8d6fb27cb::t_8f772177343f3d 4,13-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "36a005ad2c11473502f6eacae19aef5cae652bd3",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
