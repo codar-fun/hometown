@@ -1,0 +1,21 @@
+db/migrate/20260507_dedup_user_handles.rb
+  s_b2a4b8d6fb27cb::t_f18654c074975b 1-36
+db/schema.rb
+  ai_agent 54-333
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "afc2e00d5682658b8d17cc06a58b1100efdd2f58",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
