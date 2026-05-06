@@ -1,0 +1,29 @@
+app/controllers/verifications_controller.rb
+  s_b2a4b8d6fb27cb::t_95b3412ef7d648 39-44
+app/views/handles/new.html.erb
+  s_b2a4b8d6fb27cb::t_752d75efe52d07 1-40
+app/models/user.rb
+  s_b2a4b8d6fb27cb::t_1b3f2e7ad9a03f 30-33,39
+config/routes.rb
+  s_b2a4b8d6fb27cb::t_3089c36213f477 7
+app/controllers/handles_controller.rb
+  s_b2a4b8d6fb27cb::t_cc4d5ce8f7a91b 1-15
+lib/tasks/dedup_handles.rake
+  s_b2a4b8d6fb27cb::t_018f09f04dfa1d 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "9e01d537c6b4a22c91f3fdfdaf9dc7b9dadae816",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
