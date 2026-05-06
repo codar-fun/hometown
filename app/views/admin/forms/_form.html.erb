@@ -23,6 +23,10 @@
           <label class="label">描述</label>
           <%= f.text_area :description, class: "input textarea", style: "min-height:80px;", rows: 3 %>
         </div>
+        <div>
+          <label class="label">提交后消息（留空则不显示）</label>
+          <%= f.text_area :submission_message, class: "input textarea", style: "min-height:60px;", rows: 2, placeholder: "感谢报名！我们将在3天内完成审核…" %>
+        </div>
         <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;">
           <%= f.check_box :published, style: "width:16px;height:16px;accent-color:var(--accent);" %>
           立即发布

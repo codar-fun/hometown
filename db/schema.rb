@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_29_175233) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_06_122845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -115,6 +115,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_175233) do
     t.text "description"
     t.boolean "published", default: false, null: false
     t.string "slug", null: false
+    t.text "submission_message"
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_forms_on_created_by_id"

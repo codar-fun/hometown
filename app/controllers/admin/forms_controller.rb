@@ -74,7 +74,7 @@ class Admin::FormsController < Admin::BaseController
   end
 
   def form_params
-    params.require(:form).permit(:title, :slug, :description, :published,
+    params.require(:form).permit(:title, :slug, :description, :submission_message, :published,
       form_fields_attributes: [ :id, :label, :field_type, :required, :position, :_destroy, options: [] ])
   end
 
