@@ -180,15 +180,8 @@ fields = hack_form.form_fields.order(:position).to_a
 f_name, f_gender, f_career, f_school_co, f_community, f_team, f_intro, f_project_status, f_goal = fields
 puts "Form: #{hack_form.title} (#{hack_form.form_fields.count} fields)"
 
-# Set submission message and deposit payment QR code
+# Set submission message (submission_image is stored in R2, managed separately)
 hack_form.update!(submission_message: "使用以下渠道支付黑客松参赛押金100元，正式确认报名并进参赛群")
-if File.exist?(File.expand_path("~/Desktop/xjhack/deposit-payment.jpg"))
-  hack_form.submission_image.attach(
-    io: File.open(File.expand_path("~/Desktop/xjhack/deposit-payment.jpg")),
-    filename: "deposit-payment.jpg",
-    content_type: "image/jpeg"
-  )
-end
 
 # ─── Hackathons ───────────────────────────────────────────────────────────────
 
