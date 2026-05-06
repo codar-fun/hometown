@@ -43,7 +43,8 @@
   <%# Member list %>
   <div style="display:flex;flex-direction:column;gap:8px;">
     <% @members.each_with_index do |m, i| %>
-      <div class="card" style="padding:14px 18px;display:flex;align-items:center;gap:16px;">
+      <div class="card" data-controller="member-card" data-action="click->member-card#click" data-member-card-target="card" style="padding:14px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:background-color 0.15s;" onmouseover="this.style.backgroundColor='var(--bg-elev-1)'" onmouseout="this.style.backgroundColor=''">
+        <a href="<%= profile_path(m) %>" style="display:none;" data-member-card-target="profileLink"></a>
         <% if m.avatar.attached? %>
           <%= image_tag m.avatar, class: "avatar", alt: m.display_name, style: "width:44px;height:44px;flex-shrink:0;object-fit:cover;" %>
         <% else %>
