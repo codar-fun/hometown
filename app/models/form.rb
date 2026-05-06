@@ -2,6 +2,7 @@ class Form < ApplicationRecord
   belongs_to :created_by, class_name: "User", optional: true
   has_many :form_fields, -> { order(:position) }, dependent: :destroy
   has_many :form_submissions, dependent: :destroy
+  has_one_attached :submission_image
 
   validates :title, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: /\A[a-z0-9\-]+\z/, message: "only lowercase letters, numbers and hyphens" }
