@@ -27,11 +27,16 @@ class User < ApplicationRecord
     format: { with: URI::MailTo::EMAIL_REGEXP },
     allow_nil: true
   validates :phone, uniqueness: true, allow_nil: true
+  validates :handle,
+    uniqueness: { case_sensitive: false },
+    format: { with: /\A[a-z0-9_]{2,30}\z/, message: "只能包含小写字母、数字和下划线，长度 2-30 个字符" },
+    allow_nil: true
   validates :role, inclusion: { in: ROLES }
   validates :name, length: { maximum: 100 }
   validate :email_or_phone_present
 
   normalizes :email, with: ->(e) { e.strip.downcase }
+  normalizes :handle, with: ->(h) { h&.strip&.downcase }
 
   before_validation :normalize_phone
 

@@ -1,0 +1,40 @@
+<% content_for :title, "设置用户名 — Hometown" %>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="max-width:400px;width:100%;">
+    <%# Header %>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:32px;">
+      <div class="brand-mark">H</div>
+      <div style="font-size:13px;color:var(--text-2);">Hometown</div>
+    </div>
+
+    <%# Title %>
+    <div style="margin-bottom:28px;">
+      <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;letter-spacing:-0.02em;">设置用户名</h1>
+      <p style="margin:0;font-size:14px;color:var(--text-2);">选择一个唯一的用户名，稍后可在账户设置中修改</p>
+    </div>
+
+    <%# Form %>
+    <%= form_with url: handle_path, method: :post, class: "stack", style: "gap:16px;" do |f| %>
+      <% if current_user.errors.any? %>
+        <div class="flash flash-alert">
+          <%= current_user.errors.full_messages.join("、") %>
+        </div>
+      <% end %>
+
+      <div>
+        <label class="label">用户名</label>
+        <div style="position:relative;">
+          <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-3);font-weight:600;">@</span>
+          <%= f.text_field :handle, class: "input", style: "padding-left:28px;", placeholder: "johndoe", required: true, autofocus: true %>
+        </div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:6px;">
+          仅支持小写字母、数字和下划线，长度 2-30 个字符
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:24px;">
+        <%= f.submit "设置用户名", class: "btn btn-primary", style: "flex:1;" %>
+      </div>
+    <% end %>
+  </div>
+</div>

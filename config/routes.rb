@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Auth
   resource  :identification, only: [ :new, :create ]
   resource  :verification,   only: [ :new, :create ]
+  resource  :handle,         only: [ :new, :create ]
   delete    "sign_out",      to: "sessions#destroy", as: :sign_out
 
   # Public community pages

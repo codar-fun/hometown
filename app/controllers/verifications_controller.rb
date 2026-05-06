@@ -36,8 +36,12 @@ class VerificationsController < ApplicationController
         same_site: :lax,
         expires: 30.days.from_now
       }
-      return_to = session.delete(:return_to)
-      redirect_to return_to || root_path, notice: "欢迎回来，#{user.display_name}！"
+      if user.handle.blank?
+        redirect_to new_handle_path, notice: "请先设置用户名"
+      else
+        return_to = session.delete(:return_to)
+        redirect_to return_to || root_path, notice: "欢迎回来，#{user.display_name}！"
+      end
     when :invalid
       flash.now[:alert] = "验证码错误，请重试。"
       render :new, status: :unprocessable_entity
