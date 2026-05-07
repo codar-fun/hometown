@@ -1,0 +1,19 @@
+app/services/form_submission_exporter.rb
+  s_b2a4b8d6fb27cb::t_c45fea3b4a4066 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "9ddd63f3711cf9454286f5d85fbbe9da806555c0",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
