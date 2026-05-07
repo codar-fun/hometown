@@ -13,7 +13,7 @@ class FormSubmissionExporter
     form = @submissions.first&.form
     return "" unless form
 
-    CSV.generate(encoding: "UTF-8") do |csv|
+    CSV.generate do |csv|
       csv << build_headers(form)
 
       @submissions.each do |submission|
