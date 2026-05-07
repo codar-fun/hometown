@@ -1,12 +1,17 @@
-Congratulations! You've been approved!
+恭喜！你的报名已被批准！
 
-Hi <%= @user.display_name %>,
+嗨 <%= @user.display_name %>,
 
-Great news — your application for "<%= @form.title %>" has been approved!
-<% if @submission.admin_note.present? %>
-Note from organizers: <%= @submission.admin_note %>
+好消息 — 你对 "<%= @form.title %>" 的报名已被批准！
+
+<% if @form.submission_message.present? %>
+<%= @form.submission_message %>
+
 <% end %>
+<% if @submission.admin_note.present? %>
+组织者留言: <%= @submission.admin_note %>
 
-We look forward to seeing you there!
+<% end %>
+期待在活动中见到你！
 
-The Hometown Team
+Hometown Team
