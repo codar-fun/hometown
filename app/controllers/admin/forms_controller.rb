@@ -1,5 +1,5 @@
 class Admin::FormsController < Admin::BaseController
-  before_action :set_form, only: [ :show, :edit, :update, :destroy, :publish, :unpublish ]
+  before_action :set_form, only: [ :show, :edit, :update, :destroy, :publish, :unpublish, :export_submissions ]
 
   def index
     scope = Form.includes(:created_by)
@@ -65,6 +65,19 @@ class Admin::FormsController < Admin::BaseController
   def unpublish
     @form.unpublish!
     redirect_back fallback_location: admin_form_path(@form), notice: "Form unpublished."
+  end
+
+  def export_submissions
+    scope = @form.form_submissions.includes(:user, form_answers: :form_field)
+    scope = scope.where(status: params[:status]) if params[:status].present? && params[:status] != "all"
+    if params[:q].present?
+      q = "%#{params[:q]}%"
+      scope = scope.joins(:user).where("users.name ILIKE ? OR users.email ILIKE ?", q, q)
+    end
+
+    csv_data = FormSubmissionExporter.call(scope)
+    filename = "#{@form.title}_#{Time.current.strftime('%Y%m%d_%H%M%S')}.csv"
+    send_data csv_data, filename: filename, type: "text/csv; charset=utf-8"
   end
 
   private

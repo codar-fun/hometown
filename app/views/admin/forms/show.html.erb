@@ -51,7 +51,10 @@
   <div class="card" style="padding:0;">
     <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
       <div style="font-size:13px;font-weight:600;">报名列表 <span style="color:var(--text-3);font-weight:400;"><%= @form.form_submissions.count %></span></div>
-      <%= link_to admin_form_submissions_path, class: "btn btn-sm" do %>在审核页查看<% end %>
+      <div style="display:flex;gap:8px;">
+        <%= link_to "导出 CSV", export_submissions_admin_form_path(@form), class: "btn btn-sm" %>
+        <%= link_to admin_form_submissions_path, class: "btn btn-sm" do %>在审核页查看<% end %>
+      </div>
     </div>
 
     <% if @submissions.any? %>

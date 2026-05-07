@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       member do
         patch :publish
         patch :unpublish
+        get :export_submissions
       end
       resources :form_fields, only: [ :create, :update, :destroy ] do
         collection { patch :reorder }
