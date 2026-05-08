@@ -11,7 +11,7 @@
     <% end %>
     <% if @form.submission_image.attached? %>
       <div>
-        <%= image_tag attachments[@form.submission_image.filename.to_s], alt: "submission image", style: "max-width: 100%; height: auto; border-radius: 4px;" %>
+        <%= image_tag attachments[@form.submission_image.filename.to_s].url, alt: "submission image", style: "max-width: 100%; height: auto; border-radius: 4px;" %>
       </div>
     <% end %>
   </div>
