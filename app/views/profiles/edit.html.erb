@@ -22,7 +22,7 @@
       <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
         <h3 style="font-size:13px;font-weight:600;margin:0 0 14px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">头像</h3>
         <div style="display:flex;align-items:center;gap:16px;">
-          <% if @user.avatar.attached? %>
+          <% if @user.avatar.attached? && @user.avatar.blob.persisted? %>
             <%= image_tag @user.avatar, alt: @user.display_name, style: "width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--border);" %>
           <% else %>
             <div class="avatar" style="width:72px;height:72px;font-size:28px;<%= @user.avatar_color.present? ? "background:#{@user.avatar_color};color:#0C0A09;" : "" %>flex-shrink:0;">
