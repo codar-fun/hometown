@@ -1,0 +1,25 @@
+config/routes.rb
+  s_b2a4b8d6fb27cb::t_4ff86613d35f2a 64
+app/controllers/admin/form_submissions_controller.rb
+  s_b2a4b8d6fb27cb::t_15fb1ad5cbb2eb 2
+  s_b2a4b8d6fb27cb::t_c0e578fe38b074 66
+  s_b2a4b8d6fb27cb::t_5600a0f19d36b9 60-65,67-68
+app/views/admin/form_submissions/_detail.html.erb
+  s_b2a4b8d6fb27cb::t_0e23937bfb6604 18-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "e175d9ece25003c7d9e88bea12682c353f552f03",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
