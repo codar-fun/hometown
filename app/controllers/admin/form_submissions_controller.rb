@@ -1,5 +1,5 @@
 class Admin::FormSubmissionsController < Admin::BaseController
-  before_action :set_submission, only: [ :show, :approve, :reject, :star ]
+  before_action :set_submission, only: [ :show, :approve, :reject, :star, :resend_approval_email ]
 
   def index
     scope = FormSubmission.includes(:user, :form)
@@ -55,6 +55,15 @@ class Admin::FormSubmissionsController < Admin::BaseController
       end
       format.html { redirect_to admin_form_submissions_path, notice: "已拒绝" }
     end
+  end
+
+  def resend_approval_email
+    unless @submission.status == "approved"
+      redirect_to admin_form_submissions_path, alert: "只能对已批准的报名重发邮件。"
+      return
+    end
+    ApplicationStatusMailer.approved(@submission).deliver_later
+    redirect_to admin_form_submissions_path(id: @submission.id), notice: "确认邮件已重新发送给 #{@submission.user.display_name}。"
   end
 
   def star

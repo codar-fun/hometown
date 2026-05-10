@@ -15,6 +15,11 @@
     <%= button_to approve_admin_form_submission_path(submission), method: :patch, class: "btn btn-primary btn-sm", data: { approve_btn: "" } do %>
       <%= inline_svg_icon("check") %> 批准 <span class="kbd-key" style="margin-left:4px;background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3);color:#FFF;">E</span>
     <% end %>
+  <% elsif submission.status == "approved" %>
+    <%= status_badge(submission.status) %>
+    <%= button_to resend_approval_email_admin_form_submission_path(submission), method: :post, class: "btn btn-sm", style: "margin-left:8px;", data: { confirm: "确认重发审核通过邮件给 #{submission.user.display_name}？" } do %>
+      <%= inline_svg_icon("send") %> 重发通知邮件
+    <% end %>
   <% else %>
     <%= status_badge(submission.status) %>
   <% end %>
