@@ -3,7 +3,7 @@ class NotifyApplicationStatusJob < ApplicationJob
 
   def perform(form_submission_id)
     submission = FormSubmission.find_by(id: form_submission_id)
-    return unless submission&.user&.email.present?
+    return unless submission&.recipient_email.present?
 
     case submission.status
     when "approved"

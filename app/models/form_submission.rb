@@ -16,6 +16,14 @@ class FormSubmission < ApplicationRecord
   scope :approved, -> { where(status: "approved") }
   scope :rejected, -> { where(status: "rejected") }
 
+  def recipient_email
+    return user.email if user.email.present?
+    form_answers.joins(:form_field)
+                .where(form_fields: { field_type: "email" })
+                .pick(:value)
+                .presence
+  end
+
   def approve!(note: nil)
     update!(status: "approved", admin_note: note)
   end
