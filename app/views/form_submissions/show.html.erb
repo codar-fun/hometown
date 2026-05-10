@@ -78,7 +78,7 @@
     <% if logged_in? && current_user %>
       <%= link_to profile_path(current_user), class: "btn" do %>我的主页<% end %>
     <% end %>
-    <% if @submission.status == "pending" && @submission.user == current_user %>
+    <% if @submission.user == current_user %>
       <%= link_to edit_form_submission_path(@submission), class: "btn btn-primary" do %>修改报名<% end %>
     <% end %>
   </div>

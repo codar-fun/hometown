@@ -30,17 +30,9 @@ class FormSubmissionsController < ApplicationController
   end
 
   def edit
-    unless @submission.status == "pending"
-      redirect_to form_submission_path(@submission), alert: "只有审核中的报名才可以修改。"
-    end
   end
 
   def update
-    unless @submission.status == "pending"
-      redirect_to form_submission_path(@submission), alert: "只有审核中的报名才可以修改。"
-      return
-    end
-
     answer_params = params.permit!.to_h.slice(
       *@submission.form.form_fields.map { |f| f.id.to_s },
       *@submission.form.form_fields.select { |f| f.field_type == "file" }.map { |f| "file_#{f.id}" }
