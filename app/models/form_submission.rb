@@ -21,6 +21,7 @@ class FormSubmission < ApplicationRecord
     form_answers.joins(:form_field)
                 .where(form_fields: { field_type: "email" })
                 .pick(:value)
+                &.strip&.downcase
                 .presence
   end
 
