@@ -5,7 +5,14 @@
       <h1 class="page-title">成员广场</h1>
       <p class="page-subtitle"><%= @total_count %> 位社区成员 · 来自 <%= @cities.size %> 个城市 · 找人聊聊或一起做点东西</p>
     </div>
-    <button class="btn"><%= inline_svg_icon("send") %> 邀请新成员</button>
+    <div style="display:flex;gap:8px;">
+      <% if current_user&.admin? %>
+        <%= link_to members_path(format: :csv), class: "btn btn-ghost" do %>
+          <%= inline_svg_icon("download") %> 下载 CSV
+        <% end %>
+      <% end %>
+      <button class="btn"><%= inline_svg_icon("send") %> 邀请新成员</button>
+    </div>
   </div>
 
   <%# Filter bar %>
