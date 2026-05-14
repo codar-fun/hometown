@@ -15,6 +15,6 @@ class ApplicationStatusMailer < ApplicationMailer
     @submission = form_submission
     @user = form_submission.user
     @form = form_submission.form
-    mail(to: @user.email, subject: "Update on your application")
+    mail(to: form_submission.recipient_email, subject: "Update on your application")
   end
 end
