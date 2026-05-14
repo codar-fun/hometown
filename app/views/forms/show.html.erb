@@ -18,6 +18,11 @@
       </div>
 
       <div style="border-top:1px solid var(--border);padding-top:20px;">
+        <div style="background:var(--bg-elev);border-left:3px solid var(--accent);padding:12px 14px;border-radius:4px;margin-bottom:16px;">
+          <p style="margin:0;font-size:12px;color:var(--text-2);line-height:1.5;">
+            <strong>⚠️ 提醒：</strong> 表单填写需要先登录。登录/注册后需要重新进入此页面填写表单，之前的填写内容不会保存。
+          </p>
+        </div>
         <p style="margin:0 0 16px;font-size:13px;color:var(--text-2);">请先登录，才能提交报名。</p>
         <%= link_to new_identification_path(return_to: request.path), class: "btn btn-primary", style: "width:100%;justify-content:center;" do %>
           登录 / 注册 后报名
