@@ -1,6 +1,6 @@
 class MembersController < ApplicationController
   def index
-    @members = User.all.order(created_at: :desc)
+    @members = User.includes(:avatar_attachment).order(created_at: :desc)
 
     if params[:role].present? && params[:role] != "all"
       @members = @members.where(role: params[:role])
