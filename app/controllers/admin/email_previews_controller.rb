@@ -1,6 +1,8 @@
 class Admin::EmailPreviewsController < Admin::BaseController
   def show
-    @approved_submission = FormSubmission.approved.includes(:user, :form).last
-    @form = Form.order(created_at: :desc).first
+    hackathon = Hackathon.find_by!(slug: "hackathon-2026")
+    @form = hackathon.form
+    @submission = FormSubmission.approved.where(form: @form).includes(:user, :form, :form_answers).first
+    @hackathon = hackathon
   end
 end
