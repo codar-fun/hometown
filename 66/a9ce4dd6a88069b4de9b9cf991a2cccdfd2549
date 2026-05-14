@@ -1,0 +1,19 @@
+app/javascript/controllers/review_queue_controller.js
+  s_b2a4b8d6fb27cb::t_814988be5fe757 29-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "66a9ce4dd6a88069b4de9b9cf991a2cccdfd2549",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
