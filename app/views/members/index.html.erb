@@ -111,5 +111,7 @@
 
   <% if @members.empty? %>
     <div style="padding:60px;text-align:center;color:var(--text-3);">没有符合条件的成员</div>
+  <% else %>
+    <%== pagy_nav(@pagy) %>
   <% end %>
 </div>

@@ -1,16 +1,16 @@
 class MembersController < ApplicationController
   def index
-    @members = User.includes(:avatar_attachment).order(created_at: :desc)
+    scope = User.includes(:avatar_attachment).order(created_at: :desc)
 
     if params[:role].present? && params[:role] != "all"
-      @members = @members.where(role: params[:role])
+      scope = scope.where(role: params[:role])
     end
     if params[:city].present? && params[:city] != "all"
-      @members = @members.where(city: params[:city])
+      scope = scope.where(city: params[:city])
     end
     if params[:q].present?
       q = "%#{params[:q]}%"
-      @members = @members.where("name ILIKE ? OR handle ILIKE ? OR tagline ILIKE ?", q, q, q)
+      scope = scope.where("name ILIKE ? OR handle ILIKE ? OR tagline ILIKE ?", q, q, q)
     end
 
     @following_ids = current_user&.following&.ids&.to_set || Set.new
@@ -19,8 +19,14 @@ class MembersController < ApplicationController
     @cities = User.where.not(city: nil).distinct.pluck(:city).sort
 
     respond_to do |format|
-      format.html
-      format.csv { send_member_csv(@members) }
+      format.html do
+        @pagy, @members = pagy(scope, limit: 100)
+      end
+      format.csv do
+        authorize_admin!
+        csv_content = generate_members_csv(scope)
+        send_data csv_content, filename: "members_#{Time.current.to_date}.csv", type: "text/csv"
+      end
     end
   end
 
