@@ -26,8 +26,9 @@ export default class extends Controller {
     btn.scrollIntoView({ block: "nearest" })
 
     const id = btn.dataset.submissionId
-    const frame = document.getElementById("detail_panel")
-    if (frame && id) frame.src = `/admin/form_submissions/${id}`
+    if (id) {
+      Turbo.visit(`/admin/form_submissions/${id}`, { frame: "detail_panel" })
+    }
   }
 
   onKey(e) {
