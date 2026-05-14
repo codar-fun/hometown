@@ -13,6 +13,8 @@ class MembersController < ApplicationController
       @members = @members.where("name ILIKE ? OR handle ILIKE ? OR tagline ILIKE ?", q, q, q)
     end
 
+    @following_ids = current_user&.following&.ids&.to_set || Set.new
+
     @total_count = User.count
     @cities = User.where.not(city: nil).distinct.pluck(:city).sort
   end

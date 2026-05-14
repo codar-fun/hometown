@@ -83,7 +83,7 @@
         </div>
         <div style="flex-shrink:0;">
           <% if logged_in? && m != current_user %>
-            <% following = current_user.following.include?(m) %>
+            <% following = @following_ids.include?(m.id) %>
             <button class="btn btn-sm<%= following ? '' : ' btn-primary' %>"
               style="<%= following ? 'background:var(--accent-soft);color:var(--accent);border-color:#D9F99D;' : '' %>">
               <%= following ? "#{inline_svg_icon('check')} 已关注".html_safe : "+ 关注" %>
