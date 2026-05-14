@@ -1,0 +1,23 @@
+app/views/admin/email_previews/show.html.erb
+  s_b2a4b8d6fb27cb::t_51c91bf55c0174 70-88
+  s_b2a4b8d6fb27cb::t_96777dd687f702 37,41
+  s_b2a4b8d6fb27cb::t_4227f88024a40e 57,59-60,63
+app/controllers/admin/email_previews_controller.rb
+  s_b2a4b8d6fb27cb::t_ea5ee05cb83522 3-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "47012453b5f72b4d1c2b8e337ef10fa633dcfdb0",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
