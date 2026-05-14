@@ -1,0 +1,19 @@
+app/views/admin/email_previews/show.html.erb
+  s_b2a4b8d6fb27cb::t_c304a6fcc64a01 71-72,87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "adfa4f61641c1b7ba394374b46ce8d6116bf8fc4",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
