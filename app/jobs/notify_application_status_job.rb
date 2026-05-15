@@ -11,5 +11,7 @@ class NotifyApplicationStatusJob < ApplicationJob
     when "rejected"
       ApplicationStatusMailer.rejected(submission).deliver_now
     end
+  rescue => e
+    Rails.logger.error "[NotifyApplicationStatusJob] Failed to send email for submission #{form_submission_id}: #{e.message}"
   end
 end
