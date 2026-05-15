@@ -59,20 +59,35 @@ class Admin::FormSubmissionsController < Admin::BaseController
 
   def resend_approval_email
     unless @submission.status == "approved"
-      redirect_to admin_form_submissions_path, alert: "只能对已批准的报名重发邮件。"
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.update("flash", html: '<p class="alert">只能对已批准的报名重发邮件。</p>') }
+        format.html { redirect_to admin_form_submissions_path, alert: "只能对已批准的报名重发邮件。" }
+      end
       return
     end
     ApplicationStatusMailer.approved(@submission).deliver_later
-    redirect_to admin_form_submissions_path(id: @submission.id), notice: "确认邮件已重新发送给 #{@submission.user.display_name}。"
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("detail_panel",
+          partial: "admin/form_submissions/detail",
+          locals: { submission: @submission, notice: "确认邮件已重新发送给 #{@submission.user.display_name}。" })
+      end
+      format.html { redirect_to admin_form_submissions_path(id: @submission.id), notice: "确认邮件已重新发送给 #{@submission.user.display_name}。" }
+    end
   end
 
   def star
     @submission.update!(starred: !@submission.starred)
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("submission_#{@submission.id}",
-          partial: "admin/form_submissions/submission_row",
-          locals: { submission: @submission })
+        render turbo_stream: [
+          turbo_stream.replace("submission_#{@submission.id}",
+            partial: "admin/form_submissions/submission_row",
+            locals: { submission: @submission }),
+          turbo_stream.update("detail_panel",
+            partial: "admin/form_submissions/detail",
+            locals: { submission: @submission })
+        ]
       end
       format.html { redirect_to admin_form_submissions_path }
     end

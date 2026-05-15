@@ -32,7 +32,9 @@ export default class extends Controller {
   }
 
   onKey(e) {
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") return
+    const tag = e.target.tagName
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return
+    if (e.target.isContentEditable) return
     if (e.metaKey || e.ctrlKey || e.altKey) return
 
     const items = this.itemTargets
