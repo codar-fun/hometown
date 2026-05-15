@@ -40,9 +40,10 @@ class FormSubmissionsController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @submission.form.form_fields.each do |field|
-        answer = @submission.form_answers.find_by!(form_field: field)
+        answer = @submission.form_answers.find_or_initialize_by(form_field: field)
         value  = answer_params[field.id.to_s]
-        answer.update!(value: value.is_a?(Array) ? value.to_json : value.to_s)
+        answer.value = value.is_a?(Array) ? value.to_json : value.to_s
+        answer.save!
         if field.field_type == "file" && answer_params["file_#{field.id}"].present?
           answer.file_attachment.attach(answer_params["file_#{field.id}"])
         end
