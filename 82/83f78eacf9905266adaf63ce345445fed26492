@@ -1,0 +1,21 @@
+app/controllers/admin/form_submissions_controller.rb
+  s_b2a4b8d6fb27cb::t_a0318c2a079fd3 62-65,69-76,83-90
+app/javascript/controllers/review_queue_controller.js
+  s_b2a4b8d6fb27cb::t_835e29aad013ab 35-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "8283f78eacf9905266adaf63ce345445fed26492",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
