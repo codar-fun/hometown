@@ -49,7 +49,7 @@ class Admin::FormFieldsController < Admin::BaseController
   private
 
   def set_form
-    @form = Form.find(params[:form_id])
+    @form = Form.find_by!(slug: params[:form_id])
   end
 
   def field_params
