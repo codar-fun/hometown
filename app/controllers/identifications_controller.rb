@@ -16,10 +16,16 @@ class IdentificationsController < ApplicationController
 
     raw_code = OtpService.generate_for(user: user, channel: channel)
 
-    if channel == "email"
-      SendOtpEmailJob.perform_later(user.id, raw_code)
-    else
-      SendOtpSmsJob.perform_later(user.id, raw_code)
+    begin
+      if channel == "email"
+        SendOtpEmailJob.perform_later(user.id, raw_code)
+      else
+        SendOtpSmsJob.perform_later(user.id, raw_code)
+      end
+    rescue => e
+      Rails.logger.error("[IdentificationsController] OTP delivery failed: #{e.message}")
+      flash.now[:alert] = channel == "email" ? "验证码邮件发送失败，请稍后重试" : "短信发送失败，请稍后重试或使用邮箱登录"
+      return render :new, status: :unprocessable_entity
     end
 
     session[:pending_user_id] = user.id
