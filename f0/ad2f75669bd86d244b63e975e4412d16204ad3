@@ -1,0 +1,19 @@
+app/controllers/identifications_controller.rb
+  s_b2a4b8d6fb27cb::t_b4db96d6bea1b5 19-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "f0ad2f75669bd86d244b63e975e4412d16204ad3",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
