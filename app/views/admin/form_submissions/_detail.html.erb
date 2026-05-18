@@ -113,7 +113,7 @@
   <% end %>
 
   <%# Answers %>
-  <% answers = submission.form_answers.includes(:form_field).where.not(form_field: { for_admin: true }).to_a %>
+  <% answers = submission.form_answers.includes(:form_field).reject { |a| a.form_field.for_admin } %>
   <% if answers.any? %>
     <div class="card" style="margin-bottom:16px;">
       <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px;">表单回答</div>
