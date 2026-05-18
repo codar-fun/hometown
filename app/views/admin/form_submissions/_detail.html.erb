@@ -112,7 +112,7 @@
     </div>
   <% end %>
 
-  <%# Answers -->
+  <%# Answers %>
   <% answers = submission.form_answers.includes(:form_field).where.not(form_field: { for_admin: true }).to_a %>
   <% if answers.any? %>
     <div class="card" style="margin-bottom:16px;">
