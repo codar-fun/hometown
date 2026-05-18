@@ -22,7 +22,7 @@
         multipart: true, class: "stack", style: "gap:24px;",
         data: { controller: "form", action: "keydown->form#preventEnter" } do |f| %>
 
-    <% @form.form_fields.order(:position).each do |field| %>
+    <% @form.form_fields.where(for_admin: false).order(:position).each do |field| %>
       <div>
         <label style="display:block;font-size:14px;font-weight:500;margin-bottom:<%= field.field_type.in?(%w[radio checkbox]) ? '10px' : '6px' %>;">
           <%= field.label %>

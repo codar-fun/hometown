@@ -21,6 +21,11 @@
         <span style="color:var(--text-2);">必填</span>
       </label>
 
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+        <%= f.check_box :for_admin, style: "width:14px;height:14px;accent-color:var(--accent);" %>
+        <span style="color:var(--text-2);">仅Admin</span>
+      </label>
+
       <div style="display:flex;gap:4px;">
         <%= f.submit "保存", class: "btn btn-sm btn-primary", style: "height:30px;padding:0 10px;font-size:12px;" %>
         <%= button_to admin_form_form_field_path(form_obj, field), method: :delete,

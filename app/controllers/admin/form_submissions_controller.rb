@@ -1,5 +1,5 @@
 class Admin::FormSubmissionsController < Admin::BaseController
-  before_action :set_submission, only: [ :show, :approve, :reject, :star, :resend_approval_email ]
+  before_action :set_submission, only: [ :show, :approve, :reject, :star, :resend_approval_email, :update ]
 
   def index
     scope = FormSubmission.includes(:user, :form)
@@ -90,6 +90,37 @@ class Admin::FormSubmissionsController < Admin::BaseController
         ]
       end
       format.html { redirect_to admin_form_submissions_path }
+    end
+  end
+
+  def update
+    # Save admin-only field answers
+    admin_fields = @submission.form.form_fields.where(for_admin: true)
+    ActiveRecord::Base.transaction do
+      admin_fields.each do |field|
+        value = params.dig(:form_answer, field.id.to_s)
+        answer = @submission.form_answers.find_or_initialize_by(form_field: field)
+        answer.value = value.is_a?(String) ? value : value.to_s
+        answer.save!
+      end
+    end
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("detail_panel",
+          partial: "admin/form_submissions/detail",
+          locals: { submission: @submission })
+      end
+      format.html { redirect_to admin_form_submissions_path(id: @submission.id), notice: "标记已保存" }
+    end
+  rescue ActiveRecord::RecordInvalid => e
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update("detail_panel",
+          partial: "admin/form_submissions/detail",
+          locals: { submission: @submission })
+      end
+      format.html { redirect_to admin_form_submissions_path(id: @submission.id), alert: e.message }
     end
   end
 

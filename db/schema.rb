@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_18_173947) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_18_174955) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -86,6 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_173947) do
   create_table "form_fields", id: :string, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "field_type", null: false
+    t.boolean "for_admin", default: false
     t.string "form_id", null: false
     t.string "label", null: false
     t.jsonb "options", default: []

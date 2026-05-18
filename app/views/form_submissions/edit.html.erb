@@ -20,7 +20,7 @@
         multipart: true, class: "stack", style: "gap:24px;",
         data: { controller: "form", action: "keydown->form#preventEnter" } do |f| %>
 
-    <% @submission.form.form_fields.order(:position).each do |field| %>
+    <% @submission.form.form_fields.where(for_admin: false).order(:position).each do |field| %>
       <% answer = @submission.form_answers.find { |a| a.form_field_id == field.id } %>
       <% current_value = answer&.value %>
       <% current_value = answer.file_attachment.filename.to_s if field.field_type == "file" && answer&.file_attachment&.attached? %>

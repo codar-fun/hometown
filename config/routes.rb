@@ -56,7 +56,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :form_submissions, only: [ :index, :show ] do
+    resources :form_submissions, only: [ :index, :show, :update ] do
       member do
         patch :approve
         patch :reject

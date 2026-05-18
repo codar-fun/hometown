@@ -74,8 +74,46 @@
     <% end %>
   </div>
 
-  <%# Answers %>
-  <% answers = submission.form_answers.includes(:form_field).to_a %>
+  <%# Admin-only fields (for admin marking) %>
+  <% admin_fields = submission.form.form_fields.where(for_admin: true) %>
+  <% if admin_fields.any? %>
+    <div class="card" style="background:var(--bg-elev);border:1px solid var(--accent-soft);margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:500;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">Admin 标记</div>
+      <%= form_with url: admin_form_submission_path(submission), method: :patch,
+            local: true, style: "display:contents;" do |f| %>
+        <div class="stack" style="gap:12px;">
+          <% admin_fields.each do |field| %>
+            <% answer = submission.form_answers.find_by(form_field_id: field.id) %>
+            <% current_value = answer&.value %>
+            <div>
+              <label style="display:block;font-size:12px;color:var(--text-2);margin-bottom:4px;"><%= field.label %></label>
+              <% if field.field_type == "checkbox" %>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                  <input type="checkbox" name="form_answer[<%= field.id %>]" value="on" <%= current_value.present? ? "checked" : "" %> style="width:14px;height:14px;cursor:pointer;" />
+                  <span style="font-size:13px;"><%= current_value.present? ? "已标记" : "未标记" %></span>
+                </label>
+              <% elsif field.field_type == "radio" %>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <% field.options.each do |opt| %>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;">
+                      <input type="radio" name="form_answer[<%= field.id %>]" value="<%= opt %>" <%= current_value == opt ? "checked" : "" %> style="cursor:pointer;" />
+                      <%= opt %>
+                    </label>
+                  <% end %>
+                </div>
+              <% else %>
+                <input type="text" name="form_answer[<%= field.id %>]" value="<%= current_value %>" class="input" style="font-size:13px;height:32px;" />
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <%= f.submit "保存标记", class: "btn btn-primary btn-sm", style: "margin-top:8px;" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# Answers -->
+  <% answers = submission.form_answers.includes(:form_field).where.not(form_field: { for_admin: true }).to_a %>
   <% if answers.any? %>
     <div class="card" style="margin-bottom:16px;">
       <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:10px;">表单回答</div>
