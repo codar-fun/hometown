@@ -38,10 +38,7 @@ class VerificationsController < ApplicationController
       }
       return_to = session.delete(:return_to)
 
-      # Check if handle setup is required (controlled by ENFORCE_HANDLE_SETUP env var)
-      enforce_handle = ENV.fetch("ENFORCE_HANDLE_SETUP", "false").downcase == "true"
-
-      if enforce_handle && user.handle.blank?
+      if user.handle.blank?
         session[:return_to] = return_to
         redirect_to new_handle_path, notice: "请先设置用户名"
       else
