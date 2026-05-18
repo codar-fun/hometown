@@ -40,6 +40,22 @@
       <% end %>
     <% end %>
 
+    <% if current_user.form_submissions.any? %>
+      <div class="nav-section-label">我的表单</div>
+      <% current_user.form_submissions.order(submitted_at: :desc).first(5).each do |sub| %>
+        <%= link_to form_submission_path(sub),
+              class: "nav-item #{request.path == form_submission_path(sub) ? 'active' : ''}",
+              data: { action: "sidebar#closeOnMobile" },
+              title: sub.form.title do %>
+          <%= inline_svg_icon("clipboard") %>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+            <%= truncate(sub.form.title, length: 16) %>
+          </span>
+          <%= status_badge(sub.status) %>
+        <% end %>
+      <% end %>
+    <% end %>
+
     <%= link_to profile_path(current_user),
           class: "nav-item #{request.path.include?('/profiles/') ? 'active' : ''}",
           data: { action: "sidebar#closeOnMobile" } do %>
