@@ -26,12 +26,31 @@
         </div>
       <% end %>
 
+      <%# Projects %>
+      <% if @projects.any? %>
+        <div class="card">
+          <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">项目 (<%= @projects.size %>)</div>
+          <div class="stack" style="gap:10px;">
+            <% @projects.each do |project| %>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="flex:1;min-width:0;">
+                  <%= link_to project.name, project_path(project), style: "font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;" %>
+                  <% if project.description.present? %>
+                    <div style="font-size:11px;color:var(--text-3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= project.description %></div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
       <%# Add member form (owner only) %>
       <% if @is_owner %>
         <div class="card">
           <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">添加成员</div>
           <%= form_with url: team_team_members_path(@team), method: :post, style: "display:flex;gap:8px;" do |f| %>
-            <%= f.text_field :handle, class: "input", style: "flex:1;", placeholder: "用户名 / 邮箱 / 用户 ID" %>
+            <%= f.text_field :handle, class: "input", style: "flex:1;", placeholder: "用户名 / 邮箱 / 手机号 / ID" %>
             <%= f.submit "添加", class: "btn btn-primary btn-sm" %>
           <% end %>
         </div>

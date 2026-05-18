@@ -7,9 +7,11 @@ class TeamMembersController < ApplicationController
       return redirect_to team_path(@team), alert: "只有团队创建者才能添加成员"
     end
 
-    user = User.find_by(handle: params[:handle]) ||
-           User.find_by(email: params[:handle]) ||
-           User.find_by(id: params[:handle])
+    query = params[:handle].to_s.strip
+    user = User.find_by(handle: query) ||
+           User.find_by(email: query) ||
+           User.find_by(id: query) ||
+           find_user_by_phone(query)
 
     if user.nil?
       return redirect_to team_path(@team), alert: "找不到该用户"
@@ -47,5 +49,10 @@ class TeamMembersController < ApplicationController
 
   def set_team
     @team = Team.find_by!(slug: params[:team_id])
+  end
+
+  def find_user_by_phone(query)
+    normalized = query.start_with?("+86") ? query : "+86#{query.gsub(/^0/, '')}"
+    User.find_by(phone: normalized) || User.find_by(phone: "+86#{query}")
   end
 end

@@ -9,12 +9,13 @@ class TeamsController < ApplicationController
 
   def show
     @team_members = @team.team_members.includes(:user).order(:joined_at)
+    @projects = @team.projects.order(created_at: :desc)
     @is_owner = @team.owner?(current_user)
     @is_member = @team.member?(current_user)
   end
 
   def new
-    @team = Team.new
+    @team = Team.new(avatar_color: "#BBF7D0")
   end
 
   def create
