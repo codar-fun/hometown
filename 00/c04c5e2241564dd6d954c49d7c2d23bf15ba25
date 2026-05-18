@@ -1,0 +1,35 @@
+app/views/form_submissions/edit.html.erb
+  s_b2a4b8d6fb27cb::t_b6aad2cf1a21c0 23
+db/migrate/20260518174955_add_for_admin_to_form_fields.rb
+  s_b2a4b8d6fb27cb::t_5c5ab970434599 3
+  s_b2a4b8d6fb27cb::t_8fc7d3e0db6de4 1-2,4-5
+app/controllers/admin/form_submissions_controller.rb
+  s_b2a4b8d6fb27cb::t_0bdd6054b7ab00 2
+  s_b2a4b8d6fb27cb::t_b241a2cfd9a075 96-126
+config/routes.rb
+  s_b2a4b8d6fb27cb::t_1fd1f7890f6add 59
+app/views/admin/form_fields/_field_row.html.erb
+  s_b2a4b8d6fb27cb::t_2426666ae8055a 24-28
+app/controllers/admin/form_fields_controller.rb
+  s_b2a4b8d6fb27cb::t_465c4b568ef480 56
+app/views/form_submissions/new.html.erb
+  s_b2a4b8d6fb27cb::t_c5b3adb765a73c 25
+app/views/admin/form_submissions/_detail.html.erb
+  s_b2a4b8d6fb27cb::t_84dcfe7b07a681 77-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "00c04c5e2241564dd6d954c49d7c2d23bf15ba25",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
