@@ -50,28 +50,31 @@
     <%= status_badge(@submission.status) %>
   </div>
 
-  <%# Answers %>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;">
-      你的回答
-    </div>
-    <% @submission.form_answers.includes(:form_field).order("form_fields.position").each do |answer| %>
-      <div style="display:grid;grid-template-columns:160px 1fr;padding:14px 16px;border-bottom:1px solid var(--border);gap:12px;align-items:start;">
-        <div style="font-size:12px;color:var(--text-3);padding-top:1px;"><%= answer.form_field.label %></div>
-        <div style="font-size:14px;line-height:1.6;">
-          <% if answer.form_field.field_type == "file" && answer.file_attachment.attached? %>
-            <%= link_to answer.file_attachment.filename,
-                  rails_blob_path(answer.file_attachment, disposition: "attachment"),
-                  style: "color:var(--accent);" %>
-          <% elsif answer.value.blank? %>
-            <span style="color:var(--text-3);">—</span>
-          <% else %>
-            <%= answer.value %>
-          <% end %>
-        </div>
+  <%# Answers -->
+  <% user_visible_answers = @submission.form_answers.includes(:form_field).where(form_field: { for_admin: false }).order("form_fields.position") %>
+  <% if user_visible_answers.any? %>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;">
+        你的回答
       </div>
-    <% end %>
-  </div>
+      <% user_visible_answers.each do |answer| %>
+        <div style="display:grid;grid-template-columns:160px 1fr;padding:14px 16px;border-bottom:1px solid var(--border);gap:12px;align-items:start;">
+          <div style="font-size:12px;color:var(--text-3);padding-top:1px;"><%= answer.form_field.label %></div>
+          <div style="font-size:14px;line-height:1.6;">
+            <% if answer.form_field.field_type == "file" && answer.file_attachment.attached? %>
+              <%= link_to answer.file_attachment.filename,
+                    rails_blob_path(answer.file_attachment, disposition: "attachment"),
+                    style: "color:var(--accent);" %>
+            <% elsif answer.value.blank? %>
+              <span style="color:var(--text-3);">—</span>
+            <% else %>
+              <%= answer.value %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
   <div style="margin-top:24px;display:flex;gap:10px;">
     <%= link_to root_path, class: "btn" do %>← 返回首页<% end %>
