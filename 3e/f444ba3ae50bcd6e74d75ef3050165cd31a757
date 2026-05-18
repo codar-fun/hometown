@@ -1,0 +1,28 @@
+app/models/user.rb
+  s_b2a4b8d6fb27cb::t_7401c7e01a511a 23-24
+db/migrate/20260518173947_create_hackathon_participants.rb
+  s_b2a4b8d6fb27cb::t_33969e48c0bc37 4-10,13-18
+  s_b2a4b8d6fb27cb::t_d7603e7c9da691 1-3,11-12,19-20
+lib/tasks/backfill_hackathon_participants.rake
+  s_b2a4b8d6fb27cb::t_4fdb46ccd40324 1-40
+app/models/hackathon.rb
+  s_b2a4b8d6fb27cb::t_f44c12add26e5d 11-12
+app/models/hackathon_participant.rb
+  s_b2a4b8d6fb27cb::t_5a244ecd456190 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "3ef444ba3ae50bcd6e74d75ef3050165cd31a757",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
