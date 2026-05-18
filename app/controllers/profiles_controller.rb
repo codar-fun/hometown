@@ -4,6 +4,7 @@ class ProfilesController < ApplicationController
 
   def show
     @submissions = @user.form_submissions.includes(:form)
+    @hackathons = @user.participated_hackathons.order(created_at: :desc)
   end
 
   def edit

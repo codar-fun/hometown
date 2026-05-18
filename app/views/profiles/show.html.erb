@@ -38,7 +38,29 @@
           </div>
         <% end %>
 
-        <%# Activity %>
+        <%# Hackathons -->
+        <% if @hackathons.any? %>
+          <div class="card">
+            <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">参加的黑客松</div>
+            <div class="stack" style="gap:10px;">
+              <% @hackathons.each do |hackathon| %>
+                <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
+                  <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:500;margin-bottom:2px;">
+                      <%= link_to hackathon.name, hackathon_path(hackathon), style: "color:var(--text);text-decoration:none;" %>
+                    </div>
+                    <% participant = @user.hackathon_participants.find_by(hackathon_id: hackathon.id) %>
+                    <div style="font-size:11px;color:var(--text-3);">
+                      <%= participant&.role %> · <%= hackathon.created_at.strftime("%Y 年 %-m 月") %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Activity -->
         <div class="card">
           <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:16px;">我的活动</div>
           <% if @submissions.any? %>
