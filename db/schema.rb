@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_06_122845) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_18_173947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -120,6 +120,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_06_122845) do
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_forms_on_created_by_id"
     t.index ["slug"], name: "index_forms_on_slug", unique: true
+  end
+
+  create_table "hackathon_participants", id: :string, force: :cascade do |t|
+    t.datetime "checked_in_at"
+    t.datetime "created_at", null: false
+    t.string "hackathon_id", null: false
+    t.datetime "registered_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.string "role", null: false
+    t.string "status", default: "pending"
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.index ["hackathon_id"], name: "index_hackathon_participants_on_hackathon_id"
+    t.index ["status"], name: "index_hackathon_participants_on_status"
+    t.index ["user_id", "hackathon_id"], name: "index_hackathon_participants_on_user_id_and_hackathon_id", unique: true
   end
 
   create_table "hackathon_sponsors", id: :string, force: :cascade do |t|
@@ -312,6 +326,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_06_122845) do
   add_foreign_key "form_submissions", "forms"
   add_foreign_key "form_submissions", "users"
   add_foreign_key "forms", "users", column: "created_by_id"
+  add_foreign_key "hackathon_participants", "hackathons"
+  add_foreign_key "hackathon_participants", "users"
   add_foreign_key "hackathon_sponsors", "hackathons"
   add_foreign_key "hackathon_tracks", "hackathons"
   add_foreign_key "hackathons", "forms"

@@ -20,6 +20,8 @@ class User < ApplicationRecord
   has_many :owned_teams, class_name: "Team", foreign_key: :owner_id, dependent: :destroy
   has_many :team_memberships, class_name: "TeamMember", dependent: :destroy
   has_many :teams, through: :team_memberships
+  has_many :hackathon_participants, dependent: :destroy
+  has_many :participated_hackathons, through: :hackathon_participants, source: :hackathon
   has_one_attached :avatar
 
   validates :email,

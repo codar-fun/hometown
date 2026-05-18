@@ -8,6 +8,8 @@ class Hackathon < ApplicationRecord
   has_many :hackathon_tracks, -> { order(:position) }, dependent: :destroy
   has_many :hackathon_sponsors, -> { order(:position) }, dependent: :destroy
   has_many :projects, dependent: :nullify
+  has_many :hackathon_participants, dependent: :destroy
+  has_many :participants, through: :hackathon_participants, source: :user
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
