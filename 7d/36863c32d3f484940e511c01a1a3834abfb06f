@@ -1,0 +1,23 @@
+app/models/hackathon.rb
+  s_b2a4b8d6fb27cb::t_c1bfbeaf24798a 22-27
+app/models/hackathon_participant.rb
+  s_b2a4b8d6fb27cb::t_30a0b034662f15 7-15
+lib/tasks/sync_hackathon_counts.rake
+  s_b2a4b8d6fb27cb::t_f82884c3179ca5 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "7d36863c32d3f484940e511c01a1a3834abfb06f",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
