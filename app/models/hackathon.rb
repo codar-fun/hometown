@@ -19,6 +19,12 @@ class Hackathon < ApplicationRecord
 
   before_validation :generate_slug, on: :create, if: -> { slug.blank? && name.present? }
 
+  # Automatically sync registered_count with actual participant count
+  def update_registered_count
+    self.registered_count = hackathon_participants.count
+    save!
+  end
+
   scope :published, -> { where.not(status: "draft") }
   scope :live,      -> { where(status: "live") }
   scope :featured,  -> { where(featured: true) }
