@@ -72,7 +72,7 @@
                     <div style="font-size:11px;color:var(--text-3);"><%= sub.submitted_at.strftime("%-m 月 %-d 日") %></div>
                   </div>
                   <%= status_badge(sub.status) %>
-                  <%= link_to form_submission_path(sub), class: "btn btn-ghost btn-sm" do %>查看<% end %>
+                  <%= link_to "查看", form_submission_path(sub), class: "btn btn-ghost btn-sm" %>
                 </div>
               <% end %>
             </div>
