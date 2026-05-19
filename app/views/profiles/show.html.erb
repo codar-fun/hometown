@@ -1,9 +1,7 @@
 <% content_for :title, "#{@user.display_name} — Hometown" %>
 <div class="page" style="max-width:880px;">
-  <%# Banner %>
   <div class="profile-banner"></div>
 
-  <%# Avatar + header %>
   <div style="padding:0 24px;position:relative;">
     <div style="display:flex;align-items:flex-end;gap:20px;margin-bottom:24px;">
       <% if @user.avatar.attached? %>
@@ -20,7 +18,7 @@
         </div>
       </div>
       <% if logged_in? && current_user == @user %>
-        <%= link_to edit_profile_path(@user), class: "btn" do %>编辑资料<% end %>
+        <%= link_to "编辑资料", edit_profile_path(@user), class: "btn" %>
       <% elsif logged_in? %>
         <button class="btn btn-primary btn-sm">+ 关注</button>
       <% end %>
@@ -30,7 +28,6 @@
   <div style="padding:0 24px;">
     <div class="grid-2-1" style="gap:20px;margin-bottom:0;">
       <div class="stack" style="gap:20px;">
-        <%# Bio %>
         <% if @user.bio.present? %>
           <div class="card">
             <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:8px;">简介</div>
@@ -38,7 +35,6 @@
           </div>
         <% end %>
 
-        <%# Hackathons -->
         <% if @hackathons.any? %>
           <div class="card">
             <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">参加的黑客松</div>
@@ -60,7 +56,6 @@
           </div>
         <% end %>
 
-        <%# Activity -->
         <div class="card">
           <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:16px;">我的活动</div>
           <% if @submissions.any? %>
@@ -83,7 +78,6 @@
       </div>
 
       <div class="stack" style="gap:20px;">
-        <%# Contact %>
         <div class="card">
           <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">联系方式</div>
           <div class="stack" style="gap:10px;font-size:13px;">
@@ -106,7 +100,6 @@
           </div>
         </div>
 
-        <%# Skills %>
         <% skills = Array(@user.skills) %>
         <% if skills.any? %>
           <div class="card">
@@ -119,7 +112,6 @@
           </div>
         <% end %>
 
-        <%# Stats %>
         <div class="card" style="padding:16px;">
           <div style="display:flex;justify-content:space-between;text-align:center;">
             <div>
