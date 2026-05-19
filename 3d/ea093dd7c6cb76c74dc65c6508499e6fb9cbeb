@@ -1,0 +1,19 @@
+app/views/profiles/show.html.erb
+  s_b2a4b8d6fb27cb::t_1c42b87824dde6 46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.10",
+  "base_commit_sha": "3dea093dd7c6cb76c74dc65c6508499e6fb9cbeb",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
