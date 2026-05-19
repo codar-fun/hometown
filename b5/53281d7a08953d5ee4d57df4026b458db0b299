@@ -1,0 +1,22 @@
+db/migrate/20260519061618_backfill_form_submission_submitted_at.rb
+  s_b2a4b8d6fb27cb::t_ad66e9a3176bb7 1-2,4-5
+  s_b2a4b8d6fb27cb::t_5cbabbcb8587b1 3
+app/views/profiles/show.html.erb
+  s_b2a4b8d6fb27cb::t_72a2c81f0e6249 72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.10",
+  "base_commit_sha": "b553281d7a08953d5ee4d57df4026b458db0b299",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
