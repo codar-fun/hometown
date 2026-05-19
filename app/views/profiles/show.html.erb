@@ -69,7 +69,10 @@
                 <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
                   <div style="flex:1;">
                     <div style="font-size:13px;font-weight:500;margin-bottom:2px;"><%= sub.form.title %></div>
-                    <div style="font-size:11px;color:var(--text-3);"><%= sub.submitted_at.strftime("%-m 月 %-d 日") %></div>
+                    <div style="font-size:11px;color:var(--text-3);">
+                      <% timestamp = sub.submitted_at || sub.created_at %>
+                      <%= timestamp&.strftime("%-m 月 %-d 日") %>
+                    </div>
                   </div>
                   <%= status_badge(sub.status) %>
                   <%= link_to form_submission_path(sub), class: "btn btn-ghost btn-sm" do %>查看<% end %>
