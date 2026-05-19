@@ -43,7 +43,7 @@
                 <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);">
                   <div style="flex:1;">
                     <div style="font-size:13px;font-weight:500;margin-bottom:2px;">
-                      <%= link_to hackathon.name, hackathon_path(hackathon), style: "color:var(--text);text-decoration:none;" %>
+                      <%= hackathon.name %>
                     </div>
                     <% participant = @user.hackathon_participants.find_by(hackathon_id: hackathon.id) %>
                     <div style="font-size:11px;color:var(--text-3);">
