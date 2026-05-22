@@ -52,6 +52,17 @@
           继续即表示同意《社区公约》和《隐私协议》。<br>首次登录将自动创建账号。
         </div>
       <% end %>
+
+      <div style="display:flex;align-items:center;gap:10px;color:var(--text-3);font-size:12px;">
+        <hr style="flex:1;border:none;border-top:1px solid var(--border);">
+        <span>或</span>
+        <hr style="flex:1;border:none;border-top:1px solid var(--border);">
+      </div>
+
+      <a href="<%= semi_oauth_login_path %>" class="btn btn-lg" style="width:100%;justify-content:center;gap:8px;display:inline-flex;align-items:center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        使用 Semi 账号登录
+      </a>
     </div>
   </div>
 </div>

@@ -33,6 +33,7 @@ class User < ApplicationRecord
     uniqueness: { case_sensitive: false },
     format: { with: /\A[a-z0-9_]{2,30}\z/, message: "只能包含小写字母、数字和下划线，长度 2-30 个字符" },
     allow_nil: true
+  validates :semi_id, uniqueness: true, allow_nil: true
   validates :role, inclusion: { in: ROLES }
   validates :name, length: { maximum: 100 }
   validate :email_or_phone_present
@@ -47,13 +48,13 @@ class User < ApplicationRecord
   end
 
   def display_name
-    name.presence || email&.split("@")&.first || phone
+    name.presence || handle.presence || email&.split("@")&.first || phone || "用户"
   end
 
   private
 
   def email_or_phone_present
-    errors.add(:base, "Email or phone number must be provided") if email.blank? && phone.blank?
+    errors.add(:base, "Email or phone number must be provided") if email.blank? && phone.blank? && semi_id.blank?
   end
 
   def normalize_phone

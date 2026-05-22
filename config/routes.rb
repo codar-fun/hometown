@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   resource  :handle,         only: [ :new, :create ]
   delete    "sign_out",      to: "sessions#destroy", as: :sign_out
 
+  # Semi OAuth2
+  get  "auth/semi",  to: "semi_oauth#login",    as: :semi_oauth_login
+  get  "callback",   to: "semi_oauth#callback",  as: :semi_oauth_callback
+
   # Public community pages
   resources :events,   only: [ :index ]
   resources :projects, only: [ :index, :show, :new, :create ] do
