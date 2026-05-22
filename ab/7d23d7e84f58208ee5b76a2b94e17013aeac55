@@ -1,0 +1,40 @@
+app/controllers/semi_oauth_controller.rb
+  s_b2a4b8d6fb27cb::t_13c05f6667e8ab 17
+  s_b2a4b8d6fb27cb::t_47dcd45d2afa6e 125-126,129-130,135,152,176-179
+  s_b2a4b8d6fb27cb::t_5fd4d0f41ca423 128,131,142-147
+  s_b2a4b8d6fb27cb::t_2f721ac69b773a 158-162
+  s_b2a4b8d6fb27cb::t_258e252fce961a 132-134,136-138
+  s_b2a4b8d6fb27cb::t_e3ebdbce74eec4 27
+  s_b2a4b8d6fb27cb::t_3919b8356848cd 31-34
+  s_b2a4b8d6fb27cb::t_beee27e3b34e06 139-141,148,155-157,163-172
+  s_b2a4b8d6fb27cb::t_3b10f5ca2c26bd 180
+  s_b2a4b8d6fb27cb::t_d448fb48be7989 1-16,18-26,28-30,35-124,127,149-151,153-154,173-175,181-182
+app/views/identifications/new.html.erb
+  s_b2a4b8d6fb27cb::t_120d18eeb9c71d 62,65
+  s_b2a4b8d6fb27cb::t_b688d679dd408a 55-61,63-64
+config/routes.rb
+  s_b2a4b8d6fb27cb::t_b5112e4b18df79 10-13
+db/migrate/20260522074252_add_semi_id_to_users.rb
+  s_b2a4b8d6fb27cb::t_719acd6837c636 1-3,5-6
+  s_b2a4b8d6fb27cb::t_d648ceb2080c32 4
+app/models/user.rb
+  s_b2a4b8d6fb27cb::t_a5ae86713bec19 57
+  s_b2a4b8d6fb27cb::t_ebd4cc82370d36 36
+  s_b2a4b8d6fb27cb::t_96883a79f8243c 51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "ab7d23d7e84f58208ee5b76a2b94e17013aeac55",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
