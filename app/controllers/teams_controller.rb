@@ -16,6 +16,7 @@ class TeamsController < ApplicationController
 
   def new
     @team = Team.new(avatar_color: "#BBF7D0")
+    @team.slug = generate_default_slug
   end
 
   def create
@@ -52,5 +53,16 @@ class TeamsController < ApplicationController
 
   def team_params
     params.require(:team).permit(:name, :slug, :description, :avatar_color)
+  end
+
+  def generate_default_slug
+    base = "team-#{SecureRandom.hex(4)}"
+    slug = base
+    n = 1
+    while Team.where(slug: slug).exists?
+      slug = "#{base}-#{n}"
+      n += 1
+    end
+    slug
   end
 end
