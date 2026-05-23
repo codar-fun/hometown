@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
-  before_action :require_login, only: [ :new, :create, :edit, :update, :submit, :approve, :reject, :star ]
-  before_action :set_project, only: [ :show, :edit, :update, :submit, :approve, :reject ]
-  before_action :require_creator, only: [ :edit, :update ]
+  before_action :require_login, only: [ :new, :create, :edit, :update, :submit, :approve, :reject, :star, :destroy ]
+  before_action :set_project, only: [ :show, :edit, :update, :submit, :approve, :reject, :destroy ]
+  before_action :require_creator, only: [ :edit, :update, :destroy ]
   before_action :require_creator_for_submit, only: [ :submit ]
   before_action :require_admin, only: [ :approve, :reject ]
 
@@ -101,6 +101,11 @@ class ProjectsController < ApplicationController
       current_user.project_likes.create!(project: @project)
     end
     redirect_to project_path(@project)
+  end
+
+  def destroy
+    @project.destroy
+    redirect_to projects_path, notice: "项目已删除"
   end
 
   private

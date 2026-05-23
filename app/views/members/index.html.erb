@@ -79,7 +79,7 @@
             <% if m.city.present? %><span>·</span><span>📍 <%= m.city %></span><% end %>
             <% if current_user&.admin? %>
               <% if m.email.present? %><span>·</span><span class="mono" style="color:var(--text-2);"><%= m.email %></span><% end %>
-              <% if m.phone.present? %><span>·</span><span class="mono" style="color:var(--text-2);"><%= m.phone %></span><% end %>
+              <% if m.phone.present? %><span>·</span><span class="mono" style="color:var(--text-2);">****<%= m.phone.last(4) %></span><% end %>
             <% end %>
           </div>
         </div>

@@ -56,7 +56,7 @@
 
       <%# Action buttons %>
       <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-        <% if @is_creator && @project.status == "draft" || @project.status == "rejected" %>
+        <% if @is_creator && (@project.status == "draft" || @project.status == "rejected") %>
           <% if @project.team_id.blank? %>
             <div style="padding:8px 12px;background:#FEE2E2;border-radius:6px;font-size:12px;color:#991B1B;display:flex;align-items:center;gap:8px;">
               ⚠️ 提交项目需要先选择一个团队。<%= link_to "编辑项目", edit_project_path(@project), class: "underline" %>
@@ -80,6 +80,11 @@
         <% if @is_creator && @project.status == "rejected" %>
           <%= button_to submit_project_path(@project), method: :post, class: "btn btn-sm" do %>
             重新提交
+          <% end %>
+        <% end %>
+        <% if @is_creator %>
+          <%= button_to project_path(@project), method: :delete, form: { data: { turbo_confirm: "确定要删除这个项目吗？此操作无法撤销。" } }, class: "btn btn-danger btn-sm" do %>
+            🗑️ 删除项目
           <% end %>
         <% end %>
       </div>
@@ -185,7 +190,7 @@
         </div>
       </div>
 
-      <%# Submitted at -->
+      <%# Submitted at %>
       <% if @project.submitted_at.present? %>
         <div style="font-size:12px;color:var(--text-3);text-align:center;">
           提交于 <%= @project.submitted_at.in_time_zone('Asia/Shanghai').strftime("%Y 年 %-m 月 %-d 日 %H:%M:%S") %>
