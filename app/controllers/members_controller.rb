@@ -20,7 +20,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @pagy, @members = pagy(scope, limit: 100)
+        @pagy, @members = pagy(scope, limit: 50)
       end
       format.csv do
         authorize_admin!

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_23_061633) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_23_142516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -107,6 +107,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_061633) do
     t.string "user_id", null: false
     t.index ["form_id", "status"], name: "index_form_submissions_on_form_id_and_status"
     t.index ["form_id", "user_id"], name: "index_form_submissions_on_form_id_and_user_id", unique: true
+    t.index ["status"], name: "index_form_submissions_on_status"
+    t.index ["submitted_at"], name: "index_form_submissions_on_submitted_at"
     t.index ["user_id"], name: "index_form_submissions_on_user_id"
   end
 
@@ -120,6 +122,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_061633) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "index_forms_on_created_by_id"
+    t.index ["published"], name: "index_forms_on_published"
     t.index ["slug"], name: "index_forms_on_slug", unique: true
   end
 
@@ -183,6 +186,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_061633) do
     t.string "tagline"
     t.string "theme"
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_hackathons_on_created_at"
     t.index ["created_by_id"], name: "index_hackathons_on_created_by_id"
     t.index ["form_id"], name: "index_hackathons_on_form_id"
     t.index ["slug"], name: "index_hackathons_on_slug", unique: true
@@ -241,6 +245,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_061633) do
     t.text "video_url"
     t.string "winner"
     t.index ["hackathon_id"], name: "index_projects_on_hackathon_id"
+    t.index ["likes_count"], name: "index_projects_on_likes_count"
+    t.index ["submitted_at"], name: "index_projects_on_submitted_at"
+    t.index ["track"], name: "index_projects_on_track", using: :gin
   end
 
   create_table "sessions", id: :string, force: :cascade do |t|
@@ -273,6 +280,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_061633) do
     t.string "owner_id", null: false
     t.string "slug", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_teams_on_created_at"
     t.index ["owner_id"], name: "index_teams_on_owner_id"
     t.index ["slug"], name: "index_teams_on_slug", unique: true
   end
