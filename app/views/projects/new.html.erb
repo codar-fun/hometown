@@ -17,17 +17,6 @@
     </div>
   </div>
 
-  <% if @teams.empty? %>
-    <div style="padding:20px 24px;background:#FEF3C7;border-radius:8px;margin-bottom:20px;border-left:4px solid #F59E0B;">
-      <div style="font-size:13px;color:#A16207;">
-        <strong>⚠️ 需要团队：</strong>项目提交需要选择一个团队，请先创建或加入一个团队。
-        <%= link_to new_team_path, class: "btn btn-sm btn-primary", style: "margin-left:8px;", target: "_blank" do %>
-          + 创建团队
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-
   <%= form_with model: @project, url: projects_path do |f| %>
     <div class="card" style="padding:0;">
 
@@ -52,17 +41,7 @@
               <%= f.select :hackathon_id, @hackathons.map { |h| [h.name, h.id] }, { include_blank: "不关联" }, class: "select" %>
             </div>
           <% end %>
-          <div>
-            <label class="label">所属团队 <span style="color:var(--danger)">*</span></label>
-            <% if @teams.any? %>
-              <%= f.select :team_id, @teams.map { |t| [t.name, t.id] }, { include_blank: "选择团队" }, class: "select", required: true %>
-            <% else %>
-              <div style="padding:12px 14px;background:#FEE2E2;border:1px solid #FECACA;border-radius:6px;color:#991B1B;font-size:13px;">
-                还没有加入任何团队。<%= link_to "创建团队", new_team_path, target: "_blank", class: "underline" %>
-              </div>
-              <%= f.hidden_field :team_id, value: "" %>
-            <% end %>
-          </div>
+          <%= render "team_select", f: f, teams: @teams %>
           <div>
             <label class="label">所属赛道 <span style="color:var(--danger)">*</span></label>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">

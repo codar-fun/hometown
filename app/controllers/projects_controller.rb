@@ -34,6 +34,11 @@ class ProjectsController < ApplicationController
     @teams = logged_in? ? current_user.teams.order(:name) : []
   end
 
+  def refresh_teams
+    @teams = current_user.teams.order(:name)
+    render partial: "team_select", locals: { teams: @teams }
+  end
+
   def create
     @project = Project.new(project_params)
 

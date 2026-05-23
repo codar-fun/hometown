@@ -20,6 +20,9 @@ Rails.application.routes.draw do
       post :approve
       post :reject
     end
+    collection do
+      get :refresh_teams
+    end
   end
   resources :members,  only: [ :index ]
   resources :teams, only: [ :index, :show, :new, :create, :edit, :update ] do

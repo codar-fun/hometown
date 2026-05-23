@@ -1,0 +1,18 @@
+<div data-controller="team-select">
+  <label class="label">所属团队 <span style="color:var(--danger)">*</span></label>
+  <div style="display:flex;gap:8px;align-items:flex-start;">
+    <div style="flex:1;">
+      <% if teams.any? %>
+        <%= f.select :team_id, teams.map { |t| [t.name, t.id] }, { include_blank: "选择团队" }, class: "select", required: true %>
+      <% else %>
+        <div style="padding:12px 14px;background:#FEE2E2;border:1px solid #FECACA;border-radius:6px;color:#991B1B;font-size:13px;">
+          还没有加入任何团队。<%= link_to "创建团队", new_team_path, target: "_blank", class: "underline" %>
+        </div>
+        <%= f.hidden_field :team_id, value: "" %>
+      <% end %>
+    </div>
+    <button type="button" class="btn btn-sm" style="margin-top:7px;" data-action="team-select#refresh" data-team-select-target="refreshBtn">
+      ↻
+    </button>
+  </div>
+</div>
