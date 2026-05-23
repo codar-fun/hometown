@@ -89,18 +89,8 @@
         <% end %>
       </div>
 
-      <%# Links %>
+      <%# Action footer -->
       <div style="display:flex;gap:8px;margin-bottom:20px;">
-        <% if @project.demo_url.present? %>
-          <a href="<%= @project.demo_url =~ /\Ahttps?:\/\// ? @project.demo_url : "https://#{@project.demo_url}" %>" target="_blank" class="btn btn-primary btn-sm">
-            <%= inline_svg_icon("external") %> 在线 Demo
-          </a>
-        <% end %>
-        <% if @project.github_url.present? %>
-          <a href="<%= @project.github_url =~ /\Ahttps?:\/\// ? @project.github_url : "https://#{@project.github_url}" %>" target="_blank" class="btn btn-sm">
-            <%= inline_svg_icon("github") %> 代码仓库
-          </a>
-        <% end %>
         <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
           <span style="font-size:13px;color:var(--text-3);display:flex;align-items:center;gap:4px;">
             <%= inline_svg_icon("heart") %> <span class="mono"><%= @project.likes_count %></span>
@@ -148,6 +138,33 @@
     </div>
 
     <div class="stack" style="gap:16px;">
+      <%# Links %>
+      <% if @project.demo_url.present? || @project.github_url.present? || @project.video_url.present? %>
+        <div class="card">
+          <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">链接</div>
+          <div class="stack" style="gap:10px;font-size:13px;">
+            <% if @project.demo_url.present? %>
+              <div style="display:flex;align-items:center;gap:8px;overflow:hidden;">
+                <%= inline_svg_icon("external") %>
+                <a href="<%= @project.demo_url =~ /\Ahttps?:\/\// ? @project.demo_url : "https://#{@project.demo_url}" %>" target="_blank" style="color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">PPT / 网页 / 产品链接</a>
+              </div>
+            <% end %>
+            <% if @project.github_url.present? %>
+              <div style="display:flex;align-items:center;gap:8px;overflow:hidden;">
+                <%= inline_svg_icon("github") %>
+                <a href="<%= @project.github_url =~ /\Ahttps?:\/\// ? @project.github_url : "https://#{@project.github_url}" %>" target="_blank" style="color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">GitHub / 代码仓库</a>
+              </div>
+            <% end %>
+            <% if @project.video_url.present? %>
+              <div style="display:flex;align-items:center;gap:8px;overflow:hidden;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <a href="<%= @project.video_url =~ /\Ahttps?:\/\// ? @project.video_url : "https://#{@project.video_url}" %>" target="_blank" style="color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">演示视频</a>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
       <%# Tech stack %>
       <% if @project.tech.any? %>
         <div class="card">
