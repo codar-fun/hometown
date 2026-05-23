@@ -63,7 +63,9 @@
         </a>
         <div style="min-width:200px;flex:0 0 auto;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
-            <span style="font-size:14px;font-weight:600;"><%= m.name || m.handle %></span>
+            <%= link_to profile_path(m), style: "text-decoration:none;color:inherit;" do %>
+              <span style="font-size:14px;font-weight:600;"><%= m.name || m.handle %></span>
+            <% end %>
             <% if logged_in? && m == current_user %>
               <span style="font-size:10px;padding:1px 6px;background:var(--accent-soft);color:var(--accent);border-radius:3px;font-weight:600;">你</span>
             <% end %>
