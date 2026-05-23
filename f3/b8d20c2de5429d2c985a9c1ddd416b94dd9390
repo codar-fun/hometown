@@ -1,0 +1,24 @@
+app/views/teams/edit.html.erb
+  s_b2a4b8d6fb27cb::t_3976ca38320283 12-27
+app/controllers/teams_controller.rb
+  s_b2a4b8d6fb27cb::t_29557846208c4d 3-4
+  s_b2a4b8d6fb27cb::t_747798a0f1287e 43-47
+config/routes.rb
+  s_b2a4b8d6fb27cb::t_65569ed068ee79 28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "f3b8d20c2de5429d2c985a9c1ddd416b94dd9390",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
