@@ -43,8 +43,12 @@
             <% end %>
           </div>
           <div style="padding:16px;">
-            <% if p.track.present? %>
-              <span class="badge" style="margin-bottom:8px;font-size:10px;"><%= p.track %></span>
+            <% if p.track.any? %>
+              <div style="display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;">
+                <% p.track.each do |t| %>
+                  <span class="badge" style="font-size:10px;"><%= t %></span>
+                <% end %>
+              </div>
             <% end %>
             <div style="font-size:15px;font-weight:600;margin-bottom:4px;color:var(--text);"><%= p.name %></div>
             <div style="font-size:13px;color:var(--text-2);margin-bottom:12px;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"><%= p.tagline %></div>

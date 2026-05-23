@@ -1,17 +1,17 @@
-<% content_for :title, "提交项目 — Hometown" %>
+<% content_for :title, "编辑项目 — Hometown" %>
 <div class="page" style="max-width:760px;">
-  <%= link_to projects_path, class: "btn btn-ghost btn-sm", style: "margin-bottom:12px;" do %>
-    <%= inline_svg_icon("arrow_left") %> 取消
+  <%= link_to project_path(@project), class: "btn btn-ghost btn-sm", style: "margin-bottom:12px;" do %>
+    <%= inline_svg_icon("arrow_left") %> 返回项目
   <% end %>
 
   <div class="page-header" style="border-bottom:none;margin-bottom:4px;padding-bottom:0;">
     <div>
-      <h1 class="page-title">提交项目</h1>
-      <p class="page-subtitle">Hometown Hackathon 2026 · 在截止日期前提交你的作品</p>
+      <h1 class="page-title">编辑项目</h1>
+      <p class="page-subtitle">更新你的项目信息</p>
     </div>
   </div>
 
-  <%= form_with model: @project, url: projects_path do |f| %>
+  <%= form_with model: @project, url: project_path(@project) do |f| %>
     <div class="card" style="padding:0;">
 
       <%# Section 1: Basics %>
@@ -33,12 +33,6 @@
             <div>
               <label class="label">所属黑客松</label>
               <%= f.select :hackathon_id, @hackathons.map { |h| [h.name, h.id] }, { include_blank: "不关联" }, class: "select" %>
-            </div>
-          <% end %>
-          <% if @teams.any? %>
-            <div>
-              <label class="label">代表团队</label>
-              <%= f.select :team_id, @teams.map { |t| [t.name, t.id] }, { include_blank: "个人参赛" }, class: "select" %>
             </div>
           <% end %>
           <div>
@@ -93,10 +87,10 @@
 
       <%# Footer %>
       <div style="padding:16px 24px;border-top:1px solid var(--border);background:var(--bg-elev);display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:12px;color:var(--text-3);">填写带 * 号的必填项后可提交</span>
+        <span style="font-size:12px;color:var(--text-3);">填写带 * 号的必填项后可保存</span>
         <div style="display:flex;gap:8px;">
-          <%= link_to projects_path, class: "btn" do %>取消<% end %>
-          <%= f.submit "正式提交", class: "btn btn-primary" %>
+          <%= link_to project_path(@project), class: "btn" do %>取消<% end %>
+          <%= f.submit "保存更改", class: "btn btn-primary" %>
         </div>
       </div>
     </div>

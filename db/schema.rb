@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_22_074252) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_23_055354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -233,12 +233,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_22_074252) do
     t.string "tagline"
     t.string "team_id"
     t.jsonb "tech", default: []
-    t.string "track"
+    t.jsonb "track", default: []
     t.datetime "updated_at", null: false
     t.string "video_url"
     t.string "winner"
     t.index ["hackathon_id"], name: "index_projects_on_hackathon_id"
-    t.index ["track"], name: "index_projects_on_track"
   end
 
   create_table "sessions", id: :string, force: :cascade do |t|
