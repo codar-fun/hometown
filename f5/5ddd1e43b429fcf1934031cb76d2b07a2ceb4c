@@ -1,0 +1,23 @@
+db/migrate/20260523142006_add_created_at_indexes_to_hackathons_and_teams.rb
+  s_63f4e4f6c04fe6::t_3c53c590acd939 1-2,5-6
+  s_63f4e4f6c04fe6::t_bfd77e993e2516 3-4
+db/migrate/20260523142516_add_heavy_query_indexes.rb
+  s_63f4e4f6c04fe6::t_20b267ea89a5b5 1-2,14-15
+  s_63f4e4f6c04fe6::t_5f7ff0b7464909 3-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "f55ddd1e43b429fcf1934031cb76d2b07a2ceb4c",
+  "prompts": {},
+  "sessions": {
+    "s_63f4e4f6c04fe6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "64345cfe-d4cf-4255-98ba-bc9149f7f142",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
