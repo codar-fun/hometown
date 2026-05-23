@@ -1,0 +1,22 @@
+test/controllers/teams_controller_test.rb
+  s_b2a4b8d6fb27cb::t_d260873a004f78 1-145
+test/models/team_test.rb
+  s_b2a4b8d6fb27cb::t_0c2f9392feff76 19-22
+  s_b2a4b8d6fb27cb::t_c9aa35b5173e68 1-18,23-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "31d81f84df1136ed319259c6baf77cca1ad74645",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
