@@ -22,5 +22,8 @@ module Hometown
     end
 
     config.active_job.queue_adapter = :inline
+
+    # Set timezone to UTC+8 (China Standard Time)
+    config.time_zone = 'Asia/Shanghai'
   end
 end
