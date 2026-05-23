@@ -1,0 +1,22 @@
+app/views/projects/index.html.erb
+  s_b2a4b8d6fb27cb::t_d6bd41968e4130 6
+app/controllers/projects_controller.rb
+  s_b2a4b8d6fb27cb::t_02ef6d3d3930f9 10,22,28,31-32
+  s_b2a4b8d6fb27cb::t_d9d7ee3d02caaa 23-25,27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "b606fcb2025aab123972201eb23cd17df171e024",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
