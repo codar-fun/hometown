@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_23_060544) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_23_061633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -222,9 +222,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_060544) do
     t.string "cover_color"
     t.string "cover_pattern"
     t.datetime "created_at", null: false
-    t.string "demo_url"
+    t.text "demo_url"
     t.text "description"
-    t.string "github_url"
+    t.text "github_url"
     t.string "hackathon_id"
     t.integer "likes_count", default: 0
     t.string "name", null: false
@@ -238,7 +238,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_060544) do
     t.jsonb "tech", default: []
     t.jsonb "track", default: []
     t.datetime "updated_at", null: false
-    t.string "video_url"
+    t.text "video_url"
     t.string "winner"
     t.index ["hackathon_id"], name: "index_projects_on_hackathon_id"
   end

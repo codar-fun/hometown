@@ -96,15 +96,15 @@
         <div class="stack" style="gap:14px;">
           <div>
             <label class="label">在线 Demo URL</label>
-            <%= f.url_field :demo_url, class: "input", placeholder: "https://your-demo.com" %>
+            <%= f.text_area :demo_url, class: "input textarea", style: "min-height:80px;", placeholder: "演示视频、PPT 或其他资源的链接，支持多行" %>
           </div>
           <div>
             <label class="label">GitHub / 代码仓库</label>
-            <%= f.text_field :github_url, class: "input", placeholder: "github.com/yourname/repo" %>
+            <%= f.text_area :github_url, class: "input textarea", style: "min-height:80px;", placeholder: "代码仓库地址或相关链接，支持多行" %>
           </div>
           <div>
             <label class="label">演示视频 URL</label>
-            <%= f.url_field :video_url, class: "input", placeholder: "https://youtu.be/..." %>
+            <%= f.text_area :video_url, class: "input textarea", style: "min-height:80px;", placeholder: "B站、腾讯视频或其他视频平台的链接，支持多行" %>
           </div>
         </div>
       </div>
