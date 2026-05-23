@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   before_action :require_login, except: [ :index, :show ]
-  before_action :set_team, only: [ :show, :edit, :update ]
-  before_action :require_owner, only: [ :edit, :update ]
+  before_action :set_team, only: [ :show, :edit, :update, :destroy ]
+  before_action :require_owner, only: [ :edit, :update, :destroy ]
 
   def index
     @teams = Team.includes(:owner, :team_members).order(created_at: :desc)
@@ -39,6 +39,11 @@ class TeamsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @team.destroy
+    redirect_to teams_path, notice: "团队已删除"
   end
 
   private

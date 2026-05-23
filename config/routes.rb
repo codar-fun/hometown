@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
   resources :members,  only: [ :index ]
-  resources :teams, only: [ :index, :show, :new, :create, :edit, :update ] do
+  resources :teams, only: [ :index, :show, :new, :create, :edit, :update, :destroy ] do
     resources :team_members, only: [ :create, :destroy ]
   end
 
