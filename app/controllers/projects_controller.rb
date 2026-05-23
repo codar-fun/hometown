@@ -22,7 +22,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.includes(:project_team_members, :project_comments).find(params[:id])
     @comments = @project.project_comments.includes(:user).order(:created_at)
     @liked = logged_in? && current_user.project_likes.exists?(project: @project)
     @is_creator = @project.creator?(current_user)
@@ -112,7 +111,7 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @project = Project.find(params[:id])
+    @project = Project.includes(:project_team_members, :project_comments).find(params[:id])
   end
 
   def require_creator
