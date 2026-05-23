@@ -12,7 +12,7 @@
         </div>
       <% end %>
       <div style="flex:1;padding-bottom:8px;">
-        <div style="font-size:22px;font-weight:600;letter-spacing:-0.02em;"><%= @user.display_name %></div>
+        <div style="font-size:22px;font-weight:600;letter-spacing:-0.02em;"><%= @user.display %></div>
         <div style="font-size:13px;color:var(--text-2);font-family:var(--font-mono);">
           <% if @user.handle.present? %>@<%= @user.handle %> · <% end %>加入于 <%= @user.created_at.strftime("%Y-%m-%d") %>
         </div>
