@@ -6,7 +6,11 @@ class ProjectsController < ApplicationController
   before_action :require_admin, only: [ :approve, :reject ]
 
   def index
-    @projects = Project.all.includes(:project_team_members, :hackathon)
+    @projects = Project.all.includes(
+      project_team_members: :user,
+      project_comments: :user,
+      hackathon: []
+    )
     if params[:track].present?
       @projects = @projects.where("track @> ?", [params[:track]].to_json)
     end
