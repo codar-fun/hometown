@@ -6,29 +6,28 @@ class ProjectsController < ApplicationController
   before_action :require_admin, only: [ :approve, :reject ]
 
   def index
-    @projects = Project.all.includes(
+    # Build query with all includes first
+    query = Project.all.includes(
       :team,
       project_team_members: :user,
       project_comments: :user,
       hackathon: []
     )
-    if params[:track].present?
-      @projects = @projects.where("track @> ?", [params[:track]].to_json)
-    end
-    @projects = case params[:sort]
-    when "likes" then @projects.by_likes
-    else              @projects.by_newest
+
+    # Apply filters and sorting
+    query = query.where("track @> ?", [params[:track]].to_json) if params[:track].present?
+    query = case params[:sort]
+    when "likes" then query.by_likes
+    else              query.by_newest
     end
 
-    # Get unique tracks from all projects in database (unfiltered by current filters)
-    # This is needed for filter buttons, so we need all tracks even if not currently visible
-    all_projects = Project.select(:track).distinct
-    @tracks = []
-    all_projects.each do |p|
-      @tracks.concat(Array(p.track))
-    end
-    @tracks = @tracks.uniq.compact.sort
+    # Force query execution to cache results and use eager loading
+    @projects = query.load
 
+    # Get all unique tracks (using separate query is fine for filters, should be fast)
+    @tracks = Project.select(:track).distinct.map(&:track).flatten.uniq.compact.sort
+
+    # Cache total count
     @total_projects_count = Project.count
   end
 
