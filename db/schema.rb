@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_23_055354) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_23_060544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -228,7 +228,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_23_055354) do
     t.string "hackathon_id"
     t.integer "likes_count", default: 0
     t.string "name", null: false
+    t.text "rejection_reason"
     t.jsonb "seeking", default: []
+    t.string "status", default: "draft", null: false
+    t.datetime "status_updated_at"
     t.datetime "submitted_at"
     t.string "tagline"
     t.string "team_id"

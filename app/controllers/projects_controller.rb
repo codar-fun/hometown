@@ -1,7 +1,9 @@
 class ProjectsController < ApplicationController
-  before_action :require_login, only: [ :new, :create, :edit, :update, :star ]
-  before_action :set_project, only: [ :show, :edit, :update ]
+  before_action :require_login, only: [ :new, :create, :edit, :update, :submit, :approve, :reject, :star ]
+  before_action :set_project, only: [ :show, :edit, :update, :submit, :approve, :reject ]
   before_action :require_creator, only: [ :edit, :update ]
+  before_action :require_creator_for_submit, only: [ :submit ]
+  before_action :require_admin, only: [ :approve, :reject ]
 
   def index
     @projects = Project.all.includes(:project_team_members, :hackathon)
@@ -34,11 +36,10 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
-    @project.submitted_at = Time.current
 
     if @project.save
       @project.project_team_members.create!(user: current_user, role_label: "队长")
-      redirect_to project_path(@project), notice: "项目已提交"
+      redirect_to project_path(@project), notice: "项目草稿已创建，请准备好后提交"
     else
       @hackathons = Hackathon.where(status: %w[live reviewing]).order(start_date: :desc)
       @teams = current_user.teams.order(:name)
@@ -56,6 +57,34 @@ class ProjectsController < ApplicationController
     else
       @hackathons = Hackathon.where(status: %w[live reviewing]).order(start_date: :desc)
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def submit
+    if @project.can_submit?(current_user)
+      @project.submit!
+      redirect_to project_path(@project), notice: "项目已提交"
+    else
+      redirect_to project_path(@project), alert: "无法提交项目"
+    end
+  end
+
+  def approve
+    if @project.can_approve?(current_user)
+      @project.approve!
+      redirect_to project_path(@project), notice: "项目已批准"
+    else
+      redirect_to project_path(@project), alert: "无法批准项目"
+    end
+  end
+
+  def reject
+    if @project.can_reject?(current_user)
+      reason = params[:rejection_reason].presence
+      @project.reject!(reason)
+      redirect_to project_path(@project), notice: "项目已拒绝"
+    else
+      redirect_to project_path(@project), alert: "无法拒绝项目"
     end
   end
 
@@ -78,6 +107,14 @@ class ProjectsController < ApplicationController
 
   def require_creator
     redirect_to project_path(@project), alert: "只有项目创建者才能编辑" unless @project.creator?(current_user)
+  end
+
+  def require_creator_for_submit
+    redirect_to project_path(@project), alert: "只有项目创建者才能提交" unless @project.creator?(current_user)
+  end
+
+  def require_admin
+    redirect_to project_path(@project), alert: "只有管理员才能审批项目" unless current_user&.admin?
   end
 
   def project_params

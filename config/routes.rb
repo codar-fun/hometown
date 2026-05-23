@@ -14,7 +14,12 @@ Rails.application.routes.draw do
   # Public community pages
   resources :events,   only: [ :index ]
   resources :projects, only: [ :index, :show, :new, :create, :edit, :update ] do
-    member { post :star }
+    member do
+      post :star
+      post :submit
+      post :approve
+      post :reject
+    end
   end
   resources :members,  only: [ :index ]
   resources :teams, only: [ :index, :show, :new, :create, :edit, :update ] do
