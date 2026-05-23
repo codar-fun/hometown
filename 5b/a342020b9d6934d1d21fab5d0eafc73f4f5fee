@@ -1,0 +1,41 @@
+app/views/projects/edit.html.erb
+  s_b2a4b8d6fb27cb::t_bae1759961d241 1-98
+app/views/projects/show.html.erb
+  s_b2a4b8d6fb27cb::t_2ea7bf170ccb5e 24-29
+  s_b2a4b8d6fb27cb::t_428c0bb1fc2ccc 3-12
+app/views/projects/new.html.erb
+  s_b2a4b8d6fb27cb::t_4098e36129fba3 45-47,49
+app/controllers/projects_controller.rb
+  s_b2a4b8d6fb27cb::t_92148cbca6a38f 84,86
+  s_b2a4b8d6fb27cb::t_4ae3835ebd3a79 8-10,15-19
+  s_b2a4b8d6fb27cb::t_9dea012ef4f9be 23,26
+  s_b2a4b8d6fb27cb::t_7b48b846523ea8 2-4
+  s_b2a4b8d6fb27cb::t_0f16d5e40acdf5 49-61
+  s_b2a4b8d6fb27cb::t_1f59e267470175 75-82
+config/routes.rb
+  s_b2a4b8d6fb27cb::t_1a9548c0fe61f3 16
+db/migrate/20260523055354_change_project_track_to_jsonb.rb
+  s_b2a4b8d6fb27cb::t_70fd83b81a215d 1,28-29
+  s_b2a4b8d6fb27cb::t_5020d2bd340660 2-27
+app/models/project.rb
+  s_b2a4b8d6fb27cb::t_6fee8c225dcda3 16-20
+  s_b2a4b8d6fb27cb::t_043caec0853612 11
+app/views/projects/index.html.erb
+  s_b2a4b8d6fb27cb::t_cfc8aa310ca6f1 46-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "5ba342020b9d6934d1d21fab5d0eafc73f4f5fee",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
