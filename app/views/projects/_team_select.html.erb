@@ -1,7 +1,7 @@
-<div data-controller="team-select">
+<div data-controller="team-select" data-team-select-target="container">
   <label class="label">所属团队 <span style="color:var(--danger)">*</span></label>
   <div style="display:flex;gap:8px;align-items:flex-start;">
-    <div style="flex:1;">
+    <div style="flex:1;" data-team-select-target="teamWrapper">
       <% if teams.any? %>
         <%= f.select :team_id, teams.map { |t| [t.name, t.id] }, { include_blank: "选择团队" }, class: "select", required: true %>
       <% else %>
