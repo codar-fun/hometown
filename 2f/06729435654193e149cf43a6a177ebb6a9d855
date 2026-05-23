@@ -1,0 +1,24 @@
+app/javascript/controllers/slug_generator_controller.js
+  s_b2a4b8d6fb27cb::t_5cde4673985382 6,13-21,23-27
+app/controllers/teams_controller.rb
+  s_b2a4b8d6fb27cb::t_f543ffdc2f9a56 21-26
+  s_b2a4b8d6fb27cb::t_cb60c2f3fb3bd4 67-78
+config/routes.rb
+  s_b2a4b8d6fb27cb::t_0fb27d3615ba1c 29-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "2f06729435654193e149cf43a6a177ebb6a9d855",
+  "prompts": {},
+  "sessions": {
+    "s_b2a4b8d6fb27cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "27c4c061-18d1-4548-949a-93f616f24faf",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
