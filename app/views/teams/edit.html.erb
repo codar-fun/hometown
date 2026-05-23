@@ -9,4 +9,10 @@
     </div>
   </div>
   <%= render "form", team: @team, url: team_path(@team), submit_label: "保存修改" %>
+
+  <div style="padding:20px 24px;text-align:center;">
+    <%= button_to team_path(@team), method: :delete, form: { data: { turbo_confirm: "确定要删除 #{@team.name} 团队吗？此操作无法撤销，所有数据将被永久删除。" } }, class: "btn btn-danger btn-sm" do %>
+      🗑️ 删除团队
+    <% end %>
+  </div>
 </div>
