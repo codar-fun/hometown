@@ -65,7 +65,11 @@ class ProjectsController < ApplicationController
       @project.submit!
       redirect_to project_path(@project), notice: "项目已提交"
     else
-      redirect_to project_path(@project), alert: "无法提交项目"
+      if @project.team_id.blank?
+        redirect_to edit_project_path(@project), alert: "提交项目必须选择一个团队，请先编辑项目选择团队"
+      else
+        redirect_to project_path(@project), alert: "无法提交项目"
+      end
     end
   end
 

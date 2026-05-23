@@ -9,6 +9,7 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
   validates :track, presence: true
+  validate :team_required_on_submit, if: -> { status == "submitted" }
 
   scope :by_likes, -> { order(likes_count: :desc) }
   scope :by_newest, -> { order(submitted_at: :desc) }
@@ -31,7 +32,7 @@ class Project < ApplicationRecord
   end
 
   def can_submit?(user)
-    creator?(user) && (status == "draft" || status == "rejected")
+    creator?(user) && (status == "draft" || status == "rejected") && team_id.present?
   end
 
   def can_approve?(user)
@@ -56,5 +57,11 @@ class Project < ApplicationRecord
 
   def reopen!
     update!(status: "draft", status_updated_at: Time.current, rejection_reason: nil)
+  end
+
+  private
+
+  def team_required_on_submit
+    errors.add(:team_id, "提交项目必须选择一个团队") if team_id.blank?
   end
 end
