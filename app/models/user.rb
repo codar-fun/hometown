@@ -51,6 +51,10 @@ class User < ApplicationRecord
     name.presence || handle.presence || email&.split("@")&.first || phone || "用户"
   end
 
+  def display
+    handle.present? ? "@#{handle}" : name.presence || (phone.present? ? "****#{phone.last(4)}" : "用户")
+  end
+
   private
 
   def email_or_phone_present

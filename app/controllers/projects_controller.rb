@@ -29,6 +29,19 @@ class ProjectsController < ApplicationController
 
     # Cache total count
     @total_projects_count = Project.count
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        unless current_user&.admin?
+          redirect_to projects_path, alert: "只有管理员才能下载 CSV"
+          return
+        end
+        send_data generate_projects_csv(@projects),
+                  filename: "projects-#{Date.today}.csv",
+                  type: "text/csv"
+      end
+    end
   end
 
   def show
@@ -140,5 +153,29 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(:name, :tagline, :hackathon_id, :team_id,
       :cover_color, :cover_pattern, :description, :demo_url, :github_url,
       :video_url, tech: [], seeking: [], track: [])
+  end
+
+  def generate_projects_csv(projects)
+    require "csv"
+    CSV.generate(headers: true) do |csv|
+      csv << ["名称", "简介", "状态", "赛道", "技术栈", "寻找", "所属团队", "成员", "点赞数", "获奖", "提交时间", "Demo URL", "GitHub"]
+      projects.each do |p|
+        csv << [
+          p.name,
+          p.tagline,
+          p.status,
+          Array(p.track).join(", "),
+          Array(p.tech).join(", "),
+          Array(p.seeking).join(", "),
+          p.team&.name,
+          p.project_team_members.map { |tm| tm.user.display }.join(", "),
+          p.likes_count,
+          p.winner,
+          p.submitted_at&.strftime("%Y-%m-%d %H:%M:%S"),
+          p.demo_url,
+          p.github_url,
+        ]
+      end
+    end
   end
 end

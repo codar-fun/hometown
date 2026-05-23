@@ -6,6 +6,11 @@
       <p class="page-subtitle"><%= @total_projects_count %> 个项目 · 黑客松提交作品</p>
     </div>
     <div style="display:flex;gap:8px;">
+      <% if logged_in? && current_user.admin? %>
+        <%= link_to projects_path(format: :csv, track: params[:track], sort: params[:sort]), class: "btn btn-ghost btn-sm" do %>
+          <%= inline_svg_icon("download") %> 下载 CSV
+        <% end %>
+      <% end %>
       <% if logged_in? %>
         <%= link_to new_project_path, class: "btn btn-primary" do %>
           <%= inline_svg_icon("plus") %> 提交项目
@@ -63,7 +68,7 @@
               <div style="display:flex;align-items:center;gap:-6px;">
                 <% p.project_team_members.first(3).each_with_index do |tm, i| %>
                   <div class="avatar" style="width:22px;height:22px;font-size:9px;margin-left:<%= i == 0 ? 0 : -6 %>px;border:2px solid var(--bg);">
-                    <%= tm.user.name&.first || "?" %>
+                    <%= tm.user&.name&.first || "?" %>
                   </div>
                 <% end %>
               </div>

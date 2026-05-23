@@ -177,10 +177,11 @@
         <div style="font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:12px;">团队</div>
         <div class="stack" style="gap:10px;">
           <% @project.project_team_members.includes(:user).each do |tm| %>
+            <% u = tm.user %>
             <div style="display:flex;align-items:center;gap:10px;">
-              <div class="avatar" style="width:32px;height:32px;font-size:13px;"><%= tm.user.name&.first || "?" %></div>
+              <div class="avatar" style="width:32px;height:32px;font-size:13px;"><%= u.name&.first || u.handle&.first&.upcase || "?" %></div>
               <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:500;"><%= tm.user.display_name %></div>
+                <div style="font-size:13px;font-weight:500;"><%= u.display %></div>
                 <% if tm.role_label.present? %>
                   <div style="font-size:11px;color:var(--text-3);"><%= tm.role_label %></div>
                 <% end %>
