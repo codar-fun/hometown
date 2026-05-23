@@ -1,0 +1,33 @@
+app/models/user.rb
+  s_63f4e4f6c04fe6::t_da92a19fb40fd0 54-57
+app/controllers/profiles_controller.rb
+  s_63f4e4f6c04fe6::t_87246233d7f337 8
+app/views/profiles/show.html.erb
+  s_63f4e4f6c04fe6::t_e2987753c12531 59-80
+app/controllers/projects_controller.rb
+  s_63f4e4f6c04fe6::t_fa3942ee65c3c1 157-180
+  s_63f4e4f6c04fe6::t_a68f822351c9f9 36-39
+  s_63f4e4f6c04fe6::t_d8dff7222153be 32-35,40-44
+app/views/projects/index.html.erb
+  s_63f4e4f6c04fe6::t_d7f3838a0f4f4d 71
+  s_63f4e4f6c04fe6::t_63342808f1f323 9-13
+app/views/projects/show.html.erb
+  s_63f4e4f6c04fe6::t_bf97608b9dccc6 184
+  s_63f4e4f6c04fe6::t_4da44a243a8a6e 180,182
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "5eec28b960ae091e328ec9b9188f4f869ceade20",
+  "prompts": {},
+  "sessions": {
+    "s_63f4e4f6c04fe6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "64345cfe-d4cf-4255-98ba-bc9149f7f142",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
