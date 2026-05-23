@@ -70,7 +70,7 @@
         <div class="stack" style="gap:14px;">
           <div>
             <label class="label">详细描述 <span style="color:var(--danger)">*</span></label>
-            <%= f.text_area :description, class: "input textarea", style: "min-height:140px;font-family:var(--font-mono);font-size:13px;", placeholder: "讲讲你的项目 · 解决什么问题 · 用了什么技术…", required: true %>
+            <%= f.text_area :description, class: "input textarea", style: "min-height:280px;font-family:var(--font-mono);font-size:13px;", placeholder: "*该模板仅供参考\n\n基本信息\n* 项目名称\n* 项目 Slogan（可选）\n\n解决问题\n* 痛点描述\n* 目标用户/受益群体\n\n解决方案\n* 方案概述\n* 核心功能/模块（3-5个）\n\n团队介绍\n* 成员构成（姓名/角色/负责模块）\n\n演示与展示\n* Demo 链接/原型地址\n* 演示文稿\n* 项目代码仓库\n* 补充材料", required: true %>
           </div>
         </div>
       </div>
@@ -83,16 +83,16 @@
         </div>
         <div class="stack" style="gap:14px;">
           <div>
-            <label class="label">在线 Demo URL</label>
+            <label class="label">PPT/网页链接</label>
             <%= f.text_area :demo_url, class: "input textarea", style: "min-height:80px;", placeholder: "演示视频、PPT 或其他资源的链接，支持多行" %>
           </div>
           <div>
-            <label class="label">GitHub / 代码仓库</label>
+            <label class="label">GitHub / 代码仓库（软件赛道必填）</label>
             <%= f.text_area :github_url, class: "input textarea", style: "min-height:80px;", placeholder: "代码仓库地址或相关链接，支持多行" %>
           </div>
           <div>
-            <label class="label">演示视频 URL</label>
-            <%= f.text_area :video_url, class: "input textarea", style: "min-height:80px;", placeholder: "B站、腾讯视频或其他视频平台的链接，支持多行" %>
+            <label class="label">演示视频链接</label>
+            <%= f.text_area :video_url, class: "input textarea", style: "min-height:80px;", placeholder: "腾讯会议、B站、腾讯视频或其他视频平台的链接，支持多行" %>
           </div>
         </div>
       </div>
