@@ -104,6 +104,45 @@
     </div>
   <% end %>
 
+  <%# Teams -->
+  <div class="card" style="padding:0;margin-top:20px;overflow:hidden;">
+    <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <h3 style="font-size:13px;font-weight:600;margin:0;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;">团队</h3>
+      <% if current_user.teams.any? %>
+        <%= link_to new_team_path, class: "btn btn-sm btn-primary", target: "_blank" do %>
+          + 创建新团队
+        <% end %>
+      <% end %>
+    </div>
+    <% if current_user.teams.any? %>
+      <div style="padding:16px 24px;">
+        <div class="stack" style="gap:12px;">
+          <% current_user.teams.each do |team| %>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--border);border-radius:6px;background:var(--bg-elev);">
+              <div>
+                <div style="font-size:13px;font-weight:500;margin-bottom:2px;"><%= team.name %></div>
+                <div style="font-size:11px;color:var(--text-3);"><%= team.team_members.count %> 个成员</div>
+              </div>
+              <%= link_to team_path(team), class: "btn btn-sm btn-ghost" do %>
+                查看
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div style="padding:20px 24px;text-align:center;">
+        <div style="margin-bottom:12px;color:var(--text-3);">
+          <p style="margin:0 0 8px;font-size:13px;">还没有团队？</p>
+          <p style="margin:0;font-size:12px;color:var(--text-2);">项目提交需要团队，请先创建或加入一个团队</p>
+        </div>
+        <%= link_to new_team_path, class: "btn btn-primary btn-sm", target: "_blank" do %>
+          + 创建团队
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
   <%# Login methods %>
   <div class="card" style="padding:0;margin-top:20px;overflow:hidden;">
     <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
