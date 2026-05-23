@@ -49,6 +49,7 @@ class ProjectsController < ApplicationController
 
   def edit
     @hackathons = Hackathon.where(status: %w[live reviewing]).order(start_date: :desc)
+    @teams = current_user.teams.order(:name)
   end
 
   def update
