@@ -1,0 +1,20 @@
+app/views/projects/show.html.erb
+  s_63f4e4f6c04fe6::t_01537e0f7a95fc 92
+  s_63f4e4f6c04fe6::t_d8af44c8228040 141-167
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "d33001e70a46d77181388e9530b289ec313a127c",
+  "prompts": {},
+  "sessions": {
+    "s_63f4e4f6c04fe6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "64345cfe-d4cf-4255-98ba-bc9149f7f142",
+        "model": "claude-haiku-4-5-20251001"
+      },
+      "human_author": "jiangplus <jiang.plus.times@gmail.com>"
+    }
+  }
+}
