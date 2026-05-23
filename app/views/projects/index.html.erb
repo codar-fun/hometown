@@ -3,7 +3,7 @@
   <div class="page-header">
     <div>
       <h1 class="page-title">项目展示</h1>
-      <p class="page-subtitle"><%= Project.count %> 个项目 · 黑客松提交作品</p>
+      <p class="page-subtitle"><%= @total_projects_count %> 个项目 · 黑客松提交作品</p>
     </div>
     <div style="display:flex;gap:8px;">
       <% if logged_in? %>

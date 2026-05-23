@@ -7,6 +7,7 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.all.includes(
+      :team,
       project_team_members: :user,
       project_comments: :user,
       hackathon: []
@@ -18,11 +19,17 @@ class ProjectsController < ApplicationController
     when "likes" then @projects.by_likes
     else              @projects.by_newest
     end
+
+    # Get unique tracks from all projects in database (unfiltered by current filters)
+    # This is needed for filter buttons, so we need all tracks even if not currently visible
+    all_projects = Project.select(:track).distinct
     @tracks = []
-    Project.pluck(:track).each do |tracks|
-      @tracks.concat(Array(tracks))
+    all_projects.each do |p|
+      @tracks.concat(Array(p.track))
     end
     @tracks = @tracks.uniq.compact.sort
+
+    @total_projects_count = Project.count
   end
 
   def show
