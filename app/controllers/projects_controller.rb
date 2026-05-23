@@ -36,7 +36,7 @@ class ProjectsController < ApplicationController
 
   def refresh_teams
     @teams = current_user.teams.order(:name)
-    render partial: "team_select", locals: { teams: @teams }
+    render json: { teams: @teams.map { |t| { id: t.id, name: t.name } } }
   end
 
   def create
